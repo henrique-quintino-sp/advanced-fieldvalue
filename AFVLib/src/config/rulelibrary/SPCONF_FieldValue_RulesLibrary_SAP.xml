@@ -1,0 +1,511 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "../sailpoint.dtd">
+<Rule name="SPCONF Field Value Rules Library" language="beanshell">
+
+    <Source>
+        <![CDATA[
+	import java.text.ParseException;
+	import java.text.SimpleDateFormat;
+	import java.util.ArrayList;
+	import java.util.Date;
+	import java.util.List;
+	import java.util.TimeZone;
+
+	import org.apache.commons.logging.Log;
+	import org.apache.commons.logging.LogFactory;
+
+	import sailpoint.api.SailPointContext;
+	import sailpoint.object.Application;
+	import sailpoint.object.Identity;
+	import sailpoint.object.Link;
+	import sailpoint.tools.GeneralException;
+	import sailpoint.tools.Util;
+
+
+	private static Log logger = LogFactory.getLog("rule.SP.FieldValue.RulesLibrary");
+
+	private static SailPointContext context;
+	
+	public static Object getEmail(Identity identity) {
+		return identity.getEmail();
+	}
+
+	public static Object getCN(Identity identity) {
+		return identity.getAttribute("userid");
+	}
+
+	public static Object getTelephone(Identity identity) {
+		return identity.getAttribute("telephoneNumber");
+	}
+
+	public static Object getFirstName(Identity identity) {
+		return identity.getFirstname();
+	}
+
+	public static Object getLastName(Identity identity) {
+		return identity.getLastname();
+	}
+
+	public static Object getTitle(Identity identity) {
+		return identity.getAttribute("title");
+	}
+
+	public static Object getDepartment(Identity identity) {
+		return identity.getAttribute("department");
+	}
+
+	public static Object getTermDate(Identity identity) {
+		return identity.getAttribute("termDate");
+	}
+
+	public static Object getLoginExp(Identity identity) {
+		// return login expiration value from NetIQ. Currently not part of cube attributes
+		return identity;
+	}
+
+	public static Object generatePassword(SailPointContext context, Identity identity) throws GeneralException, ParseException {
+		String encPwd = identity.getPassword();
+		if(encPwd != null) {
+			return context.decrypt(encPwd);
+		} else {
+			String first = identity.getFirstname();
+			String last = identity.getLastname();
+			String empType = (String) identity.getAttribute("employeeType");
+			String date = (String) identity.getAttribute("hireDate");
+			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+			Date hireDate = format.parse(date);
+			SimpleDateFormat justMonth = new SimpleDateFormat("MM");
+			String month = justMonth.format(hireDate);			
+			String pwd = last.substring(0,1).toUpperCase() + first.substring(0,1).toLowerCase() + empType.substring(0,3).toLowerCase() + month;
+			logger.debug("Generated password for " + first + " " + last + " : " + pwd);
+			return pwd;
+		}
+	}
+
+	public static Object getSAPValidTo(Identity identity) throws ParseException {
+		String termDate = (String) identity.getAttribute("termDate");
+		String loginExpDate = (String) identity.getAttribute("loginExpTime");
+		if(termDate != null) {
+			SimpleDateFormat sapFormat = new SimpleDateFormat("yyyyMMdd");
+			Date tDate = Util.stringToDate(termDate);			
+			return sapFormat.format(tDate);
+		} else if(loginExpDate != null) {			
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+			format.setTimeZone(TimeZone.getTimeZone("GMT"));
+			Date letDate = format.parse(loginExpDate);
+			Date today = new Date();
+			// Modified as part of a defect from DEV.
+			//if(letDate.before(today)) {
+			SimpleDateFormat justDate = new SimpleDateFormat("yyyyMMdd");
+			return justDate.format(letDate);
+			//} else {
+			//	return null;
+			//}						
+		} else {
+			return "9999-12-31";
+		}
+	}
+
+	public static Object getSAPValidFrom(Identity identity) throws ParseException {
+		String hireDate = (String) identity.getAttribute("hireDate");
+		if(hireDate != null) {
+			SimpleDateFormat sapFormat = new SimpleDateFormat("yyyyMMdd");
+			Date tDate = Util.stringToDate(hireDate);			
+			return sapFormat.format(tDate);
+		} else {
+			return null;
+		}
+	}
+
+	public static Object getSAPCompany(Identity identity) {
+		String empType = (String) identity.getAttribute("employeeType");
+		if(empType.equalsIgnoreCase("regular")) {
+			return "DEVON ENERGY";
+		} else {
+			return "CONTRACTOR";
+		}
+	}
+
+	public static Object getSNCNameForSAP(Identity identity) {
+		return "p:" + getCN(identity) + "@CORP.DVN.COM";
+	}
+
+	public static Object getTZONEforSAP(Identity identity) {
+		String co = (String) identity.getAttribute("co");
+		if(co.equalsIgnoreCase("us")) {
+			return "CST";
+		}  else {
+			return "MST";
+		}
+	}
+
+	public static Object getParametersForSAP(Identity identity, String app) {
+		List parameters = new ArrayList();
+		String co = (String) identity.getAttribute("co");
+		if(app.equalsIgnoreCase("bw")){
+			if(co.equalsIgnoreCase("ca")){
+				parameters.add("CAC=D001");
+				parameters.add("MOL=07");
+			}
+			else{
+				parameters.add("CAC=D001");
+				parameters.add("MOL=10");
+			}
+		}
+		else if(app.equalsIgnoreCase("ecc")){	
+			if(co.equalsIgnoreCase("ca")){
+				parameters.add("CAC=D001");
+				parameters.add("MOL=07");
+				parameters.add("PDB=000000000001");
+				parameters.add("PFL=1");
+				parameters.add("UGR=07");
+				parameters.add("VDK=19000101");
+			}
+			else{
+				parameters.add("CAC=D001");
+				parameters.add("MOL=10");
+				parameters.add("PDB=000000000001");
+				parameters.add("PFL=1");
+				parameters.add("UGR=10");
+				parameters.add("VDK=19000101");
+			}			
+		}
+		else{
+			if(co.equalsIgnoreCase("ca")){
+				parameters.add("CAC=D001");
+				parameters.add("MOL=07");
+				//parameters.add("UGR=07");
+			}
+			else{
+				parameters.add("CAC=D001");
+				parameters.add("MOL=10");
+				//parameters.add("UGR=10");
+			}
+		}
+		return parameters;
+	}
+
+	public static Object getUserGroup(Identity identity) {
+		return ((String)identity.getAttribute("employeeType")).toUpperCase();
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_E_Mail_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getEmail(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_User_Name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getCN(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Telephone_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTelephone(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_First_name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getFirstName(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Last_name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getLastName(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Function_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTitle(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_User_Type_Rule(SailPointContext context, Identity identity, String op) {
+		return "A";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Department_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getDepartment(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_User_Valid_From_Rule(SailPointContext context, Identity identity, String op) throws ParseException {
+		return verifyNull(getSAPValidFrom(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_User_Valid_To_Rule(SailPointContext context, Identity identity, String op) throws ParseException {
+		return verifyNull(getSAPValidTo(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Company_Rule(SailPointContext context, Identity identity, String op) {
+		//return verifyNull(getSAPCompany(identity));
+		return "";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_password_Rule(SailPointContext context, Identity identity, String op) throws GeneralException, ParseException {
+		return verifyNull(generatePassword(context, identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_SNC_Name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getSNCNameForSAP(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Parameters_Rule(SailPointContext context, Identity identity, String op) {
+		//return getParametersForSAP(identity, "bw");
+		return "";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_PARAMETER1_Rule(SailPointContext context, Identity identity, String op) {
+		//return getParametersForSAP(identity, "bw");
+		return "";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Decimal_Notation_Rule(SailPointContext context, Identity identity, String op) {
+		return "X";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Date_Format_Rule(SailPointContext context, Identity identity, String op) {
+		return "2";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_User_Group_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getUserGroup(identity)); 
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Time_Format_Rule(SailPointContext context, Identity identity, String op) {
+		return "1";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Output_Device_Rule(SailPointContext context, Identity identity, String op) {
+		return "LOCL";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Print_Immediately_Rule(SailPointContext context, Identity identity, String op) {
+		return "G";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_TZone_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTZONEforSAP(identity));
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Logon_Language_Rule(SailPointContext context, Identity identity, String op) {
+		return "EN";
+	}
+
+	public static Object getFV_SAP_BW_PG0CLNT100_Roles_Rule(SailPointContext context, Identity identity, String op) {
+		return "Z:GENERAL_END_USER_ROLE";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_E_Mail_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getEmail(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_User_Name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getCN(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Telephone_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTelephone(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_First_name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getFirstName(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Last_name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getLastName(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Function_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTitle(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_User_Type_Rule(SailPointContext context, Identity identity, String op) {
+		return "A";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Department_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getDepartment(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_User_Valid_From_Rule(SailPointContext context, Identity identity, String op) throws ParseException {
+		return verifyNull(getSAPValidFrom(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_User_Valid_To_Rule(SailPointContext context, Identity identity, String op) throws ParseException {
+		return verifyNull(getSAPValidTo(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Company_Rule(SailPointContext context, Identity identity, String op) {
+		//return verifyNull(getSAPCompany(identity));
+		return "";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_password_Rule(SailPointContext context, Identity identity, String op) throws GeneralException, ParseException {
+		return verifyNull(generatePassword(context, identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_SNC_Name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getSNCNameForSAP(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Parameters_Rule(SailPointContext context, Identity identity, String op) {
+		return getParametersForSAP(identity, "ecc");
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_PARAMETER1_Rule(SailPointContext context, Identity identity, String op) {
+		return getParametersForSAP(identity, "ecc");
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Decimal_Notation_Rule(SailPointContext context, Identity identity, String op) {
+		return "X";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Date_Format_Rule(SailPointContext context, Identity identity, String op) {
+		return "2";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_User_Group_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getUserGroup(identity)); 
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Time_Format_Rule(SailPointContext context, Identity identity, String op) {
+		return "1";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Output_Device_Rule(SailPointContext context, Identity identity, String op) {
+		return "LOCL";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Print_Immediately_Rule(SailPointContext context, Identity identity, String op) {
+		return "G";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_TZone_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTZONEforSAP(identity));
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Logon_Language_Rule(SailPointContext context, Identity identity, String op) {
+		return "EN";
+	}
+
+	public static Object getFV_SAP_ECC_PB0CLNT100_Roles_Rule(SailPointContext context, Identity identity, String op) {
+		return "Z:GENERAL_END_USER_ROLE";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_E_Mail_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getEmail(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_User_Name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getCN(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Telephone_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTelephone(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_First_name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getFirstName(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Last_name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getLastName(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Function_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTitle(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_User_Type_Rule(SailPointContext context, Identity identity, String op) {
+		return "A";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Department_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getDepartment(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_User_Valid_From_Rule(SailPointContext context, Identity identity, String op) throws ParseException {
+		return verifyNull(getSAPValidFrom(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_User_Valid_To_Rule(SailPointContext context, Identity identity, String op) throws ParseException {
+		return verifyNull(getSAPValidTo(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Company_Rule(SailPointContext context, Identity identity, String op) {
+		//return verifyNull(getSAPCompany(identity));
+		return "";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_password_Rule(SailPointContext context, Identity identity, String op) throws GeneralException, ParseException {
+		return verifyNull(generatePassword(context, identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_SNC_Name_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getSNCNameForSAP(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Parameters_Rule(SailPointContext context, Identity identity, String op) {
+		return getParametersForSAP(identity, "fiori");
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_PARAMETER1_Rule(SailPointContext context, Identity identity, String op) {
+		return getParametersForSAP(identity, "fiori");
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Decimal_Notation_Rule(SailPointContext context, Identity identity, String op) {
+		return "X";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Date_Format_Rule(SailPointContext context, Identity identity, String op) {
+		return "2";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_User_Group_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getUserGroup(identity)); 
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Time_Format_Rule(SailPointContext context, Identity identity, String op) {
+		return "1";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Output_Device_Rule(SailPointContext context, Identity identity, String op) {
+		return "";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Print_Immediately_Rule(SailPointContext context, Identity identity, String op) {
+		return "G";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_TZone_Rule(SailPointContext context, Identity identity, String op) {
+		return verifyNull(getTZONEforSAP(identity));
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Logon_Language_Rule(SailPointContext context, Identity identity, String op) {
+		return "EN";
+	}
+
+	public static Object getFV_SAP_Fiori_PM0CLNT100_Roles_Rule(SailPointContext context, Identity identity, String op) {
+		return "Z:M_GENERAL_END_USER_ROLE";
+	}
+
+
+	public static String verifyNull(Object o){
+		if(o != null){
+			return o.toString();
+		}else{
+			return "";
+		}
+	}
+
+	public static Link getSafeLink(Identity identity, String appName) throws GeneralException{
+		Application app = context.getObjectByName(Application.class, appName);
+		Link link = identity.getLink(app);
+
+		if (link == null){
+			link = new Link();
+		}
+
+		context.decache(app);
+
+		return link;
+	}
+}
+
+
+	]]>
+    </Source>
+</Rule>
