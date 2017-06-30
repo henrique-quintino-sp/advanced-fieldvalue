@@ -1,0 +1,577 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "../sailpoint.dtd">
+<Rule name="SPCONF Field Value Rules Library" language="beanshell">
+
+    <Source>
+        <![CDATA[
+
+import org.apache.log4j.Logger;
+import org.apache.commons.lang.StringUtils;
+
+import sailpoint.api.SailPointContext;
+import sailpoint.connector.Connector;
+import sailpoint.object.*;
+import sailpoint.tools.CloseableIterator;
+import sailpoint.tools.GeneralException;
+
+import javax.naming.Context;
+import javax.naming.NamingEnumeration;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
+import java.util.*;
+
+        /*
+    Variables to declare in SSF
+    * %%LDAP_TARGET_NAME%% = LDAP System name in IIQ
+    * %%LDAP_USERS_OU%%
+    * %%LDAP_TOP_LEVEL_DN%%
+    * %%LDAP_CN_SOURCE_FIELD%%
+    * %%LDAP_SEARCH_DN%%
+    * */
+
+
+    static Logger ldapFieldValueRuleLogger = Logger.getLogger("Rule.LDAP.Field.Value");
+
+    /* Common Attributes */
+    public static Object getFV_Ldap_distinguishedName_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "distinguishedName";
+        String methodName ="getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op,methodName);
+
+        String cn = getFV_Ldap_cn_Rule(context, identity, op).toString();
+        String userOU = "%%LDAP_USERS_OU%%";
+        String baseDN = "%%LDAP_TOP_LEVEL_DN%%";
+        String fullOU = userOU + "," + baseDN;
+        String result = "CN=" + cn + "," + fullOU;
+
+        LogEnd(context,identity,op,methodName,result);
+
+        return result;
+    }
+    public static Object getFV_Ldap_surname_Rule(SailPointContext context, Identity identity, String op) throws GeneralException
+    {
+        LogStart(context,identity,op,"getFV_Ldap_surname_Rule");
+        String lastName = identity.getLastname();
+        String result = fixNulls(lastName);
+        LogEnd(context,identity,op,"getFV_Ldap_surname_Rule",result);
+        return result;
+    }
+    public static Object getFV_Ldap_title_Rule(SailPointContext context, Identity identity, String op) throws GeneralException{
+        String variable = "title";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+
+        LogStart(context,identity,op,methodName);
+
+        String result = fixNulls(identity.getStringAttribute("title"));
+
+        LogEnd(context,identity,op,methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_givenName_Rule(SailPointContext context, Identity identity, String op)
+    {
+        LogStart(context,identity,op,"getFV_Ldap_givenName_Rule");
+
+        String firstName = identity.getFirstname();
+        String result = fixNulls(firstName);
+
+        LogEnd(context,identity,op,"getFV_Ldap_givenName_Rule",result);
+
+        return result;
+    }
+    public static Object getFV_Ldap_sn_Rule(SailPointContext context, Identity identity, String op)
+    {
+        LogStart(context,identity,op,"getFV_Ldap_sn_Rule");
+        String lastName = identity.getLastname();
+        String result = fixNulls(lastName);
+        LogEnd(context,identity,op,"getFV_Ldap_sn_Rule",result);
+
+        return result;
+    }
+    public static Object getFV_Ldap_description_Rule(SailPointContext context, Identity identity, String op){
+        LogStart(context,identity,op,"getFV_Ldap_description_Rule");
+        String description = identity.getStringAttribute("ldap_description");
+        String result = fixNulls(description);
+        LogEnd(context,identity,op,"getFV_Ldap_description_Rule",result);
+
+        return result;
+    }
+
+    public static Object getFV_Ldap_st_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "st";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+
+        LogStart(context,identity,op,methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op,methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_street_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "street";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+    public static Object getFV_Ldap_telephoneNumber_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "telephoneNumber";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_organizationalUnit_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "organizationalUnit";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+    public static Object getFV_Ldap_organizationalRole_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "organizationalRole";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+    //OrganizationName and O are the same
+    public static Object getFV_Ldap_organizationName_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "organizationName";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_o_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "o";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = getFV_Ldap_organizationName_Rule(context,identity,op).toString();
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+
+    public static Object getFV_Ldap_l_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "l";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = getFV_Ldap_localityName_Rule(context,identity,op).toString();
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_locality_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "locality";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_localityName_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "localityName";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+    public static Object getFV_Ldap_country_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "country";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+    //CountryName and C are the same
+    public static Object getFV_Ldap_countryName_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "countryName";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_c_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "c";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = getFV_Ldap_countryName_Rule(context,identity,op).toString();
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+    public static Object getFV_Ldap_initials_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "initials";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = "";
+
+        String firstName = getFV_Ldap_givenName_Rule(context,identity,op).toString();
+        String lastName = getFV_Ldap_sn_Rule(context,identity,op).toString();
+
+        if(!firstName.isEmpty())
+            result = firstName.substring(0,1);
+        if(!lastName.isEmpty())
+            result += lastName.substring(0,1);
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+    //Assuming that this attribute holds the Identity.Name
+    public static Object getFV_Ldap_name_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "name";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getName());
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    //The 'dc' ('domainComponent' in RFC 1274) attribute type is a string holding one component, a label, of a DNS domain name [RFC1034][RFC2181] naming a host [RFC1123]
+    public static Object getFV_Ldap_dc_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "dc";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    //CN - UID - UserID - commonName - Are considered the same thing
+    public static Object getFV_Ldap_cn_Rule(SailPointContext context, Identity identity, String op) throws GeneralException{
+        LogStart(context,identity,op,"getFV_Ldap_cn_Rule");
+        String result ="";
+
+        String baseSourceField = "%%LDAP_CN_SOURCE_FIELD%%";
+
+        if(baseSourceField.trim().isEmpty()) {
+            String lastName = escapeADValues(getFV_Ldap_surname_Rule(context, identity, op).toString());
+            lastName = fixNulls(lastName);
+            String firstName = escapeADValues(getFV_Ldap_givenName_Rule(context, identity, op).toString());
+            firstName = fixNulls(firstName);
+            result = firstName + "." + lastName;
+
+			System.out.println("CN=" + result);
+
+            Application appObj = context.getObject(Application.class, "%%LDAP_TARGET_NAME%%");
+
+            if (!isUniqueLdapName(context,appObj, "cn", result)) {
+                int ctr = 2;
+                result = firstName + "." + lastName + Integer.toString(ctr);
+
+                while (!isUniqueLdapName(context,appObj, "cn", result)) {
+                    ctr++;
+                    result = firstName + "." + lastName + Integer.toString(ctr);
+                    ldapFieldValueRuleLogger.trace("Value " + result + " was tested");
+                }
+            }
+
+            context.decache(appObj);
+        }
+        else{
+            result = fixNulls(identity.getStringAttribute(baseSourceField));
+        }
+
+        LogEnd(context,identity,op,"getFV_Ldap_cn_Rule",result);
+
+        return result;
+    }
+    public static Object getFV_Ldap_uid_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "uid";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = getFV_Ldap_cn_Rule(context,identity,op).toString();
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_userid_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "userid";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = getFV_Ldap_cn_Rule(context,identity,op).toString();
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_commonName_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "commonName";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = getFV_Ldap_cn_Rule(context,identity,op).toString();
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    //Same as organizationalUnitName
+    public static Object getFV_Ldap_organizationalUnitName_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "organizationalUnitName";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = fixNulls(identity.getStringAttribute(variable));
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+    public static Object getFV_Ldap_ou_Rule(SailPointContext context, Identity identity, String op){
+        String variable = "ou";
+        String methodName = "getFV_Ldap_" + variable + "_Rule";
+        LogStart(context,identity,op, methodName);
+
+        String result = getFV_Ldap_organizationalUnitName_Rule(context,identity,op).toString();
+
+        LogEnd(context,identity,op, methodName,result);
+        return result;
+    }
+
+
+    /* Extra not implemented Attributes */
+    public static Object getFV_Ldap_applicationProcess_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_businessCategory_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_dcObject_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_destinationIndicator_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_device_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_dnQualifier_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_domainComponent_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_enhancedSearchGuide_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_facsimileTelephoneNumber_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_generationQualifier_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_groupOfNames_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_groupOfUniqueNames_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_houseIdentifier_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_internationalISDNNumber_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_member_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_organization_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_organizationalPerson_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_owner_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_person_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_physicalDeliveryOfficeName_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_postalAddress_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_postalCode_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_postOfficeBox_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_preferredDeliveryMethod_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_registeredAddress_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_residentialPerson_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_roleOccupant_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_searchGuide_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_seeAlso_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_serialNumber_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_teletexTerminalIdentifier_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_telexNumber_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_uidObject_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_uniqueMember_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_userPassword_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_x121Address_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_x500UniqueIdentifier_Rule(SailPointContext context, Identity identity, String op){return null;}
+    public static Object getFV_Ldap_gn_Rule(SailPointContext context, Identity identity, String op){return null;}
+
+    /******************************************************************************
+     UTILITIES
+     ******************************************************************************/
+
+    public static void LogStart(SailPointContext context, Identity identity, String op,String method){
+        ldapFieldValueRuleLogger.trace("Start " + method);
+
+
+        ldapFieldValueRuleLogger.debug("OP = " + op);
+        ldapFieldValueRuleLogger.debug("Context = " + context);
+        ldapFieldValueRuleLogger.debug("identity = " + identity);
+        ldapFieldValueRuleLogger.debug(identity.toXml());
+
+    }
+
+    public static void LogEnd(SailPointContext context, Identity identity, String op,String method,String result){
+        ldapFieldValueRuleLogger.trace("End " + method + "Return Var " + result);
+        System.out.println("End " + op + " - " + method + "Return Var " + result);
+
+        /* Improve for Debug */
+        ldapFieldValueRuleLogger.debug("OP = " + op);
+        ldapFieldValueRuleLogger.debug("Context = " + context);
+        ldapFieldValueRuleLogger.debug("identity = " + identity);
+    }
+
+    public static String verifyNull(Object o){
+        if(o != null){
+            return o.toString();
+        }else{
+            return "";
+        }
+    }
+
+    public static Object getLinkVal(SailPointContext context, Identity identity, String appName, String attrName){
+        //ldapFieldValueRuleLogger.trace("Enter getLinkVal");
+        Object val = "";
+
+        //ldapFieldValueRuleLogger.trace("appName: " + appName);
+        //ldapFieldValueRuleLogger.trace("attrName: " + attrName);
+
+        Link link = getSafeLink(context, identity, appName);
+
+        if (link != null){
+            val = link.getAttribute(attrName);
+
+            if (val != null){
+                if (val instanceof String){
+                    val = val.toString().trim();
+                }
+            } else {
+                val = "";
+            }
+
+        } else {
+            //ldapFieldValueRuleLogger.warn("No link found for appName: " + appName);
+        }
+
+        //ldapFieldValueRuleLogger.trace("Exit getLinkVal: " + val);
+        return val;
+    }
+
+    public static Link getSafeLink(SailPointContext context, Identity identity, String appName){
+        Application app = context.getObjectByName(Application.class, appName);
+        Link link = identity.getLink(app);
+
+        if (link == null){
+            link = new Link();
+        }
+
+        context.decache(app);
+
+        return link;
+    }
+
+    public static Link getLinkByNativeIdentity(SailPointContext context, String application, String nativeIdentity) {
+        //ldapFieldValueRuleLogger.trace("Enter getLinkByNativeIdentity");
+
+        Link val = null;
+
+        QueryOptions qo = new QueryOptions();
+        qo.addFilter(Filter.eq("application.name", application));
+        qo.addFilter(Filter.like("nativeIdentity", "CN="+nativeIdentity, Filter.MatchMode.START));
+        Iterator it = context.search(Link.class, qo);
+        if(it.hasNext()) {
+            val = (Link) it.next();
+        }
+
+        //ldapFieldValueRuleLogger.trace("Exit getLinkByNativeIdentity: " + val);
+        return val;
+    }
+
+
+    /***********************************************************************
+     Check for uniqueness of AD naming attribute against a given AD application,
+     verified by using a copy of the connector.
+     ************************************************************************/
+
+    public static Boolean isUniqueLdapName(SailPointContext context, Application application, String attName, String attValue) {
+        ldapFieldValueRuleLogger.trace("Entering isUniqueADName");
+        Boolean unique = true;
+
+        // Make a copy of the AD application
+        Application appCopy = (Application) application.deepCopy(context);
+        String appConnName = appCopy.getConnector();
+
+        // Get the domain DN and use this as the searchDN so that we search the entire domain
+        String searchDN = "%%LDAP_SEARCH_DN%%";
+
+        List dnList = new ArrayList();
+        Map setupMap = new HashMap();
+        setupMap.put("iterateSearchFilter", "(" + attName +  "=" + attValue + ")");
+        setupMap.put("searchDN", searchDN);
+
+        dnList.add(0, setupMap); // This takes the map we just changed and adds it back to the list in place of the map that was there.
+        appCopy.setAttribute("searchDNs", dnList); // Add the list back to the app copy.
+        appCopy.setAttribute("referral", "ignore");
+        appCopy.setAttribute("useHasMoreElements", true);
+        appCopy.setCustomizationRule(null);
+
+        Connector appConnector = (Connector)sailpoint.connector.ConnectorFactory.getConnector(appCopy, null);
+        CloseableIterator iterator = (CloseableIterator)appConnector.iterateObjects("account", null, null);
+
+        try {
+            if (iterator != null && iterator.hasNext() ) {
+                if(iterator.hasNext()) {
+                    ResourceObject user = (ResourceObject)iterator.next();
+                    unique = false;
+                }
+            }
+
+        } finally {
+            if ( iterator != null ) iterator.close();
+        }
+        ldapFieldValueRuleLogger.trace("Exiting isUniqueADName");
+        context.decache(appCopy);
+        return unique;
+    }
+
+    public static String escapeADValues(String strIn) {
+        String val = strIn;
+        //ldapFieldValueRuleLogger.trace("value passed to escapeADValues=" + val);
+        if (strIn.indexOf(",") > -1) {
+            val = val.replace(",","\\,");
+        }
+        val = val.replaceFirst("\\s++$","");
+        //ldapFieldValueRuleLogger.trace("value returned from escapeADValues=" + val);
+        return val;
+    }
+
+    public static String fixNulls(String strIn) {
+        String val = strIn;
+        //ldapFieldValueRuleLogger.trace("value passed to fixNulls=" + val);
+        if (strIn==null) {
+            val = "";
+        }
+        val = val.replaceFirst("\\s++$","");
+        //ldapFieldValueRuleLogger.trace("value returned from fixNulls=" + val);
+        return val;
+    }
+
+	]]>
+    </Source>
+</Rule>
