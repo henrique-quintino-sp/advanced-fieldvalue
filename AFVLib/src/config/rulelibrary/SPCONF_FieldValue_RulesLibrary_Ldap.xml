@@ -734,6 +734,37 @@
 
                 return result;
             }
+            public static String processFormattedString(String formatted, Identity identity) {
+
+                //Format Example:firstname[1]+'.'+lastname
+                //Format base: identity attribute[number of chars] + 'literal values'
+                String result = "";
+                String[] splitString = formatted.split("\\+");
+                String identityAttributePart;
+                for (String rawPart : splitString) {
+                    if (rawPart.startsWith("'")) {
+                        result += rawPart.substring(1,rawPart.length()-1);
+                    }
+                    else {
+                        int count = rawPart.indexOf('[');
+                        if (count > -1) {
+                            int closeCount = rawPart.indexOf(']');
+                            String partString = rawPart.substring(count+1,closeCount);
+
+                            int subStringPart = Integer.parseInt(partString);
+                            String attributeName = rawPart.substring(0,count);
+                            String identityAttribute = identity.getStringAttribute(attributeName);
+                            identityAttributePart = identityAttribute.substring(0,subStringPart);
+                        }
+                        else
+                            identityAttributePart = identity.getStringAttribute(rawPart);
+
+                        result += identityAttributePart;
+                    }
+                }
+
+                return result;
+            }
 
        <!---
         } --->
