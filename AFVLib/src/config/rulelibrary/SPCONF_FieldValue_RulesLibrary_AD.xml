@@ -91,49 +91,56 @@
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
 
-			//Option 1
-			val = identity.getName(); 
-
-			//Option 2 - if preferredName is available in IIQ, it should be used instead of the first name
-			//		String preferredName = (String) identity.getAttribute("preferredName");
-			//		String firstName = (null!=preferredName&&!preferredName.equals(""))?preferredName:escapeADValues(identity.getFirstname());
-			//		loggerAD.trace("First name: "+firstName);
-			//		String lastName = escapeADValues(identity.getLastname());
-			//		loggerAD.trace("Last name: "+lastName);
-			//		val = lastName + "\\, " + firstName ;
-
-			//If need to check for uniqueness, use Option 2 and uncomment the following code:
-			//		Application appObj = null;
-			//		try {
-			//			appObj = context.getObject(Application.class, "%%AD_TARGET_NAME%%");
-			//		} catch (GeneralException e) {
-			//			loggerAD.error("Unable to get Object from application: %%AD_TARGET_NAME%%");
-			//			e.printStackTrace();
-			//		}
-			//		
-			//		loggerAD.trace("Checking for uniqueness in Application: "+"%%AD_TARGET_NAME%%");
-			//		if (!isUniqueADName(appObj, "cn", (String) val)) {
-			//			//if not unique, we will add a "2" to the cn value
-			//			int ctr = 2;
-			//			val = firstName + "." + lastName + ctr;
-			//		
-			//			//if cn2 not unique, it will add 1 until the method finds a unique cn value
-			//			while (!isUniqueADName(appObj, "cn", (String) val)) {
-			//				ctr++;
-			//				val = firstName + "." + lastName + ctr;
-			//				loggerAD.trace("Value " + val + " was tested");
-			//			}
-			//			loggerAD.trace("Unique value is: " + val );
-			//		}
-
-			//Option 3 - Generate CN from fullname considering format: "Lastname, Firstname Initials."
-			//		String fullname = identity.getFullName();
-			//		loggerAD.trace("fullname value is: " + fullname );
-			//		String second = fullname.substring(0, fullname.indexOf(","));
-			//		String first = fullname.substring(fullname.indexOf(",")+1,fullname.length() );
-			//		val =  first+" "+second;
-
-			loggerAD.trace("Unique value is: " + val );
+			int option = Integer.valueOf("%%AD_OPTION_CN%%");
+			switch(option){
+				case 1:
+					//Option 1
+					val = identity.getName(); 
+					break;
+				case 2:
+					//Option 2 - if preferredName is available in IIQ, it should be used instead of the first name
+					String preferredName = (String) identity.getAttribute("preferredName");
+					String firstName = (null!=preferredName&&!preferredName.equals(""))?escapeADValues(preferredName):escapeADValues(identity.getFirstname());
+					loggerAD.trace("First name: "+firstName);
+					String lastName = escapeADValues(identity.getLastname());
+					loggerAD.trace("Last name: "+lastName);
+					val = lastName + "\\, " + firstName ;
+					
+					//If need to check for uniqueness, use Option 2 and set AD_CN_UNIQUENESS_VALUE to true
+					if("%%AD_CN_UNIQUENESS_VALUE%%".equalsIgnoreCase("true")){
+						Application appObj = null;
+						try {
+							appObj = context.getObject(Application.class, "%%AD_TARGET_NAME%%");
+						} catch (GeneralException e) {
+							loggerAD.error("Unable to get Object from application: %%AD_TARGET_NAME%%");
+							e.printStackTrace();
+						}
+				
+						loggerAD.trace("Checking for uniqueness in Application: "+"%%AD_TARGET_NAME%%");
+						if (!isUniqueADName(appObj, "cn", (String) val)) {
+							//if not unique, we will add a "2" to the cn value
+							int ctr = 2;
+							val = firstName + "." + lastName + ctr;
+				
+							//if cn2 not unique, it will add 1 until the method finds a unique cn value
+							while (!isUniqueADName(appObj, "cn", (String) val)) {
+								ctr++;
+								val = firstName + "." + lastName + ctr;
+								loggerAD.trace("Value " + val + " was tested");
+							}
+							loggerAD.trace("Unique value is: " + val );
+						}
+					}
+					break;
+				case 3:
+					//Option 3 - Generate CN from fullname considering format: "Lastname, Firstname Initials."
+					String fullname = identity.getFullName();
+					loggerAD.trace("fullname value is: " + fullname );
+					String second = fullname.substring(0, fullname.indexOf(","));
+					String first = fullname.substring(fullname.indexOf(",")+1,fullname.length() );
+					val =  first+" "+second;
+					break;
+			}
 
 			return (null!=val?((String) val).trim():defaultValue);
 		}
@@ -152,39 +159,57 @@
 		/**
 		 * RFC2256: descriptive information
 		 * This attribute contains a human-readable description of the object.
+		 * Option 1 - Returns a String with the date the identity was Created/Updated/Disabled
+		 * Option 2 - Will return the value of attribute 'description'
+		 * 					Name identity's attribute name as 'description' to allow this method to work properly
+		 * Option 3 - Returns a String composed by several attributes 
+		 * 					Use comma separated values to set the attributes that will compose the value in AD_DESCRIPTION_COMPOSED_VALUES
+		 * 					Configure AD_DESCRIPTION_DELIM_VALUE with the escaped delimiter to be used to compose the value
+		 * 
 		 * @param context
 		 * @param identity
 		 * @param op
 		 * @return
 		 */
 		public static Object getFV_Active_Directory_description_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
-			DateFormat df=DateFormat.getDateInstance(DateFormat.MEDIUM);
-			//Option 1 - Uncomment as needed
-			Object val = "Created by IdentityIQ on " + df.format(new Date());
-			//Object val = "Updated by IdentityIQ on " + df.format(new Date());
-			//Object val = "Disabled by IdentityIQ on " + df.format(new Date()); 
-
-			//Uncomment for options 2, 3 or 4
-			//		if (identity == null) {
-			//			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			//			return null!=defaultValue?((String) defaultValue).trim():"";
-			//		}
-			//		
-			//Option  2 - Comment above and uncomment below
-			//		String empType = identity.getAttribute("empType") != null? (String)identity.getAttribute("empType") : "";
-			//		if(empType.equalsIgnoreCase("Service")){
-			//			loggerAD.debug("Description Rule - empType:  "  + empType );
-			//			String ntId = (String)identity.getAttribute("networkLoginId");
-			//			loggerAD.debug("Description Rule - networkLoginId returned is:  "  + ntId );	
-			//			return ntId;
-			//		}
-
-			//Option 3 - Assign an attribute's value
-			//Object val = identity.getAttribute("description");
-
-			//Option 4 - Composed value
-			//Object val = identity.getAttribute("companyCode") + " - " + identity.getAttribute("department");
-
+			int option = Integer.valueOf("%%AD_OPTION_DESCRIPTION%%");
+			String val = null;
+			
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+			
+			switch(option){
+				case 1:
+					//Option 1 - Uncomment as needed
+					loggerAD.trace("Option 1 ");
+					DateFormat df=DateFormat.getDateInstance(DateFormat.MEDIUM);
+					val = "Created by IdentityIQ on " + df.format(new Date());
+					//val = "Updated by IdentityIQ on " + df.format(new Date());
+					//val = "Disabled by IdentityIQ on " + df.format(new Date()); 
+					break;
+				case 2:
+					loggerAD.trace("Option 2 ");
+					val = (String) identity.getAttribute("description");
+					break;
+				case 3:
+					//Option 3 - Composed value
+					loggerAD.trace("Option 3 ");
+					String str = "%%AD_DESCRIPTION_COMPOSED_VALUES%%";
+					loggerAD.trace("Option 3 - Returns a String composed by attributes: "+str);
+					List<String> attributes =  Arrays.asList(str.split("\\s*,\\s*"));
+					loggerAD.trace("Delimiter will be:   %%AD_DESCRIPTION_DELIM_VALUE%%");
+					for(String att: attributes){
+						loggerAD.trace("Add attribute: "+att);
+						loggerAD.trace("Value of "+att+ " = "+identity.getAttribute(att));
+						val = val+identity.getAttribute(att)+"%%AD_DESCRIPTION_DELIM_VALUE%%"; 
+					}
+					val = val.substring(0, val.length()-2);//Remove last delimiter
+					loggerAD.trace("Final composed description is: "+val);
+					break;
+			}
+			
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
@@ -206,6 +231,10 @@
 		 * Since other attribute types such as 'cn' are multivalued, an additional attribute type is needed. 
 		 * Display name is defined for this purpose.
 		 * 
+		 * Option 1 - Returns identity.getDisplayName
+		 * Option 2 - Will return CN value without '\\' in case you're using thi format
+		 * Option 3 - Will return a String in the format lastName, firstName or lastName, preferredName if configured
+		 * 
 		 * @param context
 		 * @param identity
 		 * @param op
@@ -217,30 +246,33 @@
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
 
-			//Option 1
-			Object val = identity.getDisplayName();
-
-			//Option 2 
-			//Object val = ((String) identity.getAttribute("cn")).replaceAll("\\\\","");
-
-			//Option 3 - more complex
-			//Object val = (identity.getAttribute("ldapname").toString().replace(identity.getName(), identity.getName().replace(",", "\\,")));
-
-			//Option 4
-			//		val = "";
-			//		if ( identity != null ) {
-			//		    String lastName = (String) identity.getAttribute("sn") ;
-			//		    lastName = lastName != null ? lastName:"";
-			//		    loggerAD.trace("DisplayName-Rule :  Last Name - " + lastName );
-			//		    
-			//		    String givenName = (String) identity.getAttribute("givenName") ;
-			//		    givenName  = givenName != null ? givenName : "";
-			//		    loggerAD.trace("DisplayName-Rule : Given Name -"  + givenName );
-			//		    val = lastName + ", "+givenName;
-			//		}
-
-			loggerAD.trace("DisplayName-Rule : Display Name-"  + val + "+++++++++ ");
-
+			Object val = null;
+			int option = Integer.valueOf("%%AD_OPTION_DISPLAYNAME%%");
+			
+			switch(option){
+			case 1:
+				//Option 1
+				 val = identity.getDisplayName();
+				break;
+			case 2:
+				//Option 2 
+				val = ((String) getFV_Active_Directory_cn_Rule(context, identity, op, defaultValue)).replaceAll("\\\\","");
+				break;
+			case 3:
+				//Option 3
+				val = "";
+				String lastName = (String) identity.getLastname();
+				lastName = lastName != null ? lastName:"";
+				loggerAD.trace("DisplayName-Rule :  Last Name - " + lastName );
+				
+				String preferredName = (String) identity.getAttribute("preferredName");
+				String firstName = (null!=preferredName&&!preferredName.equals(""))?preferredName:identity.getFirstname();
+				loggerAD.trace("DisplayName-Rule : First/Preferred Name -"  + firstName );
+				val = lastName + ", "+firstName;
+				break;
+			}
+			
+			loggerAD.trace("DisplayName-Rule : Display Name - "  + val );
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
@@ -255,7 +287,15 @@
 			return getFV_Active_Directory_distinguishedName_Rule(context, identity, op, null);
 		}
 
-		
+		/**
+		 * Option 1 - Returns a String of format: CN=firstname lastname (Name)
+		 * Option 2 - Concatenate cn + dn where dn needs to be set in properties file using AD_ATT_DN_VALUE
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
 		public static Object getFV_Active_Directory_distinguishedName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 			Object val = null; 
 
@@ -264,20 +304,26 @@
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
 
-			//Option 1
-			String lastname = identity.getLastname();
-			lastname = lastname.replace('.',' ');
-			lastname = lastname.replace('-',' ');
-			lastname = lastname.replace('\'',' ');
-			lastname = lastname.replace(',',' ');
+			int option = Integer.valueOf("%%AD_OPTION_DISTINGUISHEDNAME%%");
 
-			val = "CN=" + identity.getFirstname() + " " + lastname + " (" + identity.getName() + ") ";
-
-			//Option 2 - Concatenate cn + dn where dn needs to be set in properties file
-			//	    String sAMAccountName = (String) getFV_Active_Directory_sAMAccountName_Rule(context, identity, op, defaultValue);
-			//	    String dn = "%%AD_ATT_DN_VALUE%%";
-			//	    val = "cn="+sAMAccountName+", "+dn;
-
+			switch(option){
+				case 1:
+					//Option 1
+					String lastname = identity.getLastname();
+					lastname = lastname.replace('.',' ');
+					lastname = lastname.replace('-',' ');
+					lastname = lastname.replace('\'',' ');
+					lastname = lastname.replace(',',' ');
+		
+					val = "CN=" + identity.getFirstname() + " " + lastname + " (" + identity.getName() + ") ";
+					break;
+				case 2:
+					//Option 2 - Concatenate cn + dn where dn needs to be set in properties file
+					String sAMAccountName = (String) getFV_Active_Directory_sAMAccountName_Rule(context, identity, op, defaultValue);
+					String dn = "%%AD_ATT_DN_VALUE%%";
+					val = "cn="+sAMAccountName+", "+dn;
+					break;
+			}
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
@@ -297,6 +343,10 @@
 		 * Used to identify the employer to employee relationship. 
 		 * Typical values used will be "Contractor", "Employee", "Intern", "Temp", "External", and "Unknown" but any value may be used.
 		 * 
+		 * Option 1 - Returns identity.getAttribute("employeeType")
+		 * 					Name identity's attribute name as 'employeeType' to allow this method to work properly
+		 * Option 2 - Will return a personalized String depending on AD_ATT_EMPLOYEETYPE_VALUE
+		 * 					Needs editing of implementation
 		 * @param context
 		 * @param identity
 		 * @param op
@@ -310,20 +360,26 @@
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
 
-			//Option 1 - with recommended attribute name
-			val = identity.getAttribute("employeeType");
+			int option = Integer.valueOf("%%AD_OPTION_EMPLOYEETYPE%%");
 
-			//Option 2
-			//		if (Util.nullSafeEq(identity.getAttribute("identityType"), "Employee")) {
-			//			val = "Internal";
-			//		} else if (Util.nullSafeEq(identity.getAttribute("identityType"), "Visitor") || Util.nullSafeEq(identity.getAttribute("identityType"), "Shared")) {
-			//			val = "External";
-			//		}  else if (Util.nullSafeEq(identity.getAttribute("identityType"), "Facility")) {
-			//			val = "Resource mailbox";
-			//		} else {
-			//			val = "";
-			//		}
-
+			switch(option){
+				case 1:
+					//Option 1 - with recommended attribute name
+					val = identity.getAttribute("employeeType");
+					break;
+				case 2:
+					//Option 2
+					if (Util.nullSafeEq(identity.getAttribute("%%AD_ATT_EMPLOYEETYPE_VALUE%%"), "Employee")) {
+						val = "Internal";
+					} else if (Util.nullSafeEq(identity.getAttribute("%%AD_ATT_EMPLOYEETYPE_VALUE%%"), "Visitor") || Util.nullSafeEq(identity.getAttribute("identityType"), "Shared")) {
+						val = "External";
+					}  else if (Util.nullSafeEq(identity.getAttribute("%%AD_ATT_EMPLOYEETYPE_VALUE%%"), "Facility")) {
+						val = "Resource mailbox";
+					} else {
+						val = "";
+					}
+					break;
+			}
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
@@ -374,7 +430,9 @@
 		/**
 		 * RFC2256: initials of some or all of names, but not the surname(s).
 		 * 
-		 * Name identity's attribute name as 'middleName' to allow this method to work properly
+		 * Option 1 - Returns the value of recommended attribute name (middleName)
+		 * 					Name identity's attribute name as 'middleName' to allow this method to work properly
+		 * Option 2 - Converts middleName to an initial --> Mary = M. 
 		 * @param context
 		 * @param identity
 		 * @param op
@@ -387,16 +445,23 @@
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
 
-			//Option 1 - with recommended attribute name
-			val = identity.getAttribute("middleName");
+			int option = Integer.valueOf("%%AD_OPTION_MIDDLENAME%%");
 
-			//Option 2 - Converts middleName to an initial --> Mary = M. 
-			//		String middleName = (String) identity.getAttribute("middleName");
-			//		if((middleName != null) && (middleName.length() > 6)) {
-			//			val = middleName.substring(0, 1)+".";
-			//			loggerAD.debug("Inside getFV_Active_Directory_initials_Rule Initials from middleName = " + val);
-			//		}
-
+			switch(option){
+				case 1:
+					//Option 1 - with recommended attribute name
+					loggerAD.trace("Option 1");
+					val = identity.getAttribute("middleName");
+				case 2:	
+					//Option 2 - Converts middleName to an initial --> Mary = M. 
+					loggerAD.trace("Option 2");
+					String middleName = (String) identity.getAttribute("middleName");
+					if((middleName != null) && (middleName.length() > 1)) {
+						val = middleName.substring(0, 1)+".";
+						loggerAD.trace("Inside getFV_Active_Directory_initials_Rule Initials from middleName = " + val);
+					}
+					break;
+			}
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
@@ -461,20 +526,29 @@
 				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
-			//Option 1
-			val = identity.getEmail();
+			int option = Integer.valueOf("%%AD_OPTION_MIDDLENAME%%");
 
-			//Option 2 - If there's no Email set, generate it
-			//		String emailSuffix = "%%AD_ATT_SUFFIX_EMAIL%%";
-			//		loggerAD.trace("suffix for email: "+emailSuffix);
-			//		String preferredName = (String) identity.getAttribute("preferredName");
-			//		String firstName = (null!=preferredName&&!preferredName.equals(""))?escapeADValues(preferredName):escapeADValues(identity.getFirstname());
-			//		loggerAD.trace("First name: "+firstName);
-			//		String lastName = escapeADValues(identity.getLastname());
-			//		loggerAD.trace("Last name: "+lastName);
-			//		
-			//		val = firstName+"."+lastName+emailSuffix;
-			//		loggerAD.trace("Generated email: "+val);
+			switch(option){
+				case 1:
+					//Option 1
+					loggerAD.trace("Option 1");
+					val = identity.getEmail();
+					break;
+				case 2:
+					//Option 2 - If there's no Email set, generate it
+					loggerAD.trace("Option 2");
+					String emailSuffix = "%%AD_ATT_SUFFIX_EMAIL%%";
+					loggerAD.trace("suffix for email: "+emailSuffix);
+					String preferredName = (String) identity.getAttribute("preferredName");
+					String firstName = (null!=preferredName&&!preferredName.equals(""))?escapeADValues(preferredName):escapeADValues(identity.getFirstname());
+					loggerAD.trace("First name: "+firstName);
+					String lastName = escapeADValues(identity.getLastname());
+					loggerAD.trace("Last name: "+lastName);
+					
+					val = firstName+"."+lastName+"@"+emailSuffix;
+					loggerAD.trace("Generated email: "+val);
+					break;
+			}
 
 			return (null!=val?((String) val).trim():defaultValue);
 		}
@@ -496,12 +570,15 @@
 		 * Option 1 - Return the manager's identity object
 		 * Option 2 - Will look for 'managerIdentity' in the application context 
 		 * 					This option needs property AD_TARGET_NAME to be set with the name of the Active Directory Application name
+		 * 					Needs an attribute named 'distinguishedName' 
 		 * Option 3 - Returns the distinguishedName of the manager
 		 * 					This option needs property AD_TARGET_NAME to be set with the name of the Active Directory Application name
+		 * 					Needs an attribute named 'distinguishedName' 
 		 * Option 4 - Return manager's identity name : sailpoint.object.Identity.getManager().getName()
 		 * Option 5 - Returns the distinguishedName of a manager within a specific doman
 		 * 					This option needs property AD_TARGET_NAME to be set with the name of the Active Directory Application name
 		 * 					This option needs property AD_MANAGERS_DOMAIN to be set with the Active Directory Domain Name where managers will be looked for
+		 * 					Needs an attribute named 'distinguishedName' 
 		 * 
 		 * @param context
 		 * @param identity
@@ -515,86 +592,100 @@
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
 
-			//Option 1 - return manager identity object
-			val = identity.getManager();
+			int option = Integer.valueOf("%%AD_OPTION_MANAGER%%");
 
-			//Option 2
-			//Find the managers AD account
-			//		Identity managerIdentity = identity.getManager();
-			//
-			//		Application appAD;
-			//		try {
-			//			appAD = context.getObjectByName(Application.class, "%%AD_TARGET_NAME%%");
-			//			QueryOptions queryOptions = new QueryOptions();
-			//			List filters = new ArrayList();
-			//			filters.add(Filter.eq("application", appAD));
-			//			filters.add(Filter.eq("identity", managerIdentity ));
-			//			queryOptions.addFilter(Filter.and(filters));
-			//
-			//			Iterator iManagerAdAccounts = context.search(Link.class, queryOptions);
-			//
-			//			if( iManagerAdAccounts != null && iManagerAdAccounts.hasNext() ) {
-			//				Link managerADAccount = (Link) iManagerAdAccounts.next();
-			//				val = managerADAccount.getAttribute("distinguishedName");
-			//			}
-			//			Util.flushIterator(iManagerAdAccounts);	
-			//		} catch (GeneralException e) {
-			//			loggerAD.error("Unable to get Object from application: %%AD_TARGET_NAME%%");
-			//			e.printStackTrace();
-			//		}
-
-			//Option 3 
-			//		try	{
-			//			Identity manager = identity.getManager();
-			//			Iterator applications = manager.getLinks().iterator();
-			//
-			//			while (applications.hasNext())	{
-			//				Link adApp = (Link) applications.next();
-			//				if (adApp.getApplicationName().compareTo("%%AD_TARGET_NAME%%") == 0)	{
-			//					val =  adApp.getAttribute("distinguishedName"); 
-			//				}
-			//			}
-			//			val =  null;
-			//		} catch (Exception e){
-			//			loggerAD.error("Exception while trying to get Manager:  "+e.getMessage());
-			//			val =  null;
-			//			e.printStackTrace();
-			//		}
-
-			//Option 4 - return manager's name
-			//		if(null!= identity.getManager()){
-			//			String manager = identity.getManager().getName();
-			//			if ((null == manager) || (manager.isEmpty())){
-			//				val = null;
-			//			}else {
-			//				val =manager;
-			//			}
-			//		}
-
-			//Option 5
-			//		Identity manager = identity.getManager();
-			//		try	{
-			//			if(manager != null) {
-			//				Application app = context.getObjectByName(Application.class, "%%AD_TARGET_NAME%%");		
-			//				if(app != null) {
-			//					IdentityService idService = new IdentityService(context);
-			//					List links =  idService.getLinks(manager, app);
-			//					if((links != null) && !links.isEmpty()) {
-			//						for(Link link : links) {
-			//							String distinguishedName = (String) link.getAttribute("distinguishedName");
-			//							if((distinguishedName != null) && distinguishedName.contains("%%AD_MANAGERS_DOMAIN%%")) {
-			//								return distinguishedName;
-			//							}
-			//						}
-			//					}
-			//				} 
-			//			} 
-			//		}catch (Exception e){
-			//			loggerAD.error("Exception while trying to get Manager:  "+e.getMessage());
-			//			val =  null;
-			//			e.printStackTrace();
-			//		}
-
+			switch(option){
+				case 1:
+					loggerAD.trace("Option 1");
+					//Option 1 - return manager identity object
+					val = identity.getManager();
+					break;
+				case 2:
+					//Option 2
+					loggerAD.trace("Option 2");
+					//Find the managers AD account
+					Identity managerIdentity = identity.getManager();
+			
+					Application appAD;
+					try {
+						appAD = context.getObjectByName(Application.class, "%%AD_TARGET_NAME%%");
+						QueryOptions queryOptions = new QueryOptions();
+						List filters = new ArrayList();
+						filters.add(Filter.eq("application", appAD));
+						filters.add(Filter.eq("identity", managerIdentity ));
+						queryOptions.addFilter(Filter.and(filters));
+			
+						Iterator iManagerAdAccounts = context.search(Link.class, queryOptions);
+			
+						if( iManagerAdAccounts != null && iManagerAdAccounts.hasNext() ) {
+							Link managerADAccount = (Link) iManagerAdAccounts.next();
+							val = managerADAccount.getAttribute("distinguishedName");
+						}
+						Util.flushIterator(iManagerAdAccounts);	
+					} catch (GeneralException e) {
+						loggerAD.error("Unable to get Object from application: %%AD_TARGET_NAME%%");
+						e.printStackTrace();
+					}
+					break;
+				case 3:
+					//Option 3 
+					loggerAD.trace("Option 3");
+					try	{
+						Identity manager = identity.getManager();
+						Iterator applications = manager.getLinks().iterator();
+			
+						while (applications.hasNext())	{
+							Link adApp = (Link) applications.next();
+							if (adApp.getApplicationName().compareTo("%%AD_TARGET_NAME%%") == 0)	{
+								val =  adApp.getAttribute("distinguishedName"); 
+							}
+						}
+						val =  null;
+					} catch (Exception e){
+						loggerAD.error("Exception while trying to get Manager:  "+e.getMessage());
+						val =  null;
+						e.printStackTrace();
+					}
+					break;
+				case 4:
+					loggerAD.trace("Option 4");
+					//Option 4 - return manager's name
+					if(null!= identity.getManager()){
+						String manager = identity.getManager().getName();
+						if ((null == manager) || (manager.isEmpty())){
+							val = null;
+						}else {
+							val =manager;
+						}
+					}
+					break;
+				case 5:
+					loggerAD.trace("Option 5");
+					//Option 5
+					Identity manager = identity.getManager();
+					try	{
+						if(manager != null) {
+							Application app = context.getObjectByName(Application.class, "%%AD_TARGET_NAME%%");		
+							if(app != null) {
+								IdentityService idService = new IdentityService(context);
+								List links =  idService.getLinks(manager, app);
+								if((links != null) && !links.isEmpty()) {
+									for(Link link : links) {
+										String distinguishedName = (String) link.getAttribute("distinguishedName");
+										if((distinguishedName != null) && distinguishedName.contains("%%AD_MANAGERS_DOMAIN%%")) {
+											return distinguishedName;
+										}
+									}
+								}
+							} 
+						} 
+					}catch (Exception e){
+						loggerAD.error("Exception while trying to get Manager:  "+e.getMessage());
+						val =  null;
+						e.printStackTrace();
+					}
+				break;
+			}
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
@@ -614,7 +705,7 @@
 		 * Option 1 - Name identity's attribute name as 'memberOf' to allow this method to work properly
 		 * Option 2 - Returns a predefined group if attribute 'employeeType' starts with that predefined group or returns a default group when given
 		 * 					This option needs property AD_MAIN_GROUP to be set with the name of the Active Directory Main Group 
-		 * 
+		 * 					Needs an attribute named 'employeeType'
 		 * @param context
 		 * @param identity
 		 * @param op
@@ -627,13 +718,21 @@
 				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
-			//Option 1
-			val = identity.getAttribute("memberOf");
+			
+			int option = Integer.valueOf("%%AD_OPTION_MEMBEROF%%");
 
-			//Option 2 
-			//		Boolean is_sa = StringUtils.startsWith(identity.getStringAttribute("employeeType"), "%%AD_MAIN_GROUP%%");
-			//		val = (is_sa)?"%%AD_MAIN_GROUP%%":defaultValue;
-
+			switch(option){
+				case 1:
+					loggerAD.trace("Option 1");
+					//Option 1
+					val = identity.getAttribute("memberOf");
+				case 2:
+					loggerAD.trace("Option 2");
+					//Option 2 
+					Boolean is_sa = StringUtils.startsWith(identity.getStringAttribute("employeeType"), "%%AD_MAIN_GROUP%%");
+					val = (is_sa)?"%%AD_MAIN_GROUP%%":defaultValue;
+					break;
+			}
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
@@ -790,20 +889,31 @@
 				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
-			//Option 1
-			val = "%%AD_ATT_ORG_UNIT_VALUE%%";
+			
+			int option = Integer.valueOf("%%AD_OPTION_OU%%");
 
-			//Option 2
-			//		val = identity.getAttribute("ou");
-
-			//Option 3
-			//		try {
-			//			val = getPersonnelAreaCityBasedOu(identity, context);
-			//		} catch (GeneralException e) {
-			//			loggerAD.error("Error while trying to get Personnel Area City Based OU: "+e.getMessage());
-			//			e.printStackTrace();
-			//		}
-
+			switch(option){
+				case 1:
+					loggerAD.trace("Option 1");
+					//Option 1
+					val = "%%AD_ATT_ORG_UNIT_VALUE%%";
+					break;
+				case 2:
+					//Option 2
+					loggerAD.trace("Option 2");
+					val = identity.getAttribute("ou");
+					break;
+				case 3:
+					//Option 3
+					loggerAD.trace("Option 3");
+					try {
+						val = getPersonnelAreaCityBasedOu(identity, context);
+					} catch (GeneralException e) {
+						loggerAD.error("Error while trying to get Personnel Area City Based OU: "+e.getMessage());
+						e.printStackTrace();
+					}
+					break;
+			}
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
@@ -836,40 +946,49 @@
 				return null!=defaultValue?((String) defaultValue).trim():"";
 			}
 
-			//Option 1 - returns encrypted password
-			val = identity.getPassword();
+			int option = Integer.valueOf("%%AD_OPTION_PASSWORD%%");
 
-			//Option 2 - Generates passwords based on policies in the PasswordPolicy objects
-			//		PasswordPolicy passwordPolicy;
-			//
-			//		try {
-			//			passwordPolicy = context.getObjectByName(PasswordPolicy.class, "%%AD_PASSWORD_POLICY%%");
-			//			val =  new PasswordGenerator(context).generatePassword(passwordPolicy);
-			//		} catch (GeneralException e) {
-			//			loggerAD.error("Error while trying to generate password based on policy: "+e.getMessage());
-			//			e.printStackTrace();
-			//		}
-
-			//Option 3 - Default password from properties
-			//		val = "%%AD_ATT_PASSWORD_VALUE%%";
-
-			//Option 4 - Try to decrypt identity's password
-			//		String password = identity.getPassword();
-			//		loggerAD.trace("Password:" + password);
-			//
-			//		if (password==null) {
-			//			val = "%%AD_ATT_PASSWORD_VALUE%%";
-			//			identity.setPassword("%%AD_ATT_PASSWORD_VALUE%%");
-			//		} else {
-			//			try {
-			//				val = context.decrypt(password);
-			//			} catch (GeneralException e) {
-			//				loggerAD.error("Error while trying to decrypt password: "+ e.getMessage());
-			//				e.printStackTrace();
-			//			}
-			//		}
-			//		loggerAD.trace("Retrieved Password for: " + identity.getName() + " = " + val);
-
+			switch(option){
+				case 1:
+					loggerAD.trace("Option 1");
+					//Option 1 - returns encrypted password
+					val = identity.getPassword();
+					break;
+				case 2:
+					//Option 2 - Generates passwords based on policies in the PasswordPolicy objects
+					PasswordPolicy passwordPolicy;
+			
+					try {
+						passwordPolicy = context.getObjectByName(PasswordPolicy.class, "%%AD_PASSWORD_POLICY%%");
+						val =  new PasswordGenerator(context).generatePassword(passwordPolicy);
+					} catch (GeneralException e) {
+						loggerAD.error("Error while trying to generate password based on policy: "+e.getMessage());
+						e.printStackTrace();
+					}
+					break;
+				case 3:
+					//Option 3 - Default password from properties
+					val = "%%AD_ATT_PASSWORD_VALUE%%";
+					break;
+				case 4:
+					//Option 4 - Try to decrypt identity's password
+					String password = identity.getPassword();
+					loggerAD.trace("Password:" + password);
+			
+					if (password==null) {
+						val = "%%AD_ATT_PASSWORD_VALUE%%";
+						identity.setPassword("%%AD_ATT_PASSWORD_VALUE%%");
+					} else {
+						try {
+							val = context.decrypt(password);
+						} catch (GeneralException e) {
+							loggerAD.error("Error while trying to decrypt password: "+ e.getMessage());
+							e.printStackTrace();
+						}
+					}
+					break;
+			}
+			loggerAD.trace("Retrieved Password for: " + identity.getName() + " = " + val);
 			return (null!=val?((String) val).trim():defaultValue);
 		}
 
