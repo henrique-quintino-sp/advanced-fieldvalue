@@ -6,43 +6,31 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
+
+import dao.FieldValue;
 
 public class GenerateFieldValuesXML {
 
+	private List<FieldValue> fieldValueList	;			//ATT_NAME , TARGET_ATT_NAME, UNIQUENESS
 	private Map<String,String> attributesMap;	//ATT_NAME , TARGET_ATT_NAME
 	private String appName ;									//TARGET_APP_NAME
-	private String uniquenessAtt;								//LDAP_SEARCH_DN
 
 	public GenerateFieldValuesXML(String appName, String commaSeparatedAttributes, String uniquenesAtt){
 		setAppName(appName);
 		setAttributesMap(commaSeparatedAttributes);
-		setUniquenesAtt(uniquenesAtt);
 	}
 	
 	public GenerateFieldValuesXML(String appName, Map<String,String> attributesMap, String uniquenesAtt){
 		setAppName(appName);
 		setAttributesMap(attributesMap);
-		setUniquenesAtt(uniquenesAtt);
 	}
 	
-	public void printXML(){
-		System.out.println(getFile("header.txt"));
-		System.out.println(getFile("imports.txt"));
-		System.out.println(getFile("loggers.txt"));
-		
-		Iterator<Entry<String, String>> it = attributesMap.entrySet().iterator();
-		while(it.hasNext()){
-			Map.Entry<String,String> pair = (Map.Entry<String,String>) it.next();
-			System.out.println(getMethodsFile("stubWithDefaults.txt", pair.getKey(), pair.getValue()));
-			it.remove();
-		}
-		System.out.println(getFile("utils.txt"));
-		System.out.println(getFile("footer.txt"));
+	public GenerateFieldValuesXML(String appName, List<FieldValue> fieldValueList, String uniquenesAtt){
+		setAppName(appName);
+		setAttributesMap(attributesMap);
 	}
 	
 	public void writeXML(String xmlName){
@@ -55,11 +43,8 @@ public class GenerateFieldValuesXML {
 			content.append(getFile("imports.txt"));
 			content.append(getFile("loggers.txt"));
 			
-			Iterator<Entry<String, String>> it = attributesMap.entrySet().iterator();
-			while(it.hasNext()){
-				Map.Entry<String,String> pair = (Map.Entry<String,String>) it.next();
-				content.append(getMethodsFile("stubWithDefaults.txt", pair.getKey(), pair.getValue()));
-				it.remove();
+			for(FieldValue obj : fieldValueList){
+				content.append(getMethodsFile("stubWithDefaults.txt", obj.getAppAttribute(), obj.getTargetAttribute(), obj.isCheckUniqueness()));
 			}
 			content.append(getFile("utils.txt"));
 			content.append(getFile("footer.txt"));
@@ -114,7 +99,7 @@ public class GenerateFieldValuesXML {
 
 	}
 	
-	private String getMethodsFile(String fileName, String att, String targetAtt) {
+	private String getMethodsFile(String fileName, String appAtt, String targetAtt, boolean checkUniqueness) {
 		StringBuilder result = new StringBuilder("");
 
 		//Get file from resources folder
@@ -126,11 +111,9 @@ public class GenerateFieldValuesXML {
 				String line = scanner.nextLine();
 				line= line.replaceAll("%%TARGET_APP_NAME%%", getAppName());
 				if(fileName.equals("stubWithDefaults.txt") || fileName.equals("stub.txt")){
-					line = line.replaceAll("%%ATT_NAME%%", att);
+					line = line.replaceAll("%%ATT_NAME%%", appAtt);
 					line = line.replaceAll("%%TARGET_ATT_NAME%%", targetAtt);
-					if(!getUniquenessAtt().isEmpty()){
-						line = line.replaceAll("%%LDAP_SEARCH_DN%%", getUniquenessAtt());
-					}
+					line = line.replaceAll("%%CHK_UNIQUENESS_VALUE%%", String.valueOf(checkUniqueness));
 				}
 				result.append(line).append("\n");
 			}
@@ -150,14 +133,6 @@ public class GenerateFieldValuesXML {
 		this.appName = appName;
 	}
 
-	private String getUniquenessAtt() {
-		return uniquenessAtt;
-	}
-
-	private void setUniquenesAtt(String uniquenessAtt) {
-		this.uniquenessAtt = null==uniquenessAtt?"":uniquenessAtt;
-	}
-
 	private void setAttributesMap(String attributesList){
 		List<String> attributes =  Arrays.asList(attributesList.split("\\s*,\\s*"));
 		attributesMap = new HashMap<String,String>();
@@ -171,5 +146,13 @@ public class GenerateFieldValuesXML {
 
 	public void setAttributesMap(Map<String, String> attributesMap) {
 		this.attributesMap = attributesMap;
+	}
+
+	public List<FieldValue> getFieldValueList() {
+		return fieldValueList;
+	}
+
+	public void setFieldValueList(List<FieldValue> fieldValueList) {
+		this.fieldValueList = fieldValueList;
 	}
 }
