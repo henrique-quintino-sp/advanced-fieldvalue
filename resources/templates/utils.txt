@@ -1,0 +1,82 @@
+
+            public static void logStart(SailPointContext context, Identity identity, String op, String method) {
+                logger.trace("Start " + method);
+
+                logger.debug("OP = " + op);
+                logger.debug("Context = " + context);
+                logger.debug("identity = " + identity);
+
+            }
+
+		public static void logEnd(SailPointContext context, Identity identity, String op, String method, String result) {
+                logger.trace("End " + method + " - Return value: " + result);
+                System.out.println("End " + op + " - " + method + " - Return value:  " + result);
+
+       			 /* Improve for Debug */
+                logger.debug("OP =  " + op);
+                logger.debug("Context =  " + context);
+                logger.debug("Identity =  " + identity);
+        }
+        
+        public static String fixNulls(String strIn) {
+                String val = strIn;
+                logger.trace("value passed to fixNulls=" + val);
+                if (strIn == null) {
+                    val = "";
+                }
+                val = val.replaceFirst("\\s++$", "");
+                logger.trace("value returned from fixNulls=" + val);
+                return val;
+         }
+
+		public static Boolean isUniqueLdapName(SailPointContext context, Application application, String attName, String attValue) {
+                logger.trace("Entering isUniqueADName");
+                Boolean unique = true;
+
+                // Make a copy of the AD application
+                Application appCopy = (Application) application.deepCopy(context);
+                String appConnName = appCopy.getConnector();
+
+                // Get the domain DN and use this as the searchDN so that we search the entire domain
+                String searchDN = "%%LDAP_SEARCH_DN%%";
+
+                List dnList = new ArrayList();
+                Map setupMap = new HashMap();
+                setupMap.put("iterateSearchFilter", "(" + attName + "=" + attValue + ")");
+                setupMap.put("searchDN", searchDN);
+
+                dnList.add(0, setupMap); // This takes the map we just changed and adds it back to the list in place of the map that was there.
+                appCopy.setAttribute("searchDNs", dnList); // Add the list back to the app copy.
+                appCopy.setAttribute("referral", "ignore");
+                appCopy.setAttribute("useHasMoreElements", true);
+                appCopy.setCustomizationRule(null);
+
+                Connector appConnector = (Connector) sailpoint.connector.ConnectorFactory.getConnector(appCopy, null);
+                CloseableIterator iterator = (CloseableIterator) appConnector.iterateObjects("account", null, null);
+
+                try {
+                    if (iterator != null && iterator.hasNext()) {
+                        if (iterator.hasNext()) {
+                            ResourceObject user = (ResourceObject) iterator.next();
+                            unique = false;
+                        }
+                    }
+
+                } finally {
+                    if (iterator != null) iterator.close();
+                }
+                logger.trace("Exiting isUniqueADName");
+                context.decache(appCopy);
+                return unique;
+            }
+
+            public static String escapeADValues(String strIn) {
+                String val = strIn;
+                //logger.trace("value passed to escapeADValues=" + val);
+                if (strIn.indexOf(",") > -1) {
+                    val = val.replace(",", "\\,");
+                }
+                val = val.replaceFirst("\\s++$", "");
+                //logger.trace("value returned from escapeADValues=" + val);
+                return val;
+            }

@@ -1,0 +1,22 @@
+
+		public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(context, identity, op, null);
+		}
+		
+		public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+				String methodName = "getFV_%%TARGET_APP_NAME%%_ %%ATT_NAME%%_Rule ";
+                logStart(context, identity, op, methodName);
+               
+				if (identity == null) {
+					String val = null!=defaultValue?((String) defaultValue).trim():"";
+					logger.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+					return val;
+				}
+
+                String val = fixNulls(identity.getStringAttribute("%%TARGET_ATT_NAME%%"));
+				val = (!val.isEmpty()?val:(String)defaultValue);
+                logEnd(context, identity, op, methodName, val);
+                
+                return val;
+		}
+		
