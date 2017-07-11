@@ -30,7 +30,7 @@ public class GenerateFieldValuesXML {
 	
 	public GenerateFieldValuesXML(String appName, List<FieldValue> fieldValueList, String uniquenesAtt){
 		setAppName(appName);
-		setAttributesMap(attributesMap);
+		setFieldValueList(fieldValueList);
 	}
 	
 	public void writeXML(String xmlName){
