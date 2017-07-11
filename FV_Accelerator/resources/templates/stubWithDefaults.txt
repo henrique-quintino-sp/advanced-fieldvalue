@@ -13,7 +13,7 @@
 					return val;
 				}
 
-                String val = fixNulls(identity.getStringAttribute("%%ATT_NAME%%"));
+                String val = fixNulls(identity.getStringAttribute("%%TARGET_ATT_NAME%%"));
 				val = (!val.isEmpty()?val:(String)defaultValue);
                 logEnd(context, identity, op, methodName, val);
                 
