@@ -1,0 +1,1244 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "../sailpoint.dtd">
+<Rule name="SPCONF Field Value Rules Library" language="beanshell">
+
+    <Source>
+        <![CDATA[
+
+		import java.sql.Connection;
+		import java.sql.PreparedStatement;
+		import java.sql.ResultSet;
+		import java.text.DateFormat;
+		import java.text.ParseException;
+		import java.text.SimpleDateFormat;
+		import java.util.ArrayList;
+		import java.util.Arrays;
+		import java.util.Calendar;
+		import java.util.Date;
+		import java.util.GregorianCalendar;
+		import java.util.HashMap;
+		import java.util.Hashtable;
+		import java.util.Iterator;
+		import java.util.List;
+		import java.util.Locale;
+		import java.util.Map;
+
+		import javax.naming.Context;
+		import javax.naming.NamingEnumeration;
+		import javax.naming.NamingException;
+		import javax.naming.directory.DirContext;
+		import javax.naming.directory.InitialDirContext;
+		import javax.naming.directory.SearchControls;
+		import javax.naming.directory.SearchResult;
+
+		import org.apache.commons.lang.StringUtils;
+		import org.apache.commons.lang.time.DateUtils;
+		import org.apache.commons.logging.Log;
+		import org.apache.commons.logging.LogFactory;
+
+		import sailpoint.api.IdentityService;
+		import sailpoint.api.PasswordGenerator;
+		import sailpoint.api.PersistenceManager;
+		import sailpoint.api.SailPointContext;
+		import sailpoint.connector.Connector;
+		import sailpoint.object.Application;
+		import sailpoint.object.Custom;
+		import sailpoint.object.Filter;
+		import sailpoint.object.Identity;
+		import sailpoint.object.Link;
+		import sailpoint.object.PasswordPolicy;
+		import sailpoint.object.QueryOptions;
+		import sailpoint.object.ResourceObject;
+		import sailpoint.tools.CloseableIterator;
+		import sailpoint.tools.GeneralException;
+		import sailpoint.tools.Util;
+		import sailpoint.tools.xml.XMLReferenceResolver;
+		
+		
+		private static Log loggerAD = LogFactory.getLog("rule.SP.FieldValue.RulesLibrary");
+
+		/**
+		 * Will calculate CN (common name) without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_cn_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_cn_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC2256: common name(s) for which the entity is known by
+		 * This is the X.500 commonName attribute, which contains a name of an object. If the object corresponds to a person, it is typically the person's full name.
+		 * 
+		 * This method will calculate the CN :
+		 * Option 1 - identity Name
+		 * Option 2 - CN is of format LastName, FirstName
+		 * 					With the option to check for uniqueness
+		 * Option 3 - Lastname, Firstname Initials.
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return sailpoint.object.Identity.getName()
+		 */
+		public static Object getFV_Active_Directory_cn_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null;
+
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			int option = Integer.valueOf("%%AD_OPTION_CN%%");
+			switch(option){
+				case 1:
+					//Option 1
+					val = identity.getName(); 
+					break;
+				case 2:
+					//Option 2 - if preferredName is available in IIQ, it should be used instead of the first name
+					String preferredName = (String) identity.getAttribute("preferredName");
+					String firstName = (null!=preferredName&&!preferredName.equals(""))?escapeADValues(preferredName):escapeADValues(identity.getFirstname());
+					loggerAD.trace("First name: "+firstName);
+					String lastName = escapeADValues(identity.getLastname());
+					loggerAD.trace("Last name: "+lastName);
+					val = lastName + "\\, " + firstName ;
+					
+					//If need to check for uniqueness, use Option 2 and set AD_CN_UNIQUENESS_VALUE to true
+					if("%%AD_CN_UNIQUENESS_VALUE%%".equalsIgnoreCase("true")){
+						Application appObj = null;
+						try {
+							appObj = context.getObject(Application.class, "%%AD_TARGET_NAME%%");
+						} catch (GeneralException e) {
+							loggerAD.error("Unable to get Object from application: %%AD_TARGET_NAME%%");
+							e.printStackTrace();
+						}
+				
+						loggerAD.trace("Checking for uniqueness in Application: "+"%%AD_TARGET_NAME%%");
+						if (!isUniqueADName(appObj, "cn", (String) val)) {
+							//if not unique, we will add a "2" to the cn value
+							int ctr = 2;
+							val = firstName + "." + lastName + ctr;
+				
+							//if cn2 not unique, it will add 1 until the method finds a unique cn value
+							while (!isUniqueADName(appObj, "cn", (String) val)) {
+								ctr++;
+								val = firstName + "." + lastName + ctr;
+								loggerAD.trace("Value " + val + " was tested");
+							}
+							loggerAD.trace("Unique value is: " + val );
+						}
+					}
+					break;
+				case 3:
+					//Option 3 - Generate CN from fullname considering format: "Lastname, Firstname Initials."
+					String fullname = identity.getFullName();
+					loggerAD.trace("fullname value is: " + fullname );
+					String second = fullname.substring(0, fullname.indexOf(","));
+					String first = fullname.substring(fullname.indexOf(",")+1,fullname.length() );
+					val =  first+" "+second;
+					break;
+			}
+
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate description without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_description_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_description_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC2256: descriptive information
+		 * This attribute contains a human-readable description of the object.
+		 * Option 1 - Returns a String with the date the identity was Created/Updated/Disabled
+		 * Option 2 - Will return the value of attribute 'description'
+		 * 					Name identity's attribute name as 'description' to allow this method to work properly
+		 * Option 3 - Returns a String composed by several attributes 
+		 * 					Use comma separated values to set the attributes that will compose the value in AD_DESCRIPTION_COMPOSED_VALUES
+		 * 					Configure AD_DESCRIPTION_DELIM_VALUE with the escaped delimiter to be used to compose the value
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_description_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			int option = Integer.valueOf("%%AD_OPTION_DESCRIPTION%%");
+			String val = null;
+			
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+			
+			switch(option){
+				case 1:
+					//Option 1 - Uncomment as needed
+					loggerAD.trace("Option 1 ");
+					DateFormat df=DateFormat.getDateInstance(DateFormat.MEDIUM);
+					val = "Created by IdentityIQ on " + df.format(new Date());
+					//val = "Updated by IdentityIQ on " + df.format(new Date());
+					//val = "Disabled by IdentityIQ on " + df.format(new Date()); 
+					break;
+				case 2:
+					loggerAD.trace("Option 2 ");
+					val = (String) identity.getAttribute("description");
+					break;
+				case 3:
+					//Option 3 - Composed value
+					loggerAD.trace("Option 3 ");
+					String str = "%%AD_DESCRIPTION_COMPOSED_VALUES%%";
+					loggerAD.trace("Option 3 - Returns a String composed by attributes: "+str);
+					List<String> attributes =  Arrays.asList(str.split("\\s*,\\s*"));
+					loggerAD.trace("Delimiter will be:   %%AD_DESCRIPTION_DELIM_VALUE%%");
+					for(String att: attributes){
+						loggerAD.trace("Add attribute: "+att);
+						loggerAD.trace("Value of "+att+ " = "+identity.getAttribute(att));
+						val = val+identity.getAttribute(att)+"%%AD_DESCRIPTION_DELIM_VALUE%%"; 
+					}
+					val = val.substring(0, val.length()-2);//Remove last delimiter
+					loggerAD.trace("Final composed description is: "+val);
+					break;
+			}
+			
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate dislpayName without default value
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_displayName_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_displayName_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC2798: preferred name to be used when displaying entries
+		 * When displaying an entry, especially within a one-line summary list, it is useful to be able to identify a name to be used. 
+		 * Since other attribute types such as 'cn' are multivalued, an additional attribute type is needed. 
+		 * Display name is defined for this purpose.
+		 * 
+		 * Option 1 - Returns identity.getDisplayName
+		 * Option 2 - Will return CN value without '\\' in case you're using thi format
+		 * Option 3 - Will return a String in the format lastName, firstName or lastName, preferredName if configured
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_displayName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			Object val = null;
+			int option = Integer.valueOf("%%AD_OPTION_DISPLAYNAME%%");
+			
+			switch(option){
+			case 1:
+				//Option 1
+				 val = identity.getDisplayName();
+				break;
+			case 2:
+				//Option 2 
+				val = ((String) getFV_Active_Directory_cn_Rule(context, identity, op, defaultValue)).replaceAll("\\\\","");
+				break;
+			case 3:
+				//Option 3
+				val = "";
+				String lastName = (String) identity.getLastname();
+				lastName = lastName != null ? lastName:"";
+				loggerAD.trace("DisplayName-Rule :  Last Name - " + lastName );
+				
+				String preferredName = (String) identity.getAttribute("preferredName");
+				String firstName = (null!=preferredName&&!preferredName.equals(""))?preferredName:identity.getFirstname();
+				loggerAD.trace("DisplayName-Rule : First/Preferred Name -"  + firstName );
+				val = lastName + ", "+firstName;
+				break;
+			}
+			
+			loggerAD.trace("DisplayName-Rule : Display Name - "  + val );
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate distinguisedName without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_distinguishedName_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_distinguishedName_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Option 1 - Returns a String of format: CN=firstname lastname (Name)
+		 * Option 2 - Concatenate cn + dn where dn needs to be set in properties file using AD_ATT_DN_VALUE
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_distinguishedName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			int option = Integer.valueOf("%%AD_OPTION_DISTINGUISHEDNAME%%");
+
+			switch(option){
+				case 1:
+					//Option 1
+					String lastname = identity.getLastname();
+					lastname = lastname.replace('.',' ');
+					lastname = lastname.replace('-',' ');
+					lastname = lastname.replace('\'',' ');
+					lastname = lastname.replace(',',' ');
+		
+					val = "CN=" + identity.getFirstname() + " " + lastname + " (" + identity.getName() + ") ";
+					break;
+				case 2:
+					//Option 2 - Concatenate cn + dn where dn needs to be set in properties file
+					String sAMAccountName = (String) getFV_Active_Directory_sAMAccountName_Rule(context, identity, op, defaultValue);
+					String dn = "%%AD_ATT_DN_VALUE%%";
+					val = "cn="+sAMAccountName+", "+dn;
+					break;
+			}
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate employeeType without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_employeeType_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_employeeType_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC2798: type of employment for a person
+		 * Used to identify the employer to employee relationship. 
+		 * Typical values used will be "Contractor", "Employee", "Intern", "Temp", "External", and "Unknown" but any value may be used.
+		 * 
+		 * Option 1 - Returns identity.getAttribute("employeeType")
+		 * 					Name identity's attribute name as 'employeeType' to allow this method to work properly
+		 * Option 2 - Will return a personalized String depending on AD_ATT_EMPLOYEETYPE_VALUE
+		 * 					Needs editing of implementation
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_employeeType_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			int option = Integer.valueOf("%%AD_OPTION_EMPLOYEETYPE%%");
+
+			switch(option){
+				case 1:
+					//Option 1 - with recommended attribute name
+					val = identity.getAttribute("employeeType");
+					break;
+				case 2:
+					//Option 2
+					if (Util.nullSafeEq(identity.getAttribute("%%AD_ATT_EMPLOYEETYPE_VALUE%%"), "Employee")) {
+						val = "Internal";
+					} else if (Util.nullSafeEq(identity.getAttribute("%%AD_ATT_EMPLOYEETYPE_VALUE%%"), "Visitor") || Util.nullSafeEq(identity.getAttribute("identityType"), "Shared")) {
+						val = "External";
+					}  else if (Util.nullSafeEq(identity.getAttribute("%%AD_ATT_EMPLOYEETYPE_VALUE%%"), "Facility")) {
+						val = "Resource mailbox";
+					} else {
+						val = "";
+					}
+					break;
+			}
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate givenName (firstName) without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_givenName_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_givenName_Rule(context, identity, op, null);
+		}
+		
+		/**
+		 * RFC2256: first name(s) for which the entity is known by
+		 * The givenName attribute is used to hold the part of a person's name which is not their surname nor middle name.
+		 * 
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return sailpoint.object.Identity.getFirstname()
+		 */
+		public static Object getFV_Active_Directory_givenName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			val = identity.getFirstname();
+
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate initials without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_initials_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_initials_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC2256: initials of some or all of names, but not the surname(s).
+		 * 
+		 * Option 1 - Returns the value of recommended attribute name (middleName)
+		 * 					Name identity's attribute name as 'middleName' to allow this method to work properly
+		 * Option 2 - Converts middleName to an initial --> Mary = M. 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_initials_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			int option = Integer.valueOf("%%AD_OPTION_MIDDLENAME%%");
+
+			switch(option){
+				case 1:
+					//Option 1 - with recommended attribute name
+					loggerAD.trace("Option 1");
+					val = identity.getAttribute("middleName");
+				case 2:	
+					//Option 2 - Converts middleName to an initial --> Mary = M. 
+					loggerAD.trace("Option 2");
+					String middleName = (String) identity.getAttribute("middleName");
+					if((middleName != null) && (middleName.length() > 1)) {
+						val = middleName.substring(0, 1)+".";
+						loggerAD.trace("Inside getFV_Active_Directory_initials_Rule Initials from middleName = " + val);
+					}
+					break;
+			}
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate l (city) without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_l_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_l_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * City where the identity works at
+		 * Name identity's attribute name as 'city' to allow this method to work properly
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_l_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			val = identity.getAttribute("city");
+
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate email address without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return sailpoint.object.Identity.getEmail()
+		 */
+		public static Object getFV_Active_Directory_mail_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_mail_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC2459: legacy attribute for email addresses in DNs
+		 * Option 1 - Will return sailpoint.object.Identity.getEmail()
+		 * Option 2 - Will generate an email of format: firstname.lastname@suffix
+		 * 					This option needs to set AD_ATT_SUFFIX_EMAIL in properties
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return 
+		 */
+		public static Object getFV_Active_Directory_mail_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+			int option = Integer.valueOf("%%AD_OPTION_MIDDLENAME%%");
+
+			switch(option){
+				case 1:
+					//Option 1
+					loggerAD.trace("Option 1");
+					val = identity.getEmail();
+					break;
+				case 2:
+					//Option 2 - If there's no Email set, generate it
+					loggerAD.trace("Option 2");
+					String emailSuffix = "%%AD_ATT_SUFFIX_EMAIL%%";
+					loggerAD.trace("suffix for email: "+emailSuffix);
+					String preferredName = (String) identity.getAttribute("preferredName");
+					String firstName = (null!=preferredName&&!preferredName.equals(""))?escapeADValues(preferredName):escapeADValues(identity.getFirstname());
+					loggerAD.trace("First name: "+firstName);
+					String lastName = escapeADValues(identity.getLastname());
+					loggerAD.trace("Last name: "+lastName);
+					
+					val = firstName+"."+lastName+"@"+emailSuffix;
+					loggerAD.trace("Generated email: "+val);
+					break;
+			}
+
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate manager without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_manager_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_manager_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC1274: DN of manager
+		 * The Manager attribute type specifies the manager of an object represented by an entry.
+		 * Option 1 - Return the manager's identity object
+		 * Option 2 - Will look for 'managerIdentity' in the application context 
+		 * 					This option needs property AD_TARGET_NAME to be set with the name of the Active Directory Application name
+		 * 					Needs an attribute named 'distinguishedName' 
+		 * Option 3 - Returns the distinguishedName of the manager
+		 * 					This option needs property AD_TARGET_NAME to be set with the name of the Active Directory Application name
+		 * 					Needs an attribute named 'distinguishedName' 
+		 * Option 4 - Return manager's identity name : sailpoint.object.Identity.getManager().getName()
+		 * Option 5 - Returns the distinguishedName of a manager within a specific doman
+		 * 					This option needs property AD_TARGET_NAME to be set with the name of the Active Directory Application name
+		 * 					This option needs property AD_MANAGERS_DOMAIN to be set with the Active Directory Domain Name where managers will be looked for
+		 * 					Needs an attribute named 'distinguishedName' 
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_manager_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			int option = Integer.valueOf("%%AD_OPTION_MANAGER%%");
+
+			switch(option){
+				case 1:
+					loggerAD.trace("Option 1");
+					//Option 1 - return manager identity object
+					val = identity.getManager();
+					break;
+				case 2:
+					//Option 2
+					loggerAD.trace("Option 2");
+					//Find the managers AD account
+					Identity managerIdentity = identity.getManager();
+			
+					Application appAD;
+					try {
+						appAD = context.getObjectByName(Application.class, "%%AD_TARGET_NAME%%");
+						QueryOptions queryOptions = new QueryOptions();
+						List filters = new ArrayList();
+						filters.add(Filter.eq("application", appAD));
+						filters.add(Filter.eq("identity", managerIdentity ));
+						queryOptions.addFilter(Filter.and(filters));
+			
+						Iterator iManagerAdAccounts = context.search(Link.class, queryOptions);
+			
+						if( iManagerAdAccounts != null && iManagerAdAccounts.hasNext() ) {
+							Link managerADAccount = (Link) iManagerAdAccounts.next();
+							val = managerADAccount.getAttribute("distinguishedName");
+						}
+						Util.flushIterator(iManagerAdAccounts);	
+					} catch (GeneralException e) {
+						loggerAD.error("Unable to get Object from application: %%AD_TARGET_NAME%%");
+						e.printStackTrace();
+					}
+					break;
+				case 3:
+					//Option 3 
+					loggerAD.trace("Option 3");
+					try	{
+						Identity manager = identity.getManager();
+						Iterator applications = manager.getLinks().iterator();
+			
+						while (applications.hasNext())	{
+							Link adApp = (Link) applications.next();
+							if (adApp.getApplicationName().compareTo("%%AD_TARGET_NAME%%") == 0)	{
+								val =  adApp.getAttribute("distinguishedName"); 
+							}
+						}
+						val =  null;
+					} catch (Exception e){
+						loggerAD.error("Exception while trying to get Manager:  "+e.getMessage());
+						val =  null;
+						e.printStackTrace();
+					}
+					break;
+				case 4:
+					loggerAD.trace("Option 4");
+					//Option 4 - return manager's name
+					if(null!= identity.getManager()){
+						String manager = identity.getManager().getName();
+						if ((null == manager) || (manager.isEmpty())){
+							val = null;
+						}else {
+							val =manager;
+						}
+					}
+					break;
+				case 5:
+					loggerAD.trace("Option 5");
+					//Option 5
+					Identity manager = identity.getManager();
+					try	{
+						if(manager != null) {
+							Application app = context.getObjectByName(Application.class, "%%AD_TARGET_NAME%%");		
+							if(app != null) {
+								IdentityService idService = new IdentityService(context);
+								List links =  idService.getLinks(manager, app);
+								if((links != null) && !links.isEmpty()) {
+									for(Link link : links) {
+										String distinguishedName = (String) link.getAttribute("distinguishedName");
+										if((distinguishedName != null) && distinguishedName.contains("%%AD_MANAGERS_DOMAIN%%")) {
+											return distinguishedName;
+										}
+									}
+								}
+							} 
+						} 
+					}catch (Exception e){
+						loggerAD.error("Exception while trying to get Manager:  "+e.getMessage());
+						val =  null;
+						e.printStackTrace();
+					}
+				break;
+			}
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate memberOf without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_memberOf_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_memberOf_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC2256: member of a group
+		 * Option 1 - Name identity's attribute name as 'memberOf' to allow this method to work properly
+		 * Option 2 - Returns a predefined group if attribute 'employeeType' starts with that predefined group or returns a default group when given
+		 * 					This option needs property AD_MAIN_GROUP to be set with the name of the Active Directory Main Group 
+		 * 					Needs an attribute named 'employeeType'
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_memberOf_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null;
+
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+			
+			int option = Integer.valueOf("%%AD_OPTION_MEMBEROF%%");
+
+			switch(option){
+				case 1:
+					loggerAD.trace("Option 1");
+					//Option 1
+					val = identity.getAttribute("memberOf");
+				case 2:
+					loggerAD.trace("Option 2");
+					//Option 2 
+					Boolean is_sa = StringUtils.startsWith(identity.getStringAttribute("employeeType"), "%%AD_MAIN_GROUP%%");
+					val = (is_sa)?"%%AD_MAIN_GROUP%%":defaultValue;
+					break;
+			}
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate mobile number without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_mobile_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_mobile_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC1274: mobile telephone number
+		 * The Mobile Telephone Number attribute type specifies a mobile telephone number associated with a person. 
+		 * Attribute values should follow the agreed format for international telephone numbers: i.e., "+44 71 123 4567".
+		 * 
+		 * Name identity's attribute 'mobileNumber' to allow this method to work properly
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_mobile_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			val = identity.getAttribute("mobileNumber");
+
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate O (organization) without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_O_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_O_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Organization this object belongs to
+		 * Name identity's attribute name as 'organization' to allow this method to work properly
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_O_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+			val = identity.getAttribute("organization");
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate object class without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_ObjectClass_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_ObjectClass_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Needs AD_ATT_OBJECTCLASS_VALUE configured in properties
+		 * Ex. AD_ATT_OBJECTCLASS_VALUE=user;
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_ObjectClass_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = "%%AD_ATT_OBJECTCLASS_VALUE%%";
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate ObjectSid (windows security ID) without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_ObjectSid_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_ObjectSid_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Windows Security Identifier
+		 * Name identity's attribute name as 'winSecurityID' to allow this method to work properly
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_ObjectSid_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null;
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+			val = identity.getAttribute("winSecurityID");
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate OU (organizational unit) without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_Ou_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_Ou_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Organizational Unit
+		 * Option 1 - Returns a predefined value
+		 * 					This method needs AD_ATT_ORG_UNIT_VALUE to be configured in properties
+		 * Option 2 - Name identity's attribute name as 'ou' to allow this method to work properly
+		 * Option 3 - Implement a getPersonnelAreaCityBasedOu() method to allow this method to work properly
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_Ou_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+			
+			int option = Integer.valueOf("%%AD_OPTION_OU%%");
+
+			switch(option){
+				case 1:
+					loggerAD.trace("Option 1");
+					//Option 1
+					val = "%%AD_ATT_ORG_UNIT_VALUE%%";
+					break;
+				case 2:
+					//Option 2
+					loggerAD.trace("Option 2");
+					val = identity.getAttribute("ou");
+					break;
+				case 3:
+					//Option 3
+					loggerAD.trace("Option 3");
+					try {
+						val = getPersonnelAreaCityBasedOu(identity, context);
+					} catch (GeneralException e) {
+						loggerAD.error("Error while trying to get Personnel Area City Based OU: "+e.getMessage());
+						e.printStackTrace();
+					}
+					break;
+			}
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate password without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_password_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_password_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Option 1 - Returns encrypted password
+		 * Option 2 - Generates passwords based on policies in the PasswordPolicy objects
+		 * Option 3 - Default password from properties
+		 * Option 4 - Will try to decrypt identity's password
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_password_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			int option = Integer.valueOf("%%AD_OPTION_PASSWORD%%");
+
+			switch(option){
+				case 1:
+					loggerAD.trace("Option 1");
+					//Option 1 - returns encrypted password
+					val = identity.getPassword();
+					break;
+				case 2:
+					//Option 2 - Generates passwords based on policies in the PasswordPolicy objects
+					PasswordPolicy passwordPolicy;
+			
+					try {
+						passwordPolicy = context.getObjectByName(PasswordPolicy.class, "%%AD_PASSWORD_POLICY%%");
+						val =  new PasswordGenerator(context).generatePassword(passwordPolicy);
+					} catch (GeneralException e) {
+						loggerAD.error("Error while trying to generate password based on policy: "+e.getMessage());
+						e.printStackTrace();
+					}
+					break;
+				case 3:
+					//Option 3 - Default password from properties
+					val = "%%AD_ATT_PASSWORD_VALUE%%";
+					break;
+				case 4:
+					//Option 4 - Try to decrypt identity's password
+					String password = identity.getPassword();
+					loggerAD.trace("Password:" + password);
+			
+					if (password==null) {
+						val = "%%AD_ATT_PASSWORD_VALUE%%";
+						identity.setPassword("%%AD_ATT_PASSWORD_VALUE%%");
+					} else {
+						try {
+							val = context.decrypt(password);
+						} catch (GeneralException e) {
+							loggerAD.error("Error while trying to decrypt password: "+ e.getMessage());
+							e.printStackTrace();
+						}
+					}
+					break;
+			}
+			loggerAD.trace("Retrieved Password for: " + identity.getName() + " = " + val);
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+
+		/**
+		 * Will calculate sAMAccountName without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_sAMAccountName_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_sAMAccountName_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Gets the identity's name in the cube
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return sailpoint.object.Identity.getName()
+		 */
+		public static Object getFV_Active_Directory_sAMAccountName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			val = identity.getName();
+
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate SN (lastName) without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_sn_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_sn_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * RFC2256: last (family) name(s) for which the entity is known by
+		 * This is the X.500 surname attribute, which contains the family name of a person.
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return sailpoint.object.Identity.getLastname()
+		 */
+		public static Object getFV_Active_Directory_sn_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			val = identity.getLastname();
+
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate telephone number without default value
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_TelephoneNumber_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_TelephoneNumber_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Name the identity's attribute 'telephoneNumber' to allow this method to work properly
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_TelephoneNumber_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+
+			val = identity.getAttribute("telephoneNumber");
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Will calculate job title without default value
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_title_Rule(SailPointContext context, Identity identity, String op){
+			return getFV_Active_Directory_title_Rule(context, identity, op, null);
+		}
+
+		/**
+		 * Title associated with the entity
+		 * Name the identity's attribute 'jobTitle' to allow this method to work properly
+		 * 
+		 * @param context
+		 * @param identity
+		 * @param op
+		 * @param defaultValue
+		 * @return
+		 */
+		public static Object getFV_Active_Directory_title_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+			Object val = null; 
+			if (identity == null) {
+				loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+				return null!=defaultValue?((String) defaultValue).trim():"";
+			}
+			
+			val = identity.getAttribute("jobTitle");
+			return (null!=val?((String) val).trim():defaultValue);
+		}
+
+		/**
+		 * Util method to escape a given string, including removing all leading white spaces
+		 * @param strIn
+		 * @return
+		 */
+		private static String escapeADValues(String strIn) {
+			String val = strIn;
+			loggerAD.trace("value passed to escapeADValues= " + val);
+			if (strIn.indexOf(",") > -1) {
+				val = val.replace(",","\\,");
+			}
+			val = val.replaceFirst("\\s++$","");
+			loggerAD.trace("value returned from escapeADValues= " + val);
+			return val;
+		}
+
+		/**
+		 * Check for uniqueness of AD naming attribute against a given AD application, verified by using a copy of the connector.
+		 * @param application
+		 * @param attName
+		 * @param attValue
+		 * @return
+		 */
+		public static Boolean isUniqueADName(Application application, String attName, String attValue) {
+			loggerAD.trace("Entering isUniqueADName");
+			Boolean unique = true;
+
+			// Make a copy of the AD application
+			Application appCopy = (Application) application.deepCopy(context);
+			String appConnName = appCopy.getConnector();
+
+			// Get the domain DN and use this as the searchDN so that we search the entire domain
+			String searchDN = appCopy.getAttributes().getMap().get("domainSettings").get(0).get("domainDN");
+
+			List dnList = new ArrayList();
+			Map setupMap = new HashMap();
+			setupMap.put("iterateSearchFilter", "(" + attName +  "=" + attValue + ")");
+			setupMap.put("searchDN", searchDN);
+
+			dnList.add(0, setupMap); // This takes the map we just changed and adds it back to the list in place of the map that was there.
+			appCopy.setAttribute("searchDNs", dnList); // Add the list back to the app copy.
+			appCopy.setAttribute("referral", "ignore");
+			appCopy.setAttribute("useHasMoreElements", true);
+			appCopy.setCustomizationRule(null);
+
+			Connector appConnector = sailpoint.connector.ConnectorFactory.getConnector(appCopy, null);
+			CloseableIterator iterator = appConnector.iterateObjects("account", null, null);
+
+			try {
+				if (iterator != null && iterator.hasNext() ) {
+					if(iterator.hasNext()) {
+						ResourceObject user = (ResourceObject) iterator.next();
+						unique = false;
+					}
+				}
+
+			} finally {
+				if ( iterator != null ) iterator.close();
+			}
+			loggerAD.trace("Exiting isUniqueADName");
+			return unique;
+		}
+
+		/**
+		 * Given an Identity, returns an OU based on that Identity's personnelAreaCity attribute.  
+		 * If no OU can be derived from that identity, attempts to get an OU based on the
+		 * supervisor and so on until either a valid OU is returned or we run out of supervisors.
+		 * 
+		 * May return an empty String if no value is found
+		 * 
+		 * @param identity
+		 * @param context
+		 * @return
+		 * @throws GeneralException
+		 */
+		public static String getPersonnelAreaCityBasedOu(Identity identity, SailPointContext context) throws GeneralException {
+			loggerAD.info("Entering getPersonnelAreaCityBasedOu for identity [" + identity.getName() + "]");
+
+			String ou = ""; // initialize to empty
+
+			/*
+			 * get identity's personnelAreaCity.
+			 * 
+			 * if personnelAreaCity == Null 
+			 *      get feedback 
+			 * else if personnelAreaCity == HOME 
+			 *      get identity.manager's ou 
+			 * else 
+			 *      get personnelAreaCity to ou 
+			 *      if ou == empty, get feedback
+			 */
+			String personnelAreaCity = identity.getStringAttribute("city");
+
+			if (null == personnelAreaCity || personnelAreaCity.equals("")) {
+				/* DO NOTHING */
+				loggerAD.debug("personnelAreaCity is null or empty.  returning [\"\"]");
+			} else if (personnelAreaCity.equalsIgnoreCase("home")) {
+				/* get manager's ou if manager != null; otherwise return ou = "" */
+				Identity manager = identity.getManager();
+				if (manager != null) {
+					loggerAD.debug("personnelAreaCity [" + personnelAreaCity + "] is equal to \"home\", getting manager's [" + manager.getName() + "] ou");
+					ou = getPersonnelAreaCityBasedOu(identity.getManager(), context);
+				} else {
+					loggerAD.debug("personnelAreaCity [" + personnelAreaCity + "] is equal to \"home\", but manager is null.  returning [\"\"]");
+				}
+			} else {
+				/* return ou for identity */
+				loggerAD.debug("personnelAreaCity [" + personnelAreaCity + "] is valid; getting ou from access portal database");
+				//TODO: Needs more implementation to connect to DB
+				//ou = AccessPortalUtils.getAdOuByCity(personnelAreaCity);
+				loggerAD.debug("retrieved [" + ou + "] from database");
+			}
+
+			loggerAD.info("Exiting getPersonnelAreaCityBasedOu for identity [" + identity.getName() + "] with ou [" + ou + "]");
+			return ou;
+		}  
+
+	]]>
+    </Source>
+</Rule>
