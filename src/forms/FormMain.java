@@ -1,9 +1,16 @@
 package forms;
 
+import com.sun.tools.javah.oldjavah.Gen;
+import dao.FieldValue;
 import dao.IIQInstance;
 import sailpoint.api.SailPointContext;
 import sailpoint.object.*;
+import sailpoint.spring.SpringStarter;
 import sailpoint.tools.GeneralException;
+import utils.GenerateApplicatioXML;
+import utils.GenerateFieldValuesXML;
+import utils.GenerateSPDynamicFieldValueRuleXML;
+import utils.GenerateTemplateXML;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -11,13 +18,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by henrique.quintino on 7/10/2017.
  */
 public class FormMain {
+    private static final String FORBIDEN_IDENTITY_ATTRIBUTES = "mapping/forbiden-identity-attributes.txt";
     private JPanel panel1;
     private JComboBox cbApplication;
     private JButton button1;
@@ -31,9 +41,10 @@ public class FormMain {
     private JButton connectButton;
     private JCheckBox checkUnique;
     private JButton button2;
+    private JButton mapButton;
 
     private SailPointContext spContext;
-    private String currentApplication;
+    private Application currentApplication;
     private String DESTINATION_FOLDER= "Field Value Files";
     DefaultTableModel tableModel;
 
@@ -51,14 +62,24 @@ public class FormMain {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                loadContext();
-                loadApplications();
+                final JFrame fLoader = loadingScreen();
 
-                loadIdentityAttributes();
+                Runnable r = ()  -> {
+                    loadContext();
+                    loadApplications();
 
-                loadDefaultTable();
+                    loadIdentityAttributes();
+
+                    loadDefaultTable();
+                    fLoader.setVisible(false);
+                    fLoader.dispose();
+                };
+
+                Thread t = new Thread(r);
+                t.start();
             }
         });
+
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,6 +102,7 @@ public class FormMain {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    System.out.println(ClassLoader.getSystemResource(FORBIDEN_IDENTITY_ATTRIBUTES).getPath());
                     BufferedReader reader = new BufferedReader(new FileReader("iiq.properties"));
 
                     String line = reader.readLine();
@@ -94,17 +116,56 @@ public class FormMain {
                         line = reader.readLine();
                     }
                     reader.close();
+
                 }catch (Exception err){
                     System.out.println(err.getMessage());
 
                 }
             }
         });
+        mapButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performAutomapping();
+            }
+        });
+    }
+
+    private void performAutomapping() {
+        //todo do stuff
     }
 
     private void generateFieldValueXml() {
-        //GenerateFieldValuesXML genXml = new GenerateFieldValuesXML(currentApplication,null,null);
-        //genXml.writeXML();
+
+        try {
+            List<FieldValue> listFieldValue = buildFieldValue();
+
+            GenerateApplicatioXML genApp = new GenerateApplicatioXML(currentApplication.toXml());
+            GenerateTemplateXML genTemplate = new GenerateTemplateXML();
+
+            GenerateFieldValuesXML geFV = new GenerateFieldValuesXML(currentApplication.getName(), listFieldValue, null);
+            GenerateSPDynamicFieldValueRuleXML genSPD = new GenerateSPDynamicFieldValueRuleXML(currentApplication.getName());
+
+            showInformationMsg("Files generated in the folder " + ClassLoader.getSystemResource(DESTINATION_FOLDER).getPath(),"Generation complete");
+        }
+        catch (GeneralException err)
+        {
+            showErrorMsg(err.getMessage(),"Error generating XML");
+        }
+    }
+
+    private List<FieldValue> buildFieldValue() {
+        ArrayList<FieldValue> arrFieldValue = new ArrayList<>();
+
+        for(int count = 0; count < tableModel.getRowCount(); count++){
+            FieldValue f = new FieldValue();
+            f.setAppAttribute(tableModel.getValueAt(count, 0).toString());
+            f.setTargetAttribute(tableModel.getValueAt(count, 1).toString());
+            f.setCheckUniqueness(Boolean.parseBoolean(tableModel.getValueAt(count, 2).toString()));
+
+            arrFieldValue.add(f);
+        }
+        return arrFieldValue;
     }
 
     private void recordSelection() {
@@ -142,13 +203,11 @@ public class FormMain {
         return arrErrors.size() == 0;
     }
 
-
-
     private void loadIdentityAttributes() {
         try {
             ObjectConfig objConfig = spContext.getObjectByName(ObjectConfig.class, "Identity");
 
-            List<ObjectAttribute> atts = objConfig.getObjectAttributes();
+            List<ObjectAttribute> atts = filterSpecialIdentityAttributes(objConfig.getObjectAttributes());
 
             DefaultListModel listModel = new DefaultListModel();
             listIdentity.setModel(listModel);
@@ -161,6 +220,52 @@ public class FormMain {
         }
     }
 
+    private JFrame loadingScreen() {
+        JFrame fLoad = new JFrame("Fetching the Rainbow");
+        fLoad.setContentPane(new FormLoader().getPanel1());
+
+        fLoad.setAlwaysOnTop(true);
+
+        fLoad.pack();
+        fLoad.setLocationRelativeTo(null);
+        fLoad.setVisible(true);
+
+        java.net.URL url = ClassLoader.getSystemResource("img/fav-icon2.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        fLoad.setIconImage(img);
+
+        return fLoad;
+    }
+
+    private List<ObjectAttribute> filterSpecialIdentityAttributes(List<ObjectAttribute> atts) {
+        ArrayList<ObjectAttribute> result = new ArrayList<>(atts);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(ClassLoader.getSystemResource(FORBIDEN_IDENTITY_ATTRIBUTES).getPath()));
+            String filterLine = reader.readLine();
+            if(filterLine != null && !filterLine.isEmpty())
+            {
+                if(!filterLine.startsWith("name="))
+                    throw new Exception("Invalid file format");
+                filterLine = filterLine.replaceAll("name=","");
+                String[] forbiddens = filterLine.split(",");
+
+                for(String s : forbiddens)
+                {
+                    List<ObjectAttribute> listAttFilter = result.stream().filter(u -> u.getName().equals(s)).collect(Collectors.toList());
+                    if(listAttFilter != null && listAttFilter.size() > 0)
+                        result.removeAll(listAttFilter);
+                }
+            }
+            reader.close();
+        }
+        catch(Exception err){
+            showErrorMsg("Filter Identity Attributes error: \n" + err.getMessage(),"Filter Identity Attributes");
+        }
+        
+        return result;
+    }
+
     private void loadSchema() {
         try
         {
@@ -171,26 +276,13 @@ public class FormMain {
             listSchema.setModel(listModel);
             for(String s : schema.getAttributeNames())
                 listModel.addElement(s);
-            currentApplication = cbApplication.getSelectedItem().toString();
+            currentApplication = app;
         }
         catch (GeneralException err)
         {
             showErrorMsg("Problem loading Application Schema \n" + err.getMessage(),"Error loading Application Schema");
 
         }
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("FV Accelerator - Unicorn Power");
-        frame.setContentPane(new FormMain().panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        java.net.URL url = ClassLoader.getSystemResource("img/fav-icon2.png");
-
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        Image img = kit.createImage(url);
-        frame.setIconImage(img);
     }
 
     private void loadApplications() {
@@ -214,7 +306,6 @@ public class FormMain {
             IIQInstance instance = IIQInstance.getIIQInstance();
             instance.connect();
             instance.isConnected();
-
             spContext = instance.getContext();
         }
         catch (GeneralException err)
@@ -232,6 +323,9 @@ public class FormMain {
     private void showErrorMsg(String message,String title) {
         JOptionPane.showMessageDialog(panel1, message,title,JOptionPane.ERROR_MESSAGE);
     }
+    private void showInformationMsg(String message, String title) {
+        JOptionPane.showMessageDialog(panel1, message,title,JOptionPane.INFORMATION_MESSAGE);
+    }
     private void deleteTableRow() {
         int selectedRow = tableResult.getSelectedRow();
         if(selectedRow > -1)
@@ -246,5 +340,18 @@ public class FormMain {
         tableModel.addColumn("Unique");
         tableResult.setModel(tableModel);
         tableResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("FV Accelerator - Unicorn Power");
+        frame.setContentPane(new FormMain().panel1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        java.net.URL url = ClassLoader.getSystemResource("img/fav-icon2.png");
+
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        frame.setIconImage(img);
     }
 }

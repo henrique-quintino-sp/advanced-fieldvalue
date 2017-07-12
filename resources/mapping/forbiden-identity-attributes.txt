@@ -1,0 +1,1 @@
+name=bundles,bundleSummary,assignedRoles,assignedRoleSummary,exceptions,lastRefresh,lastLogin,capabilities,scorecard.compositeScore,managerStatus,rights,workgroups,unicorn
