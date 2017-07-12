@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/forms/FormMain.java" line="139" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="23c97beb-c81a-4804-99d0-112dd60b0a60" name="Default" comment="Consolidation.&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/templates/formFooter.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/templates/formHeader.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$6.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/dao/FieldValue.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/dao/FieldValue.class" />
+    <list default="true" id="23c97beb-c81a-4804-99d0-112dd60b0a60" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/mapping/forbiden-identity-attributes.txt" afterPath="$PROJECT_DIR$/resources/mapping/forbidden-identity-attributes.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/GenerateFieldValuesXML.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/GenerateFieldValuesXML.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/GenerateSPDynamicFieldValueRuleXML.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/GenerateSPDynamicFieldValueRuleXML.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/GenerateTemplateXML.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/GenerateTemplateXML.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/TestGeneratedCode.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/TestGeneratedCode.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/templates/SPDynamicFieldValueRule.xml" afterPath="$PROJECT_DIR$/resources/templates/SPDynamicFieldValueRule.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/templates/form.xml" afterPath="$PROJECT_DIR$/resources/templates/form.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dao/FieldValue.java" afterPath="$PROJECT_DIR$/src/dao/FieldValue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/SPDynamicFieldValueRule.xml" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/SPDynamicFieldValueRule.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/form.xml" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/form.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/mapping/map-ldap.txt" afterPath="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/FormMain.java" afterPath="$PROJECT_DIR$/src/forms/FormMain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/GenerateFieldValuesXML.java" afterPath="$PROJECT_DIR$/src/utils/GenerateFieldValuesXML.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/GenerateSPDynamicFieldValueRuleXML.java" afterPath="$PROJECT_DIR$/src/utils/GenerateSPDynamicFieldValueRuleXML.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/GenerateTemplateXML.java" afterPath="$PROJECT_DIR$/src/utils/GenerateTemplateXML.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/TestGenerateXML.java" afterPath="$PROJECT_DIR$/src/utils/TestGenerateXML.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,14 +27,29 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="FormMain.form" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/forms/FormMain.form">
+          <provider selected="true" editor-type-id="ui-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="FormMain.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="172" column="26" lean-forward="true" selection-start-line="172" selection-start-column="26" selection-end-line="172" selection-end-column="26" />
+            <state relative-caret-position="491">
+              <caret line="240" column="9" lean-forward="true" selection-start-line="240" selection-start-column="9" selection-end-line="240" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6773#6781#0" expanded="true" />
+                <element signature="method#performAutomapping#0;class#FormMain#0" expanded="false" />
+                <element signature="method#rebindSchema#0;class#FormMain#0" expanded="false" />
+                <element signature="method#recordTableItem#0;class#FormMain#0" expanded="false" />
+                <element signature="method#filebasedMapping#0;class#FormMain#0" expanded="false" />
+                <element signature="method#sameNameMapping#0;class#FormMain#0" expanded="false" />
+                <element signature="e#7012#7020#0" expanded="true" />
+                <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
+                <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
+                <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
                 <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
                 <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
                 <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
@@ -109,8 +115,8 @@
         <option value="$PROJECT_DIR$/src/forms/DialogLoader.form" />
         <option value="$PROJECT_DIR$/src/forms/DialogLoader.java" />
         <option value="$PROJECT_DIR$/src/forms/FormLoader.form" />
-        <option value="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
         <option value="$PROJECT_DIR$/src/dao/FieldValue.java" />
+        <option value="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
         <option value="$PROJECT_DIR$/src/forms/FormMain.java" />
       </list>
     </option>
@@ -165,24 +171,6 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FV_Accelerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FV_Accelerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -198,7 +186,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dao" />
+              <option name="myItemId" value="forms" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -213,6 +201,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FV_Accelerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FV_Accelerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mapping" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -540,7 +546,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499894315039</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Consolidation.&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java">
+      <created>1499896113663</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1499896113663</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -557,7 +570,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37703142" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37703142" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -565,12 +578,12 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26435536" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17803837" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17803837" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28602383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28602383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -643,7 +656,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="28" />
+      <option name="time" value="40" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -652,18 +665,21 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/forms/FormMain.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6773#6781#0" expanded="true" />
+            <element signature="method#performAutomapping#0;class#FormMain#0" expanded="false" />
+            <element signature="method#rebindSchema#0;class#FormMain#0" expanded="false" />
+            <element signature="method#recordTableItem#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filebasedMapping#0;class#FormMain#0" expanded="false" />
+            <element signature="method#sameNameMapping#0;class#FormMain#0" expanded="false" />
+            <element signature="e#7012#7020#0" expanded="true" />
+            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
+            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
             <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
@@ -784,7 +800,15 @@
           <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6773#6781#0" expanded="true" />
+            <element signature="method#performAutomapping#0;class#FormMain#0" expanded="false" />
+            <element signature="method#rebindSchema#0;class#FormMain#0" expanded="false" />
+            <element signature="method#recordTableItem#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filebasedMapping#0;class#FormMain#0" expanded="false" />
+            <element signature="method#sameNameMapping#0;class#FormMain#0" expanded="false" />
+            <element signature="e#7012#7020#0" expanded="true" />
+            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
+            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
             <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
@@ -855,7 +879,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/mapping/forbiden-identity-attributes.txt">
+    <entry file="file://$PROJECT_DIR$/resources/mapping/forbidden-identity-attributes.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="171" lean-forward="false" selection-start-line="0" selection-start-column="171" selection-end-line="0" selection-end-column="171" />
@@ -910,11 +934,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/forms/FormMain.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../AFVLib/default.target.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -931,29 +950,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/mapping/map-ldap.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="28" lean-forward="false" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/function/Predicate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="218">
           <caret line="48" column="12" lean-forward="false" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../AFVLib/src/config/rulelibrary/SPCONF_FieldValue_RulesLibrary_Ldap.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="324" column="55" lean-forward="false" selection-start-line="324" selection-start-column="33" selection-end-line="324" selection-end-column="55" />
-          <folding>
-            <marker date="1499708469858" expanded="false" signature="212:842" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1061,13 +1062,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/AbstractCollection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="182" column="0" lean-forward="false" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../AFVLib/src/config/rulelibrary/SPCONF_FieldValue_RulesLibrary_Ldap.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="98">
+          <caret line="324" column="55" lean-forward="false" selection-start-line="324" selection-start-column="33" selection-end-line="324" selection-end-column="55" />
+          <folding>
+            <marker date="1499708469858" expanded="false" signature="212:842" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/mapping/map-ldap.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="2" lean-forward="false" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/forms/FormMain.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="172" column="26" lean-forward="true" selection-start-line="172" selection-start-column="26" selection-end-line="172" selection-end-column="26" />
+        <state relative-caret-position="491">
+          <caret line="240" column="9" lean-forward="true" selection-start-line="240" selection-start-column="9" selection-end-line="240" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6773#6781#0" expanded="true" />
+            <element signature="method#performAutomapping#0;class#FormMain#0" expanded="false" />
+            <element signature="method#rebindSchema#0;class#FormMain#0" expanded="false" />
+            <element signature="method#recordTableItem#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filebasedMapping#0;class#FormMain#0" expanded="false" />
+            <element signature="method#sameNameMapping#0;class#FormMain#0" expanded="false" />
+            <element signature="e#7012#7020#0" expanded="true" />
+            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
+            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
             <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />

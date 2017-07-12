@@ -17,6 +17,7 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ import java.util.stream.Collectors;
  * Created by henrique.quintino on 7/10/2017.
  */
 public class FormMain {
-    private static final String FORBIDEN_IDENTITY_ATTRIBUTES = "mapping/forbiden-identity-attributes.txt";
-    private static final String MAPPING_PATH = "mapping/map-";
+    private static final String FORBIDEN_IDENTITY_ATTRIBUTES = "mapping/forbidden-identity-attributes.txt";
+    private static final String MAPPING_PATH = "mapping";
     private JPanel panel1;
     private JComboBox cbApplication;
     private JButton button1;
@@ -114,7 +115,6 @@ public class FormMain {
     }
 
     private void performAutomapping() {
-        //todo do stuff
         ArrayList<FieldValue> listResult = new ArrayList<>();
 
         listResult.addAll(filebasedMapping());
@@ -142,56 +142,61 @@ public class FormMain {
     }
 
     private List<FieldValue> filebasedMapping() {
-        //todo do stuff
         ArrayList<FieldValue> listResult = new ArrayList<>();
         try {
-            FileReader fileReader = new FileReader(ClassLoader.getSystemResource(MAPPING_PATH + currentApplication.getType() + ".txt").getPath());
-            BufferedReader reader = new BufferedReader(fileReader);
-            String line = reader.readLine();
-            while(line != null && !line.isEmpty())
-            {
-                if(line.startsWith("#")) {
-                    line = reader.readLine();
-                    continue;
-                }
+            URL url = ClassLoader.getSystemClassLoader().getResource(MAPPING_PATH);
+            String filePath = url.getPath() + "/map-" + currentApplication.getType() + ".txt";
 
-                String[] sides = line.split("=");
-                if(sides.length != 2)
-                    throw new Exception("Invalid file format");
-
-                Optional<String> optionalSchema = arrSchema.stream()
-                                                            .filter(p -> p.equals(sides[0]))
-                                                            .findFirst();
-
-                String appName,targetAtt;
-                if(optionalSchema.isPresent())
-                {
-                    appName = optionalSchema.get();
-
-                    if(sides[1].contains("\"")  || sides[1].contains("+") || sides[1].contains("(") )
-                        targetAtt = sides[1];
-                    else {
-                        Optional<String> optionalIdentity = arrIdentityAttribute.stream()
-                                .filter(p -> p.equals(sides[1]))
-                                .findFirst();
-                        if(optionalIdentity.isPresent())
-                            targetAtt = optionalIdentity.get();
-                        else {
-                            line = reader.readLine();
-                            continue;
-                        }
+            File f = new File(filePath);
+            if(f.exists()) {
+                FileReader fileReader = new FileReader(filePath);
+                BufferedReader reader = new BufferedReader(fileReader);
+                String line = reader.readLine();
+                while (line != null && !line.isEmpty()) {
+                    if (line.startsWith("#")) {
+                        line = reader.readLine();
+                        continue;
                     }
 
-                    arrSchema.remove(appName);
+                    String[] sides = line.split("=");
+                    if (sides.length != 2)
+                        throw new Exception("Invalid file format");
 
-                    FieldValue tempFieldValue = new FieldValue(appName,targetAtt,false);
-                    listResult.add(tempFieldValue);
+                    Optional<String> optionalSchema = arrSchema.stream()
+                            .filter(p -> p.equals(sides[0]))
+                            .findFirst();
+
+                    String appName, targetAtt;
+                    if (optionalSchema.isPresent()) {
+                        appName = optionalSchema.get();
+
+                        if (sides[1].contains("'") || sides[1].contains("+") || sides[1].contains("["))
+                            targetAtt = sides[1];
+                        else {
+                            Optional<String> optionalIdentity = arrIdentityAttribute.stream()
+                                    .filter(p -> p.equals(sides[1]))
+                                    .findFirst();
+                            if (optionalIdentity.isPresent())
+                                targetAtt = optionalIdentity.get();
+                            else {
+                                line = reader.readLine();
+                                continue;
+                            }
+                        }
+
+                        arrSchema.remove(appName);
+
+                        FieldValue tempFieldValue = new FieldValue(appName, targetAtt, false);
+                        listResult.add(tempFieldValue);
+                    }
+
+                    line = reader.readLine();
                 }
             }
 
         }catch (Exception err)
         {
-            showErrorMsg(err.getMessage(),"File Based Mapping");
+            showErrorMsg(err.toString(),"File Based Mapping");
         }
 
         return listResult;
@@ -203,18 +208,20 @@ public class FormMain {
         ArrayList<String> listMatch = new ArrayList<String>();
 
         for(String item : arrSchema){
-            listMatch.addAll(arrIdentityAttribute.stream()
+            for(String s : arrIdentityAttribute.stream()
                                         .filter(p -> p.equals(item))
-                                        .collect(Collectors.toList()));
-            for(String s : listMatch)
-                listResult.add(new FieldValue(item,s,false));
+                                        .collect(Collectors.toList()))
+            {
+                listMatch.add(s);
+                listResult.add(new FieldValue(item, s, false));
+            }
         }
-
         arrSchema.removeAll(listMatch);
 
         return listResult;
     }
 
+    /* Final Generate Files With everything */
     private void generateFieldValueXml() {
 
         try {
@@ -285,6 +292,7 @@ public class FormMain {
 
     private void loadIdentityAttributes() {
         try {
+
             ObjectConfig objConfig = spContext.getObjectByName(ObjectConfig.class, "Identity");
 
             List<ObjectAttribute> atts = filterSpecialIdentityAttributes(objConfig.getObjectAttributes());
@@ -296,11 +304,12 @@ public class FormMain {
                 listModel.addElement(att.getName());
                 arrIdentityAttribute.add(att.getName());
             }
-
+            Thread.sleep(100);
         }catch (GeneralException err)
         {
             showErrorMsg("Problem loading Identity attributes \n" + err.getMessage(),"Error loading Identity Attributes");
         }
+        catch(Exception err){showErrorMsg("Problem loading Identity attributes \n" + err.getMessage(),"Error loading Identity Attributes");}
     }
 
     private JFrame loadingScreen() {
@@ -357,6 +366,7 @@ public class FormMain {
 
             DefaultListModel listModel = new DefaultListModel();
             listSchema.setModel(listModel);
+            arrSchema = new ArrayList<>();
             for(String s : schema.getAttributeNames()) {
                 listModel.addElement(s);
                 arrSchema.add(s);
@@ -433,6 +443,7 @@ public class FormMain {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
         java.net.URL url = ClassLoader.getSystemResource("img/fav-icon2.png");
 
         Toolkit kit = Toolkit.getDefaultToolkit();

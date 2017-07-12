@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
-<Rule language="beanshell"  name="SP Dynamic Field Value Rule" type="FieldValue">
+<Rule language="beanshell"  name="SP Dynamic Field Value Rule %%TARGET_APP_NAME%%" type="FieldValue">
   <Description>
   	This rule uses information in the field that calls the rule to dynamically
   	call a method in the library SPCONF Field Value Rules Library.  Each field
@@ -12,15 +12,15 @@
   </Description>
   <Signature returnType="Object"/>
   <ReferencedRules>
-	<Reference class="sailpoint.object.Rule" name="SPCONF Field Value Rules Library"/>
+	<Reference class="sailpoint.object.Rule" name="SPCONF Field Value Rules Library %%TARGET_APP_NAME%%"/>
   </ReferencedRules>
   <Source>
     import org.apache.commons.logging.Log;
 	import org.apache.commons.logging.LogFactory;
 
-	private Log logger = LogFactory.getLog("rule.SP.FieldValue.RulesLibrary");
+	private Log logger = LogFactory.getLog("rule.SP.%%TARGET_APP_NAME%%.FieldValue.RulesLibrary");
 	
-	logger.trace("Enter getDynamicFieldValueRule");
+	logger.trace("Enter getDynamicFieldValueRule%%TARGET_APP_NAME%%");
 		
 	logger.trace("Have field: " + field);
 	

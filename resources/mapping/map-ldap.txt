@@ -1,6 +1,6 @@
-CN=firstname[1]+'.'+lastname
+cn=firstname[1]+'.'+lastname
 dn=displayName
-SN=lastname
+sn=lastname
 givenName=firstname
 objectClass="inetorgperson"
 UID=uid
