@@ -34,12 +34,10 @@ public class GenerateApplicatioXML {
 		setAppName(appName);
 	}
 	
-	public String writeXML(Document applicationXML, String fileLocation){
+	public String writeXML(String fileLocation){
 		String xmlName = fileLocation+"\\"+getAppName()+".xml";
 		try {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document doc = applicationXML;
+			Document doc = getDocXML();
 
 			// Get the root element
 			Element root=doc.getDocumentElement();
@@ -64,9 +62,7 @@ public class GenerateApplicatioXML {
 			System.out.println("Done!");
 			System.out.println("Wrote to "+xmlName);
 
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
+		}catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerException e) {
 			e.printStackTrace();
