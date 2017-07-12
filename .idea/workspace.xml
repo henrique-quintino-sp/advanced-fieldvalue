@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23c97beb-c81a-4804-99d0-112dd60b0a60" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/Field Value Files/keep.txt" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/Field Value Files/keep.txt" afterPath="$PROJECT_DIR$/resources/Field_Value_Files/keep.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" />
@@ -11,6 +9,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/FormMain.java" afterPath="$PROJECT_DIR$/src/forms/FormMain.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/GenerateApplicatioXML.java" afterPath="$PROJECT_DIR$/src/utils/GenerateApplicatioXML.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/TestGenerateXML.java" afterPath="$PROJECT_DIR$/src/utils/TestGenerateXML.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,8 +32,8 @@
       <file leaf-file-name="FormMain.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="593">
-              <caret line="248" column="0" lean-forward="true" selection-start-line="248" selection-start-column="0" selection-end-line="248" selection-end-column="0" />
+            <state relative-caret-position="236">
+              <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#performAutomapping#0;class#FormMain#0" expanded="false" />
@@ -42,7 +41,7 @@
                 <element signature="method#recordTableItem#0;class#FormMain#0" expanded="false" />
                 <element signature="method#filebasedMapping#0;class#FormMain#0" expanded="false" />
                 <element signature="method#sameNameMapping#0;class#FormMain#0" expanded="false" />
-                <element signature="e#6896#6904#0" expanded="true" />
+                <element signature="e#6932#6940#0" expanded="true" />
                 <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
                 <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
                 <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
@@ -61,46 +60,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GenerateApplicatioXML.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FV_Accelerator/src/utils/GenerateApplicatioXML.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="36" column="57" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="GenerateApplicatioXML.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/utils/GenerateApplicatioXML.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="41" column="42" lean-forward="true" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GenerateTemplateXML.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/GenerateTemplateXML.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+            <state relative-caret-position="370">
+              <caret line="44" column="37" lean-forward="false" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2661#2662#0" expanded="true" />
-                <element signature="e#2684#2685#0" expanded="true" />
+                <element signature="e#3750#3751#0" expanded="true" />
+                <element signature="e#3770#3771#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GenerateFieldValuesXML.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/GenerateFieldValuesXML.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -157,8 +125,8 @@
         <option value="$PROJECT_DIR$/src/forms/FormLoader.form" />
         <option value="$PROJECT_DIR$/src/dao/FieldValue.java" />
         <option value="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
-        <option value="$PROJECT_DIR$/src/forms/FormMain.java" />
         <option value="$PROJECT_DIR$/src/utils/GenerateApplicatioXML.java" />
+        <option value="$PROJECT_DIR$/src/forms/FormMain.java" />
       </list>
     </option>
   </component>
@@ -259,6 +227,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FV_Accelerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FV_Accelerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="FV_Accelerator" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -300,10 +282,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dao" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -645,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499899619391</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="ALPHA 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java">
+      <created>1499901873356</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1499901873356</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -745,11 +730,20 @@
     <MESSAGE value="Implemented Auto Mapping&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
     <MESSAGE value="Consolidation.&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
     <MESSAGE value="Mapping good to go&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mapping good to go&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
+    <MESSAGE value="ALPHA 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="ALPHA 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="45" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/forms/FormMain.java</url>
+          <line>227</line>
+          <properties />
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="46" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -848,7 +842,7 @@
             <element signature="method#recordTableItem#0;class#FormMain#0" expanded="false" />
             <element signature="method#filebasedMapping#0;class#FormMain#0" expanded="false" />
             <element signature="method#sameNameMapping#0;class#FormMain#0" expanded="false" />
-            <element signature="e#6896#6904#0" expanded="true" />
+            <element signature="e#6932#6940#0" expanded="true" />
             <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
@@ -1161,8 +1155,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="593">
-          <caret line="248" column="0" lean-forward="true" selection-start-line="248" selection-start-column="0" selection-end-line="248" selection-end-column="0" />
+        <state relative-caret-position="236">
+          <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#performAutomapping#0;class#FormMain#0" expanded="false" />
@@ -1170,7 +1164,7 @@
             <element signature="method#recordTableItem#0;class#FormMain#0" expanded="false" />
             <element signature="method#filebasedMapping#0;class#FormMain#0" expanded="false" />
             <element signature="method#sameNameMapping#0;class#FormMain#0" expanded="false" />
-            <element signature="e#6896#6904#0" expanded="true" />
+            <element signature="e#6932#6940#0" expanded="true" />
             <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
@@ -1190,17 +1184,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FV_Accelerator/src/utils/GenerateApplicatioXML.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="36" column="57" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+        <state relative-caret-position="142">
+          <caret line="30" column="95" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="95" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/GenerateApplicatioXML.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="41" column="42" lean-forward="true" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
-          <folding />
+        <state relative-caret-position="370">
+          <caret line="44" column="37" lean-forward="false" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+          <folding>
+            <element signature="e#3750#3751#0" expanded="true" />
+            <element signature="e#3770#3771#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

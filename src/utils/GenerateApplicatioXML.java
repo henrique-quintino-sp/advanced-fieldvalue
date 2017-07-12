@@ -26,24 +26,22 @@ public class GenerateApplicatioXML {
 
 	private String appName ;						//TARGET_APP_NAME
 	private Document docXML;					//Applicatio XML String converted to DOM
-
+	
 	public GenerateApplicatioXML(String applicationXML, String appName){
-		applicationXML = getTestFile("Application-Ldap.xml");		//Only for testing purposes
+		//applicationXML = getTestFile("Application-Ldap.xml");		//Only for testing purposes
 		Document currentAppXML = readApplicationXMLasString(applicationXML);
 		setDocXML(currentAppXML);
 		setAppName(appName);
 	}
-
-	public String writeXML(Document applicationXML, String fileLocation){
+	
+	public String writeXML(String fileLocation){
 		String xmlName = fileLocation+"\\"+getAppName()+".xml";
 		try {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document doc = applicationXML;
+			Document doc = getDocXML();
 
 			// Get the root element
 			Element root=doc.getDocumentElement();
-
+			
 			NodeList provForms = doc.getElementsByTagName("ProvisioningForms");
 			//Check if there are any Provisioning Forms declared in the Application XML, if so it will be replaced for the new one
 			if(null!=provForms){
@@ -53,33 +51,31 @@ public class GenerateApplicatioXML {
 			//Create a new Form to add it to the new ProvisioningForms node
 			Element newProvForm = generateFormNode(doc);
 			root.appendChild(newProvForm);
-
+			
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(xmlName));
 			transformer.transform(source, result);
-
+			
 			System.out.println("Done!");
 			System.out.println("Wrote to "+xmlName);
 
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
+		}catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (TransformerException e) {
 			e.printStackTrace();
-		}
+		} 
 		return xmlName;
 	}
-
+	
 	private Element generateFormNode(Document doc){
 		Element form = doc.createElement("ProvisioningForms");
 		form.appendChild(doc.createTextNode("TEST"));
 		return form;
 	}
-
+	
 	private String getTestFile(String fileName) {
 		StringBuilder result = new StringBuilder("");
 
@@ -100,10 +96,10 @@ public class GenerateApplicatioXML {
 		return result.toString();
 
 	}
-
+	
 	private Document readApplicationXMLasString(String applicationXML){
 		Document doc = null;
-
+		
 		try {
 			DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			InputSource is = new InputSource();
@@ -114,7 +110,7 @@ public class GenerateApplicatioXML {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-
+		
 		return doc;
 	}
 
