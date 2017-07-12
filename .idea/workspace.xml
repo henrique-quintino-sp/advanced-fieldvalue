@@ -1,49 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src/forms/FormMain.java" line="161" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="23c97beb-c81a-4804-99d0-112dd60b0a60" name="Default" comment="Implemented Filter Forbidden Identity Attributes&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/img/uni-load.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/mapping/forbiden-identity-attributes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/mapping/map-ad.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/forms/FormLoader.form" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/forms/FormLoader.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/AFVLib.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/IIQModuleTemplate.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/build.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/default.target.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/lib/junit-4.12.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/src/config/form/Ldap Create.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/src/config/rulelibrary/SPCONF_FieldValue_RulesLibrary_AD.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/src/config/rulelibrary/SPCONF_FieldValue_RulesLibrary_Ldap.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/src/config/rulelibrary/SPCONF_FieldValue_RulesLibrary_SAP.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/src/config/sailpoint.dtd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/src/util/RuleLibrary/ActiveDirectory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFVLib/test/util/RuleLibrary/ActiveDirectoryTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFV_Example/AFV_Example.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFV_Example/default.target.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFV_Example/src/config/Application/Ldap.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/AFV_Example/src/config/sailpoint.dtd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FV_Accelerator/lib/commons-lang-2.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FV_Accelerator/lib/commons-logging-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FV_Accelerator/lib/identityiq.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FV_Accelerator/resources/templates/footer.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FV_Accelerator/resources/templates/header.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FV_Accelerator/resources/templates/imports.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/FV_Accelerator/resources/templates/stub.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$3.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$4.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$5.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$6.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" />
+    <list default="true" id="23c97beb-c81a-4804-99d0-112dd60b0a60" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/iiq.properties" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/iiq.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/iiq.properties" afterPath="$PROJECT_DIR$/resources/iiq.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/FormMain.form" afterPath="$PROJECT_DIR$/src/forms/FormMain.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/mapping/map-ldap.txt" afterPath="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dao/FieldValue.java" afterPath="$PROJECT_DIR$/src/dao/FieldValue.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/FormMain.java" afterPath="$PROJECT_DIR$/src/forms/FormMain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/TestGenerateXML.java" afterPath="$PROJECT_DIR$/src/utils/TestGenerateXML.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -56,10 +21,89 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FormMain.form" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FormMain.form" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/forms/FormMain.form">
           <provider selected="true" editor-type-id="ui-designer">
             <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FormMain.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="153" column="33" lean-forward="true" selection-start-line="153" selection-start-column="33" selection-end-line="153" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#7450#7458#0" expanded="true" />
+                <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
+                <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
+                <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
+                <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
+                <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
+                <element signature="method#loadContext#0;class#FormMain#0" expanded="false" />
+                <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
+                <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
+                <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
+                <element signature="method#deleteTableRow#0;class#FormMain#0" expanded="false" />
+                <element signature="method#loadDefaultTable#0;class#FormMain#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FieldValue.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dao/FieldValue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="21" column="36" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="36" />
+              <folding>
+                <element signature="e#330#331#0" expanded="true" />
+                <element signature="e#359#360#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="map-ad.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/mapping/map-ad.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="map-ldap.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/mapping/map-ldap.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="28" lean-forward="false" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="default.target.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../AFVLib/default.target.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="44" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SPCONF_FieldValue_RulesLibrary_Ldap.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../AFVLib/src/config/rulelibrary/SPCONF_FieldValue_RulesLibrary_Ldap.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="324" column="55" lean-forward="false" selection-start-line="324" selection-start-column="33" selection-end-line="324" selection-end-column="55" />
+              <folding>
+                <marker date="1499708469858" expanded="false" signature="212:842" ph="..." />
+              </folding>
+            </state>
           </provider>
         </entry>
       </file>
@@ -76,6 +120,8 @@
     <findStrings>
       <find>jgoodies</find>
       <find>iiq</find>
+      <find>processFormattedString</find>
+      <find>toXml</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -109,8 +155,10 @@
         <option value="$PROJECT_DIR$/src/forms/FormLoader.java" />
         <option value="$PROJECT_DIR$/src/forms/DialogLoader.form" />
         <option value="$PROJECT_DIR$/src/forms/DialogLoader.java" />
-        <option value="$PROJECT_DIR$/src/forms/FormMain.java" />
         <option value="$PROJECT_DIR$/src/forms/FormLoader.form" />
+        <option value="$PROJECT_DIR$/src/dao/FieldValue.java" />
+        <option value="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
+        <option value="$PROJECT_DIR$/src/forms/FormMain.java" />
       </list>
     </option>
   </component>
@@ -164,50 +212,6 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FV_Accelerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FV_Accelerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forms" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FV_Accelerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FV_Accelerator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forms" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FormLoader" />
-              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -238,6 +242,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FV_Accelerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FV_Accelerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mapping" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -549,7 +571,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499813361729</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Implemented Filter Forbidden Identity Attributes&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java">
+      <created>1499885224844</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1499885224844</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -659,41 +688,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/utils/GenerateFieldValuesXML.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="20" column="11" lean-forward="false" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/GenerateSPDynamicFieldValueRuleXML.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="24" column="11" lean-forward="false" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-          <folding>
-            <element signature="e#629#630#0" expanded="true" />
-            <element signature="e#656#657#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/GenerateApplicatioXML.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dao/IIQInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="55" column="0" lean-forward="true" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/forms/FormMain.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
@@ -705,13 +699,13 @@
           <caret line="14" column="22" lean-forward="false" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#generateFieldValueXml#0;class#FormMain#0" expanded="false" />
-            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
-            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
-            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="e#7450#7458#0" expanded="true" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadContext#0;class#FormMain#0" expanded="false" />
             <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
             <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
@@ -772,13 +766,13 @@
           <caret line="89" column="52" lean-forward="true" selection-start-line="89" selection-start-column="52" selection-end-line="89" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#generateFieldValueXml#0;class#FormMain#0" expanded="false" />
-            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
-            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
-            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="e#7450#7458#0" expanded="true" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadContext#0;class#FormMain#0" expanded="false" />
             <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
             <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
@@ -794,13 +788,13 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#generateFieldValueXml#0;class#FormMain#0" expanded="false" />
-            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
-            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
-            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="e#7450#7458#0" expanded="true" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadContext#0;class#FormMain#0" expanded="false" />
             <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
             <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
@@ -829,13 +823,13 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#generateFieldValueXml#0;class#FormMain#0" expanded="false" />
-            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
-            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
-            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="e#7450#7458#0" expanded="true" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadContext#0;class#FormMain#0" expanded="false" />
             <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
             <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
@@ -950,27 +944,19 @@
           <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#generateFieldValueXml#0;class#FormMain#0" expanded="false" />
-            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
-            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
-            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="e#7450#7458#0" expanded="true" />
             <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadContext#0;class#FormMain#0" expanded="false" />
             <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
             <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
             <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
             <element signature="method#deleteTableRow#0;class#FormMain#0" expanded="false" />
             <element signature="method#loadDefaultTable#0;class#FormMain#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dao/FieldValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1040,14 +1026,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/mapping/map-ldap.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/mapping/forbiden-identity-attributes.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1093,28 +1071,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1127">
-          <caret line="131" column="5" lean-forward="false" selection-start-line="131" selection-start-column="5" selection-end-line="131" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#generateFieldValueXml#0;class#FormMain#0" expanded="false" />
-            <element signature="method#buildFieldValue#0;class#FormMain#0" expanded="false" />
-            <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
-            <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
-            <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
-            <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
-            <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
-            <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
-            <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
-            <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
-            <element signature="method#deleteTableRow#0;class#FormMain#0" expanded="false" />
-            <element signature="method#loadDefaultTable#0;class#FormMain#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/forms/FormLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -1128,6 +1084,81 @@
     <entry file="file://$PROJECT_DIR$/src/forms/FormMain.form">
       <provider selected="true" editor-type-id="ui-designer">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../AFVLib/default.target.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="44" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/mapping/map-ad.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/mapping/map-ldap.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="28" lean-forward="false" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_131/src.zip!/java/util/function/Predicate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="48" column="12" lean-forward="false" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../AFVLib/src/config/rulelibrary/SPCONF_FieldValue_RulesLibrary_Ldap.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="324" column="55" lean-forward="false" selection-start-line="324" selection-start-column="33" selection-end-line="324" selection-end-column="55" />
+          <folding>
+            <marker date="1499708469858" expanded="false" signature="212:842" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dao/FieldValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="21" column="36" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="36" />
+          <folding>
+            <element signature="e#330#331#0" expanded="true" />
+            <element signature="e#359#360#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="153" column="33" lean-forward="true" selection-start-line="153" selection-start-column="33" selection-end-line="153" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7450#7458#0" expanded="true" />
+            <element signature="method#loadIdentityAttributes#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
+            <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadContext#0;class#FormMain#0" expanded="false" />
+            <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
+            <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
+            <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
+            <element signature="method#deleteTableRow#0;class#FormMain#0" expanded="false" />
+            <element signature="method#loadDefaultTable#0;class#FormMain#0" expanded="false" />
+          </folding>
+        </state>
       </provider>
     </entry>
   </component>

@@ -26,5 +26,11 @@ public class FieldValue {
 		this.checkUniqueness = checkUniqueness;
 	}
 	
-	
+	public FieldValue(){	}
+	public FieldValue(String appAttribute,String targetAttribute,boolean checkUniqueness)
+	{
+		this.appAttribute = appAttribute;
+		this.targetAttribute = targetAttribute;
+		this.checkUniqueness = checkUniqueness;
+	}
 }

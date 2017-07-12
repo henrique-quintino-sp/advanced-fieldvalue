@@ -1,0 +1,7 @@
+CN=firstname[1]+'.'+lastname
+dn=displayName
+SN=lastname
+givenName=firstname
+objectClass="inetorgperson"
+UID=uid
+mail=email

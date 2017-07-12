@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
  */
 public class FormMain {
     private static final String FORBIDEN_IDENTITY_ATTRIBUTES = "mapping/forbiden-identity-attributes.txt";
+    private static final String MAPPING_PATH = "mapping/map-";
     private JPanel panel1;
     private JComboBox cbApplication;
     private JButton button1;
@@ -46,6 +48,8 @@ public class FormMain {
     private SailPointContext spContext;
     private Application currentApplication;
     private String DESTINATION_FOLDER= "Field Value Files";
+    private ArrayList<String> arrSchema;
+    private ArrayList<String> arrIdentityAttribute;
     DefaultTableModel tableModel;
 
     public FormMain() {
@@ -133,6 +137,103 @@ public class FormMain {
 
     private void performAutomapping() {
         //todo do stuff
+        ArrayList<FieldValue> listResult = new ArrayList<>();
+
+        listResult.addAll(filebasedMapping());
+
+        listResult.addAll(sameNameMapping());
+
+        recordTableItem(listResult);
+        rebindSchema();
+    }
+
+    private void rebindSchema() {
+
+        DefaultListModel listModel = (DefaultListModel) listSchema.getModel();
+        listModel.clear();
+        for(String s : arrSchema)
+            listModel.addElement(s);
+    }
+
+    private void recordTableItem(ArrayList<FieldValue> listResult) {
+        for(FieldValue fv : listResult)
+        {
+            String[] row = {fv.getAppAttribute(), fv.getTargetAttribute(), Boolean.toString(fv.isCheckUniqueness())};
+            tableModel.addRow(row);
+        }
+    }
+
+    private List<FieldValue> filebasedMapping() {
+        //todo do stuff
+        ArrayList<FieldValue> listResult = new ArrayList<>();
+        try {
+            FileReader fileReader = new FileReader(ClassLoader.getSystemResource(MAPPING_PATH + currentApplication.getType() + ".txt").getPath());
+            BufferedReader reader = new BufferedReader(fileReader);
+            String line = reader.readLine();
+            while(line != null && !line.isEmpty())
+            {
+                if(line.startsWith("#")) {
+                    line = reader.readLine();
+                    continue;
+                }
+
+                String[] sides = line.split("=");
+                if(sides.length != 2)
+                    throw new Exception("Invalid file format");
+
+                Optional<String> optionalSchema = arrSchema.stream()
+                                                            .filter(p -> p.equals(sides[0]))
+                                                            .findFirst();
+
+                String appName,targetAtt;
+                if(optionalSchema.isPresent())
+                {
+                    appName = optionalSchema.get();
+                    if(sides[1].indexOf("\"") > -1 || sides[1].indexOf("+") > -1 || sides[1].indexOf(")") > -1)
+                        targetAtt = sides[1];
+                    else {
+                        Optional<String> optionalIdentity = arrIdentityAttribute.stream()
+                                .filter(p -> p.equals(sides[1]))
+                                .findFirst();
+                        if(optionalIdentity.isPresent())
+                            targetAtt = optionalIdentity.get();
+                        else {
+                            line = reader.readLine();
+                            continue;
+                        }
+                    }
+
+                    arrSchema.remove(appName);
+
+                    FieldValue tempFieldValue = new FieldValue(appName,targetAtt,false);
+                    listResult.add(tempFieldValue);
+                }
+            }
+
+        }catch (Exception err)
+        {
+            showErrorMsg(err.getMessage(),"File Based Mapping");
+        }
+
+        return listResult;
+    }
+
+    private List<FieldValue> sameNameMapping() {
+        ArrayList<FieldValue> listResult = new ArrayList<>();
+
+        ArrayList<String> listMatch = new ArrayList<String>();
+
+        for(String item : arrSchema){
+            listMatch.addAll(arrIdentityAttribute.stream()
+                                        .filter(p -> p.equals(item))
+                                        .collect(Collectors.toList()));
+            for(String s : listMatch)
+                listResult.add(new FieldValue(item,s,false));
+        }
+
+        arrSchema.removeAll(listMatch);
+
+        return listResult;
     }
 
     private void generateFieldValueXml() {
@@ -210,9 +311,12 @@ public class FormMain {
             List<ObjectAttribute> atts = filterSpecialIdentityAttributes(objConfig.getObjectAttributes());
 
             DefaultListModel listModel = new DefaultListModel();
+            arrIdentityAttribute = new ArrayList<>();
             listIdentity.setModel(listModel);
-            for(ObjectAttribute att : atts)
+            for(ObjectAttribute att : atts) {
                 listModel.addElement(att.getName());
+                arrIdentityAttribute.add(att.getName());
+            }
 
         }catch (GeneralException err)
         {
@@ -274,8 +378,10 @@ public class FormMain {
 
             DefaultListModel listModel = new DefaultListModel();
             listSchema.setModel(listModel);
-            for(String s : schema.getAttributeNames())
+            for(String s : schema.getAttributeNames()) {
                 listModel.addElement(s);
+                arrSchema.add(s);
+            }
             currentApplication = app;
         }
         catch (GeneralException err)
