@@ -33,7 +33,7 @@ public class GenerateFieldValuesXML {
 		setFieldValueList(fieldValueList);
 	}
 	
-	public void writeXML(String xmlName){
+	public String writeXML(String xmlName){
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 
@@ -70,6 +70,7 @@ public class GenerateFieldValuesXML {
 				ex.printStackTrace();
 			}
 		}
+		return xmlName;
 	}
 
 	/**

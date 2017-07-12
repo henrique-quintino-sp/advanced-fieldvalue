@@ -1,20 +1,18 @@
 package utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import dao.FieldValue;
 
 public class TestGenerateXML {
 
 	public static void main(String[] args) {
-		Map<String, String> attsMap = new HashMap<String,String>();
-		attsMap.put("cn", "cnAttribute");
-		attsMap.put("dn", "dnAttribute");
-		attsMap.put("givenName", "givenNameAttribute");
-		attsMap.put("something", "somethingAttribute");
+//		Map<String, String> attsMap = new HashMap<String,String>();
+//		attsMap.put("cn", "cnAttribute");
+//		attsMap.put("dn", "dnAttribute");
+//		attsMap.put("givenName", "givenNameAttribute");
+//		attsMap.put("something", "somethingAttribute");
 		
 		//Another way to send attributes when mapping is the same
 		//String attributes = "cn,dn,givenName";
@@ -32,6 +30,6 @@ public class TestGenerateXML {
 		spXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 		
 		GenerateTemplateXML formXML = new GenerateTemplateXML("ActiveDirectory", fieldValues);
-		formXML.processFormXML("C:\\Users\\ishim.manon\\Desktop");
+		formXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 	}
 }
