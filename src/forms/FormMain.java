@@ -54,12 +54,9 @@ public class FormMain {
 
     public FormMain() {
 
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadSchema();
-                loadDefaultTable();
-            }
+        loadButton.addActionListener(e -> {
+            loadSchema();
+            loadDefaultTable();
         });
 
         connectButton.addActionListener(new ActionListener() {
@@ -84,24 +81,10 @@ public class FormMain {
             }
         });
 
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                recordSelection();
-            }
-        });
-        xButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteTableRow();
-            }
-        });
-        generateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                generateFieldValueXml();
-            }
-        });
+        button1.addActionListener(e -> recordSelection());
+        xButton.addActionListener(e -> deleteTableRow());
+        generateButton.addActionListener(e -> generateFieldValueXml());
+
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -127,12 +110,7 @@ public class FormMain {
                 }
             }
         });
-        mapButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                performAutomapping();
-            }
-        });
+        mapButton.addActionListener(e -> performAutomapping());
     }
 
     private void performAutomapping() {
@@ -189,7 +167,8 @@ public class FormMain {
                 if(optionalSchema.isPresent())
                 {
                     appName = optionalSchema.get();
-                    if(sides[1].indexOf("\"") > -1 || sides[1].indexOf("+") > -1 || sides[1].indexOf(")") > -1)
+
+                    if(sides[1].contains("\"")  || sides[1].contains("+") || sides[1].contains("(") )
                         targetAtt = sides[1];
                     else {
                         Optional<String> optionalIdentity = arrIdentityAttribute.stream()
@@ -242,7 +221,7 @@ public class FormMain {
             List<FieldValue> listFieldValue = buildFieldValue();
 
             GenerateApplicatioXML genApp = new GenerateApplicatioXML(currentApplication.toXml());
-            GenerateTemplateXML genTemplate = new GenerateTemplateXML();
+            //GenerateTemplateXML genTemplate = new GenerateTemplateXML();
 
             GenerateFieldValuesXML geFV = new GenerateFieldValuesXML(currentApplication.getName(), listFieldValue, null);
             GenerateSPDynamicFieldValueRuleXML genSPD = new GenerateSPDynamicFieldValueRuleXML(currentApplication.getName());
