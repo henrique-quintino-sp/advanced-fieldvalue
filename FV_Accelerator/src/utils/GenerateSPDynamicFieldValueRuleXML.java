@@ -15,7 +15,7 @@ public class GenerateSPDynamicFieldValueRuleXML {
 	}
 	
 	
-	public void writeXML(String xmlName){
+	public String writeXML(String xmlName){
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 
@@ -42,6 +42,7 @@ public class GenerateSPDynamicFieldValueRuleXML {
 				ex.printStackTrace();
 			}
 		}
+		return xmlName;
 	}
 	
 	/**

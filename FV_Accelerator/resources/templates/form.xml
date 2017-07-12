@@ -1,11 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Form PUBLIC "sailpoint.dtd" "../../sailpoint.dtd">
-<Form hidden="false" name="%%TARGET_APP_NAME%% Create" type="Application">
-    <Section columns="2" label="rept_lcm_account_request_parameters" name="customProperties">
-        <Field displayName="%%ATT_NAME%%" name="%%ATT_NAME%%" type="string">
+        <Field displayName="%%ATT_DISPLAYNAME%%" name="%%ATT_NAME%%" type="string">
             <RuleRef>
-                <Reference class="sailpoint.object.Rule" name="SP Dynamic Field Value Rule %%TARGET_APP_NAME%% %%TARGET_APP_NAME%%"/>
+                <Reference class="sailpoint.object.Rule" name="SP Dynamic Field Value Rule %%TARGET_APP_NAME%%"/>
             </RuleRef>
         </Field>
-    </Section>
-</Form>
