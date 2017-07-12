@@ -1,13 +1,10 @@
 package forms;
 
-import com.sun.tools.javah.oldjavah.Gen;
 import dao.FieldValue;
 import dao.IIQInstance;
 import sailpoint.api.SailPointContext;
 import sailpoint.object.*;
-import sailpoint.spring.SpringStarter;
 import sailpoint.tools.GeneralException;
-import utils.GenerateApplicatioXML;
 import utils.GenerateFieldValuesXML;
 import utils.GenerateSPDynamicFieldValueRuleXML;
 import utils.GenerateTemplateXML;
@@ -48,7 +45,7 @@ public class FormMain {
 
     private SailPointContext spContext;
     private Application currentApplication;
-    private String DESTINATION_FOLDER= "Field Value Files";
+    private String DESTINATION_FOLDER= "Field_Value_Files";
     private ArrayList<String> arrSchema;
     private ArrayList<String> arrIdentityAttribute;
     DefaultTableModel tableModel;
@@ -227,17 +224,23 @@ public class FormMain {
         try {
             List<FieldValue> listFieldValue = buildFieldValue();
 
-            GenerateApplicatioXML genApp = new GenerateApplicatioXML(currentApplication.toXml());
+            //GenerateApplicatioXML genApp = new GenerateApplicatioXML(currentApplication.toXml(),currentApplication.getName());
             //GenerateTemplateXML genTemplate = new GenerateTemplateXML();
 
-            GenerateFieldValuesXML geFV = new GenerateFieldValuesXML(currentApplication.getName(), listFieldValue, null);
-            GenerateSPDynamicFieldValueRuleXML genSPD = new GenerateSPDynamicFieldValueRuleXML(currentApplication.getName());
+            GenerateFieldValuesXML genFV = new GenerateFieldValuesXML(currentApplication.getName(),listFieldValue,"");
+            String fvFile = genFV.writeXML(ClassLoader.getSystemResource(DESTINATION_FOLDER).getPath());
 
-            showInformationMsg("Files generated in the folder " + ClassLoader.getSystemResource(DESTINATION_FOLDER).getPath(),"Generation complete");
+            GenerateSPDynamicFieldValueRuleXML genSPD = new GenerateSPDynamicFieldValueRuleXML(currentApplication.getName());
+            String spdFile = genSPD.writeXML(ClassLoader.getSystemResource(DESTINATION_FOLDER).getPath());
+
+            GenerateTemplateXML genTemplate = new GenerateTemplateXML(currentApplication.getName(),listFieldValue);
+            String templateFile = genTemplate.writeXML(ClassLoader.getSystemResource(DESTINATION_FOLDER).getPath());
+
+            showInformationMsg("Files generated in the folder \n" + ClassLoader.getSystemResource(DESTINATION_FOLDER).getPath(),"Generation complete");
         }
-        catch (GeneralException err)
+        catch (Exception err)
         {
-            showErrorMsg(err.getMessage(),"Error generating XML");
+            showErrorMsg(err.toString(),"Error generating XML");
         }
     }
 
@@ -249,6 +252,7 @@ public class FormMain {
             f.setAppAttribute(tableModel.getValueAt(count, 0).toString());
             f.setTargetAttribute(tableModel.getValueAt(count, 1).toString());
             f.setCheckUniqueness(Boolean.parseBoolean(tableModel.getValueAt(count, 2).toString()));
+            f.setDisplayName(tableModel.getValueAt(count, 0).toString());
 
             arrFieldValue.add(f);
         }
