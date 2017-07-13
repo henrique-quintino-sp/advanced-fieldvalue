@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.FieldValue;
+import generators.GenerateApplicatioXML;
+import generators.GenerateFieldValuesXML;
+import generators.GenerateSPDynamicFieldValueRuleXML;
+import generators.GenerateTemplateXML;
 
 public class TestGenerateXML {
 
@@ -13,16 +17,16 @@ public class TestGenerateXML {
 		fieldValues.add(new FieldValue("dn", "dnAttribute", "displayNameDN", false));
 		fieldValues.add(new FieldValue("givenName", "givenNameAttribute", "displayNameGivenName", false));
 		
-		GenerateFieldValuesXML xml = new GenerateFieldValuesXML("ActiveDirectory", fieldValues,  "ou=people,dc=sailpoint, dc=sp");
+		GenerateFieldValuesXML xml = new GenerateFieldValuesXML("Active Directory", fieldValues,  "ou=people,dc=sailpoint, dc=sp");
 		xml.writeXML("C:\\Users\\ishim.manon\\Desktop");
 		
-		GenerateSPDynamicFieldValueRuleXML spXML = new GenerateSPDynamicFieldValueRuleXML("ActiveDirectory");
+		GenerateSPDynamicFieldValueRuleXML spXML = new GenerateSPDynamicFieldValueRuleXML("Active Directory");
 		spXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 		
-		GenerateTemplateXML formXML = new GenerateTemplateXML("ActiveDirectory", fieldValues);
+		GenerateTemplateXML formXML = new GenerateTemplateXML("Active Directory", fieldValues);
 		formXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 		
-		GenerateApplicatioXML appXML = new GenerateApplicatioXML("applicationXML.toXML()","ActiveDirectory");
+		GenerateApplicatioXML appXML = new GenerateApplicatioXML("applicationXML.toXML()","Active Directory");
 		appXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 	}
 	

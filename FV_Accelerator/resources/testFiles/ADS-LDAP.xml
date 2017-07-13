@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE Application PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Application connector="sailpoint.connector.LDAPConnector" featuresString="AUTHENTICATE, MANAGER_LOOKUP, SEARCH" name="ADS-LDAP" type="LDAP">
+  <Attributes>
+    <Map>
+      <entry key="authSearchAttributes">
+        <value>
+          <List>
+            <String>cn</String>
+            <String>sAMAccountName</String>
+            <String>mail</String>
+          </List>
+        </value>
+      </entry>
+      <entry key="authorizationType" value="simple"/>
+      <entry key="compositeDefinition"/>
+      <entry key="group.filterString"/>
+      <entry key="group.groupMemberSearchDN"/>
+      <entry key="group.iterateSearchFilter"/>
+      <entry key="group.searchDN"/>
+      <entry key="group.searchScope" value="BASE"/>
+      <entry key="groupMemberAttribute" value="uniqueMember"/>
+      <entry key="host" value="%%ADLDAP_HOST%%"/>
+      <entry key="pageSize" value="100"/>
+      <entry key="password" value="%%ADLDAP_PROXY_PASSWORD%%"/>
+      <entry key="port" value="%%ADLDAP_PORT%%"/>
+      <entry key="searchDN" value="%%ADLDAP_SEARCH_DN%%"/>
+      <entry key="searchScope" value="SUBTREE"/>
+      <entry key="templateApplication" value="LDAP Template"/>
+      <entry key="useSSL">
+        <value>
+          <Boolean></Boolean>
+        </value>
+      </entry>
+      <entry key="user" value="%%ADLDAP_PROXY_USER%%"/>
+    </Map>
+  </Attributes>
+  <Owner>
+    <Reference class="sailpoint.object.Identity" name="spadmin"/>
+  </Owner>
+  <Schemas>
+    <Schema displayAttribute="sAMAccountName" identityAttribute="sAMAccountName" nativeObjectType="inetOrgPerson" objectType="account">
+      <AttributeDefinition name="Exch_Alias" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="Exch_Exchange2000Enabled" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="Exch_MaileboxStore" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="UG_DEF" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="USER_ID" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="USER_OE_PR" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="city" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="company" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="country" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="department" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="description" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="directReports" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="displayName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="initials" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="location" remediationModificationType="None" required="true" type="string"/>      
+      <AttributeDefinition name="employeeID" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppwdecn" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="sn" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="givenName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppmiddlename" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppstartdate" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppbuildingcode" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppbuildingname" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="postalAddress" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="l" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="c" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="st" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="postalCode" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppmaildrop" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppband" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppmanagerid" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppcc_descr" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axpplocalorganization" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppdepartment" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppleaderindicator" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axpplanguage_cd" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="mail" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="facsimileTelephoneNumber" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="mobile" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="pager" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="telephoneNumber" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="title" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppnotesFullName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axpppersontype" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="assistanthash" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppcostcentergeographic" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppehash" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppGuid" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppamtcode" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppamtdisplay" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppmanageremail" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppcorp_code" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="Axppbusinesscd" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppbusiness_descr" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppunit_cd" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppunit_descr" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppcc-cd" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="sAMAccountName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition entitlement="true" group="true" multi="true" name="groups" remediationModificationType="None" type="string"/>
+      <AttributeDefinition name="axppwdeuid" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppADaccountowner" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="pwdLastSet" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="info" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="distinguishedName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="userPrincipalName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="profilePath" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="scriptPath" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="homeDrive" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="homeDirectory" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="axppADaccountType" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="password" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="expirePassword" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="disabled" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="bpos" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="proxyAddresses" multi="true" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="ExtensionAttribute7" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="Extensionattribute8" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="Extensionattribute12" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="modelAfterIdentity" remediationModificationType="None" required="true" type="string"/> 
+      <AttributeDefinition name="TS_TerminalServicesProfilePath" remediationModificationType="None" type="string">
+         <Description>TS_TerminalServicesProfilePath</Description>
+      </AttributeDefinition>     
+    </Schema>
+    <Schema displayAttribute="sAMAccountName" identityAttribute="sAMAccountName" nativeObjectType="groupOfUniqueNames" objectType="group">
+      <AttributeDefinition name="GROUP_ID" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="GROUP_OE_PR" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="sAMAccountName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="description" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="telephoneNumber" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="mail" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="displayName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition multi="true" name="memberOf" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="member" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="Exch_DisplayName" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="Exch_Alias" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="objectSid" remediationModificationType="None" required="true" type="string"/>
+      <AttributeDefinition name="extensionName" remediationModificationType="None" type="string"/>
+      <AttributeDefinition name="groupType" remediationModificationType="None" type="string"/>
+    </Schema>
+  </Schemas>
+</Application>

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Application PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Application caseInsensitive="true" connector="sailpoint.connector.LDAPConnector"
+	featuresString="AUTHENTICATE, PROVISIONING, SYNC_PROVISIONING, ENABLE, UNLOCK, PASSWORD, MANAGER_LOOKUP, SEARCH, CURRENT_PASSWORD"
+	icon="directory2Icon" name="LDAP" profileClass="" type="SunOne - Direct">
+	<Attributes>
+		<Map>
+			<entry key="authSearchAttributes">
+				<value>
+					<List>
+						<String>cn</String>
+						<String>uid</String>
+						<String>mail</String>
+					</List>
+				</value>
+			</entry>
+			<entry key="authorizationType" value="simple" />
+			<entry key="beforeProvisioningRule" value="BlackRock BeforeProvisioning - LDAP" />
+			<entry key="compositeDefinition" />
+			<entry key="enableNetGroups">
+				<value>
+					<Boolean>true</Boolean>
+				</value>
+			</entry>
+			<entry key="enablePosixGroups">
+				<value>
+					<Boolean />
+				</value>
+			</entry>
+			
+			<entry key="group.searchDNs">
+				<value>
+					<List>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_GROUP_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="%%LDAP_GROUP_SEARCH_FILTER%%" />
+						</Map>
+					</List>
+				</value>
+			</entry>
+
+			<entry key="groupEntitlementAttr" value="groups" />
+			<entry key="host" value="%%LDAP_HOST%%" />
+
+			<entry key="isMultiplex">
+				<value>
+					<Boolean>false</Boolean>
+				</value>
+			</entry>
+
+			<!-- can't use paged here -->
+			<entry key="iterateModeOverride" value="VIRTUAL_LIST_VIEW" />
+
+			<entry key="lockAttr" value="passwordretrycount" />
+			<entry key="lockVal" value="3" />
+			<entry key="nativeChangeDetectionAttributeScope" value="entitlements" />
+			<entry key="nativeChangeDetectionAttributes" />
+			<entry key="nativeChangeDetectionEnabled">
+				<value>
+					<Boolean />
+				</value>
+			</entry>
+			<entry key="nativeChangeDetectionOperations" />
+			<entry key="nisNetGroupTriple_Member_Attribute" value="uid" />
+			<entry key="pageSize" value="1500" />
+			<entry key="password" value="%%LDAP_PASSWORD%%" />
+			<entry key="passwordAttr" value="userPassword" />
+			<entry key="port" value="%%LDAP_PORT%%" />
+			<entry key="posixGroup_Member_Attribute" />
+			<entry key="restoreAttr" value="nsRoleDN" />
+			<entry key="restoreVal" value="cn=nsManagedDisabledRole,dc=Naming Context" />
+			<entry key="retryableErrors">
+				<value>
+					<List>
+						<String>java.net.ConnectException</String>
+					</List>
+				</value>
+			</entry>
+			<entry key="revokeAttr" value="nsRoleDN" />
+			
+			<!-- note this is a bogus value that gets update by a scheduled task "Update LDAP Config" -->
+			<entry key="revokeVal" value="%%LDAP_REVOKE_VAL%%" />
+
+			<entry key="searchDNs">
+				<value>
+					<List>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(|(uid=a*)(uid=b*)(uid=c*)))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(|(uid=d*)(uid=e*)(uid=f*)))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(|(uid=g*)(uid=h*)(uid=i*)))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(|(uid=j*)(uid=k*)(uid=l*)))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(|(uid=m*)(uid=n*)(uid=o*)))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(|(uid=p*)(uid=q*)(uid=r*)))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(|(uid=s*)(uid=t*)(uid=u*)))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(|(uid=v*)(uid=w*)(uid=x*)))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+						<Map>
+							<entry key="searchDN" value="%%LDAP_ACCOUNT_SEARCHDN%%" />
+							<entry key="searchScope" value="SUBTREE" />
+							<entry key="iterateSearchFilter" value="(&amp;%%LDAP_ACCOUNT_SEARCH_FILTER%%(| (uid=y*) (!(uid&gt;=a)) (!(uid&lt;=z)) ))" />
+							<entry key="groupMemberSearchDN" />
+						</Map>
+					</List>
+				</value>
+			</entry>
+
+			<entry key="sysDescriptions">
+				<value>
+					<Map>
+						<entry key="en_US" />
+					</Map>
+				</value>
+			</entry>
+			<entry key="templateApplication" value="SunOne Template" />
+			<entry key="unlockAttr" value="passwordretrycount" />
+			<entry key="unlockVal" value="3" />
+
+			<entry key="useSSL">
+				<value>
+					<Boolean>%%LDAP_SSL%%</Boolean>
+				</value>
+			</entry>
+			<entry key="user" value="%%LDAP_USER%%" />
+		</Map>
+	</Attributes>
+	<CorrelationRule>
+		<Reference class="sailpoint.object.Rule" name="BlackRock Correlation - Special Login Names" />
+	</CorrelationRule>
+	<Owner>
+		<Reference class="%%LDAP_OWNER_CLASS%%" name="%%LDAP_OWNER_NAME%%" />
+	</Owner>
+	<PasswordPolicies>
+   		<PasswordPolicyHolder>
+      		<PolicyRef>
+        		<Reference class="sailpoint.object.PasswordPolicy" name="Default Password Policy"/>
+      		</PolicyRef>
+	    </PasswordPolicyHolder>
+  	</PasswordPolicies>
+	<ProvisioningForms>
+		<Form name="account" objectType="account" type="Create">
+			<Field displayName="con_prov_policy_ldap_user_DN" helpKey="help_con_prov_policy_ldap_user_DN" name="dn"
+				required="true" type="string" />
+			<Field displayName="con_prov_policy_ldap_password" helpKey="help_con_prov_policy_ldap_password" name="password"
+				required="true" type="secret" />
+			<Field displayName="con_prov_policy_ldap_full_name" helpKey="help_con_prov_policy_ldap_full_name" name="CN"
+				required="true" type="string" />
+			<Field displayName="con_prov_policy_ldap_first_name" helpKey="help_con_prov_policy_ldap_first_name" name="givenName"
+				reviewRequired="true" type="string" />
+			<Field displayName="con_prov_policy_ldap_last_name" helpKey="help_con_prov_policy_ldap_last_name" name="SN"
+				required="true" type="string" />
+		</Form>
+		<Form name="group create" objectType="group" type="Create">
+			<Field displayName="con_prov_policy_ldap_DN" name="dn" required="true" reviewRequired="true" type="string" />
+			<Field displayName="con_prov_policy_ldap_description" helpKey="help_con_prov_policy_ldap_description" name="description"
+				reviewRequired="true" type="string" />
+		</Form>
+		<Form name="edit group" objectType="group" type="Update">
+			<Field displayName="con_prov_policy_ldap_description" name="description" reviewRequired="true" type="string" />
+		</Form>
+	</ProvisioningForms>
+	<Schemas>
+		<Schema displayAttribute="uid" identityAttribute="dn"
+			instanceAttribute="" nativeObjectType="inetOrgPerson" objectType="account">
+			<AttributeDefinition name="cn" type="string">
+				<Description>common name(s) for which the entity is known by</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="dn" type="string">
+				<Description>distinguished name for which the entity is known by</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="gecos" type="string">
+				<Description>unix-related display name</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="givenName" type="string">
+				<Description>first name(s) for which the entity is known by</Description>
+			</AttributeDefinition>
+			<AttributeDefinition entitlement="true" managed="true"
+				multi="true" name="groups" schemaObjectType="group" type="string">
+				<Description>List of groups a user is a member</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="gidNumber" type="string">
+				<Description>unix-related group id number</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="homeDirectory" type="string">
+				<Description>unix home directory</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="mail" type="string">
+				<Description>RFC822 Mailbox</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="o" type="string">
+				<Description>organization this object belongs to</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="sn" type="string">
+				<Description>last (family) name(s) for which the entity is known by</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="uid" type="string">
+				<Description>user identifier</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="uidNumber" type="string">
+				<Description>unix-related user id number</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="baccttype" type="string">
+				<Description>custom BlackRock account type flag</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="bLastLogin" type="string">
+				<Description>custom BlackRock login date</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="bLastLoginTime" type="string">
+				<Description>custom BlackRock login time</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="shadowFlag" type="string">
+				<Description>unix-related</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="loginShell" type="string">
+				<Description>unix shell</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="passwordPolicySubentry"
+				type="string">
+				<Description>password policy assigned</Description>
+			</AttributeDefinition>
+			<AttributeDefinition multi="true" name="objectClass"
+				type="string">
+				<Description>object classes of the entity</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="nisnetgroups" multi="true" managed="true" entitlement="true"
+				type="string">
+				<Description>special account attribute added for aggregating net group membership.</Description>
+			</AttributeDefinition>
+		</Schema>
+		<Schema displayAttribute="cn" featuresString="PROVISIONING"
+			identityAttribute="dn" instanceAttribute="" nativeObjectType="groupOfUniqueNames"
+			objectType="group">
+			<AttributeDefinition name="cn" type="string">
+				<Description>common name(s) for which the entity is known by</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="dn" type="string">
+				<Description>Directory Path</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="o" type="string">
+				<Description>organization this object belongs to</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="ou" type="string">
+				<Description>organizational unit this object belongs to</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="owner" type="string">
+				<Description>owner (of the object)</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="description" type="string">
+				<Description>descriptive information</Description>
+			</AttributeDefinition>
+			<AttributeDefinition name="gidNumber" type="string">
+				<Description>unix-related group id number</Description>
+			</AttributeDefinition>
+			<AttributeDefinition multi="true" name="objectClass"
+				type="string">
+				<Description>object classes of the entity</Description>
+			</AttributeDefinition>
+			<Attributes>
+				<Map>
+					<entry key="groupMemberAttribute" value="uniqueMember" />
+				</Map>
+			</Attributes>
+		</Schema>
+	</Schemas>
+	<ApplicationScorecard />
+</Application>

@@ -1,4 +1,4 @@
-package utils;
+package generators;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +22,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import utils.UtilMethods;
+
 public class GenerateApplicatioXML {
 
 	private String appName ;						//TARGET_APP_NAME
@@ -32,6 +34,16 @@ public class GenerateApplicatioXML {
 		Document currentAppXML = readApplicationXMLasString(applicationXML);
 		setDocXML(currentAppXML);
 		setAppName(appName);
+	}
+	
+	public GenerateApplicatioXML(){
+	}
+	
+	public String writeXML(String applicationXML, String appName, String fileLocation){
+		Document currentAppXML = readApplicationXMLasString(applicationXML);
+		setDocXML(currentAppXML);
+		setAppName(appName);
+		return writeXML(fileLocation);
 	}
 	
 	public String writeXML(String fileLocation){
@@ -115,7 +127,7 @@ public class GenerateApplicatioXML {
 	}
 
 	public String getAppName() {
-		return appName;
+		return UtilMethods.escape(appName);
 	}
 
 	public void setAppName(String appName) {

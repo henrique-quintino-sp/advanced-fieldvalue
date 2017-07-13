@@ -1,4 +1,4 @@
-package utils;
+package generators;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import dao.FieldValue;
+import utils.UtilMethods;
 
 public class GenerateFieldValuesXML {
 
@@ -127,7 +128,7 @@ public class GenerateFieldValuesXML {
 	}
 	
 	private String getAppName() {
-		return appName;
+		return UtilMethods.escape(appName);
 	}
 
 	private void setAppName(String appName) {
