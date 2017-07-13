@@ -1,4 +1,4 @@
-package utils;
+package generators;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.FieldValue;
+import utils.UtilMethods;
 
 public class GenerateTemplateXML {
 
@@ -101,7 +102,7 @@ public class GenerateTemplateXML {
 		}
 
 		public String getAppName() {
-			return appName;
+			return UtilMethods.escape(appName);
 		}
 
 		public void setAppName(String appName) {
