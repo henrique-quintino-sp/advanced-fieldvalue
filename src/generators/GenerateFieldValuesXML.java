@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import dao.FieldValue;
-import exceptions.NoTargetAttTypeRecognizedException;
 import utils.UtilMethods;
 
 public class GenerateFieldValuesXML {
@@ -21,8 +20,6 @@ public class GenerateFieldValuesXML {
 	private String appName ;									//TARGET_APP_NAME
 	//Types of target attribute
 	private final String TYPE_REG = "REG";			//For formats like: firstname[1]+'.'+lastname 
-	private final String TYPE_EXP = "EXP";			//For formats like: 'Created by IdentityIQ'
-	private final String TYPE_STB = "STB";			//For stub 
 	private final String TYPE_PRE = "PRE";			//For pre configured attributes in formats like: displayName-op3 
 
 	public GenerateFieldValuesXML(String appName, String commaSeparatedAttributes, String uniquenesAtt){
@@ -40,7 +37,7 @@ public class GenerateFieldValuesXML {
 		setFieldValueList(fieldValueList);
 	}
 	
-	public String writeXML(String xmlName) throws NoTargetAttTypeRecognizedException{
+	public String writeXML(String xmlName) {
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 
@@ -104,20 +101,16 @@ public class GenerateFieldValuesXML {
 		return result;
 	}
 	
-	private String getMethodsByType(FieldValue field) throws NoTargetAttTypeRecognizedException {
+	private String getMethodsByType(FieldValue field) {
 		StringBuilder result = new StringBuilder("");
 		//Check type of target attribute
-		if(field.getTargetAttribute().startsWith(TYPE_EXP)){
-			
-		} else if(field.getTargetAttribute().startsWith(TYPE_REG)){
+		if(field.getTargetAttribute().startsWith(TYPE_REG)){
 			
 		} else if(field.getTargetAttribute().startsWith(TYPE_PRE)){
 			
-		} else if(field.getTargetAttribute().startsWith(TYPE_STB)){
-			getStubMethod( field);
 		} else{
-			throw new NoTargetAttTypeRecognizedException(field.getAppAttribute());
-		}
+			getStubMethod(field);
+		} 
 		
 		return result.toString();
 	}

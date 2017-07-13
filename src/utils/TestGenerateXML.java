@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.FieldValue;
-import exceptions.NoTargetAttTypeRecognizedException;
 import generators.GenerateApplicatioXML;
 import generators.GenerateFieldValuesXML;
 import generators.GenerateSPDynamicFieldValueRuleXML;
@@ -12,11 +11,11 @@ import generators.GenerateTemplateXML;
 
 public class TestGenerateXML {
 
-	public static void main(String[] args) throws NoTargetAttTypeRecognizedException {
+	public static void main(String[] args) {
 		List<FieldValue> fieldValues = new ArrayList<FieldValue>();
-		fieldValues.add(new FieldValue("cn", "STB:cnTrg", "displayNameCN", true));
-		fieldValues.add(new FieldValue("dn", "STB:dnAttribute", "displayNameDN", false));
-		fieldValues.add(new FieldValue("givenName", "STB:givenNameAttribute", "displayNameGivenName", false));
+		fieldValues.add(new FieldValue("cn", "REG:firstname+'.'+lastname", "displayNameCN", true));
+		fieldValues.add(new FieldValue("dn", "dnAttribute", "displayNameDN", false));
+		fieldValues.add(new FieldValue("givenName", "givenNameAttribute", "displayNameGivenName", false));
 		
 		GenerateFieldValuesXML xml = new GenerateFieldValuesXML("Active Directory", fieldValues,  "ou=people,dc=sailpoint, dc=sp");
 		xml.writeXML("C:\\Users\\ishim.manon\\Desktop");
