@@ -65,7 +65,9 @@ public class GenerateApplicatioXML {
 			//Check if there are any Provisioning Forms declared in the Application XML, if so it will be replaced for the new one
 			if(null!=provForms){
 				Node provNode = provForms.item(0);
-				root.removeChild(provNode);
+				if(null!=provNode){
+					root.removeChild(provNode);
+				}
 			}
 			//Create a new Form to add it to the new ProvisioningForms node
 			Element newProvForm = generateFormNode(doc, getFieldValues());
@@ -128,27 +130,6 @@ public class GenerateApplicatioXML {
 		}
 		
 		return provForms;
-	}
-	
-	private String getTestFile(String fileName) {
-		StringBuilder result = new StringBuilder("");
-
-		//Get file from resources folder
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("testFiles/"+fileName).getFile());
-
-		try (Scanner scanner = new Scanner(file)) {
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				result.append(line).append("\n");
-			}
-			scanner.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return result.toString();
-
 	}
 	
 	private Document readApplicationXMLasString(String applicationXML){
