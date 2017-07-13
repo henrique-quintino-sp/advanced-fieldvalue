@@ -9,6 +9,7 @@ import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -16,7 +17,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -33,7 +36,6 @@ public class GenerateApplicatioXML {
 	private List<FieldValue> fieldValues;
 	
 	public GenerateApplicatioXML(String applicationXML, String appName, List<FieldValue> fieldValues){
-		applicationXML = getTestFile("Application-Ldap.xml");		//Only for testing purposes
 		Document currentAppXML = readApplicationXMLasString(applicationXML);
 		setDocXML(currentAppXML);
 		setAppName(appName);
@@ -72,6 +74,17 @@ public class GenerateApplicatioXML {
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			//Add Doctype and dtd
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+			DOMImplementation domImpl = doc.getImplementation();
+			DocumentType doctype = domImpl.createDocumentType("doctype",
+			    "sailpoint.dtd",
+			    "sailpoint.dtd");
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
+			
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(xmlName));
 			transformer.transform(source, result);
@@ -95,10 +108,14 @@ public class GenerateApplicatioXML {
 	 * @return
 	 */
 	private Element generateFormNode(Document doc, List<FieldValue> fieldValues){
-		Element form = doc.createElement("ProvisioningForms");
+		Element provForms = doc.createElement("ProvisioningForms");
+		
+		//<Form name="Ldap Create" objectType="account" type="Create">
+		Element form = doc.createElement("Form");
 		form.setAttribute("name", "account");
 		form.setAttribute("objectType", "account");
 		form.setAttribute("type", "Create");
+		provForms.appendChild(form);
 		
 		for(FieldValue field: fieldValues){
 			Element fieldEl = doc.createElement("Field");
@@ -110,7 +127,7 @@ public class GenerateApplicatioXML {
 			form.appendChild(fieldEl);
 		}
 		
-		return form;
+		return provForms;
 	}
 	
 	private String getTestFile(String fileName) {
