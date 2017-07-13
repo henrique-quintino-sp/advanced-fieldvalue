@@ -5,13 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="23c97beb-c81a-4804-99d0-112dd60b0a60" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/sailpoint.dtd" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/utils/TestGeneratedCode.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/generators/GenerateApplicatioXML.java" afterPath="$PROJECT_DIR$/src/generators/GenerateApplicationXML.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/mapping/templates.txt" afterPath="$PROJECT_DIR$/resources/mapping/templates.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/displayName/displayName-op3" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/displayName/displayName-op3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/stub.txt" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/stub.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/stubWithDefaults.txt" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/stubWithDefaults.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/utils.txt" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/utils.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/FormMain.java" afterPath="$PROJECT_DIR$/src/forms/FormMain.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/TestGenerateXML.java" afterPath="$PROJECT_DIR$/src/utils/TestGenerateXML.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,81 +26,30 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FormMain.form" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/forms/FormMain.form">
-          <provider selected="true" editor-type-id="ui-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FormMain.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
+      <file leaf-file-name="GenerateFieldValuesXML.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/generators/GenerateFieldValuesXML.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="271" column="12" lean-forward="false" selection-start-line="271" selection-start-column="12" selection-end-line="271" selection-end-column="12" />
+            <state relative-caret-position="361">
+              <caret line="24" column="63" lean-forward="true" selection-start-line="24" selection-start-column="63" selection-end-line="24" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#performAutomapping#0;class#FormMain#0" expanded="false" />
-                <element signature="method#rebindSchema#0;class#FormMain#0" expanded="false" />
-                <element signature="method#recordTableItem#0;class#FormMain#0" expanded="false" />
-                <element signature="method#filebasedMapping#0;class#FormMain#0" expanded="false" />
-                <element signature="method#sameNameMapping#0;class#FormMain#0" expanded="false" />
-                <element signature="method#recordSelection#0;class#FormMain#0" expanded="false" />
-                <element signature="method#validSelection#0;class#FormMain#0" expanded="false" />
-                <element signature="method#loadingScreen#0;class#FormMain#0" expanded="false" />
-                <element signature="method#filterSpecialIdentityAttributes#0;class#FormMain#0" expanded="false" />
-                <element signature="method#loadSchema#0;class#FormMain#0" expanded="false" />
-                <element signature="method#loadApplications#0;class#FormMain#0" expanded="false" />
-                <element signature="method#loadContext#0;class#FormMain#0" expanded="false" />
-                <element signature="method#clearSelection#0;class#FormMain#0" expanded="false" />
-                <element signature="method#showErrorMsg#0;class#FormMain#0" expanded="false" />
-                <element signature="method#showInformationMsg#0;class#FormMain#0" expanded="false" />
-                <element signature="method#deleteTableRow#0;class#FormMain#0" expanded="false" />
-                <element signature="method#loadDefaultTable#0;class#FormMain#0" expanded="false" />
+                <marker date="1499979476520" expanded="false" signature="4630:4635" ph=" { " />
+                <marker date="1499979476520" expanded="false" signature="4670:4673" ph=" }" />
+                <marker date="1499979476520" expanded="false" signature="4715:4720" ph=" { " />
+                <marker date="1499979476520" expanded="false" signature="4743:4746" ph=" }" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GenerateApplicatioXML.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/generators/GenerateApplicatioXML.java">
+      <file leaf-file-name="TestGenerateXML.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/utils/TestGenerateXML.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+            <state relative-caret-position="671">
+              <caret line="56" column="52" lean-forward="false" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
               <folding>
-                <element signature="e#6590#6591#0" expanded="true" />
-                <element signature="e#6610#6611#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="displayName-op3" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/library/displayName/displayName-op3">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="57" lean-forward="true" selection-start-line="27" selection-start-column="57" selection-end-line="27" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="forbidden-identity-attributes.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/mapping/forbidden-identity-attributes.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="171" lean-forward="false" selection-start-line="0" selection-start-column="171" selection-end-line="0" selection-end-column="171" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="templates.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/mapping/templates.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="31" lean-forward="true" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -145,7 +96,6 @@
         <option value="$PROJECT_DIR$/src/FormMain.form" />
         <option value="$PROJECT_DIR$/src/FormMain.java" />
         <option value="$PROJECT_DIR$/../AFVLib/src/config/rulelibrary/SPCONF_FieldValue_RulesLibrary_AD.xml" />
-        <option value="$PROJECT_DIR$/src/utils/TestGenerateXML.java" />
         <option value="$PROJECT_DIR$/resources/iiq.properties" />
         <option value="$PROJECT_DIR$/resources/mapping/forbiden-identity-attributes.txt" />
         <option value="$PROJECT_DIR$/src/forms/FormLoader.java" />
@@ -155,13 +105,15 @@
         <option value="$PROJECT_DIR$/src/dao/FieldValue.java" />
         <option value="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
         <option value="$PROJECT_DIR$/src/utils/GenerateApplicatioXML.java" />
-        <option value="$PROJECT_DIR$/src/generators/GenerateApplicatioXML.java" />
         <option value="$PROJECT_DIR$/src/utils/TestGeneratedCode.java" />
         <option value="$PROJECT_DIR$/lib/identityiq.jar!/sailpoint/tools/xml/AbstractXmlObject.class" />
         <option value="$PROJECT_DIR$/src/forms/FormMain.form" />
-        <option value="$PROJECT_DIR$/src/forms/FormMain.java" />
         <option value="$PROJECT_DIR$/resources/library/displayName/displayName-op3" />
         <option value="$PROJECT_DIR$/resources/mapping/templates.txt" />
+        <option value="$PROJECT_DIR$/src/generators/GenerateApplicatioXML.java" />
+        <option value="$PROJECT_DIR$/src/forms/FormMain.java" />
+        <option value="$PROJECT_DIR$/src/generators/GenerateFieldValuesXML.java" />
+        <option value="$PROJECT_DIR$/src/utils/TestGenerateXML.java" />
       </list>
     </option>
   </component>
@@ -213,6 +165,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FV_Accelerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FV_Accelerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="generators" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -598,7 +568,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499970872733</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="start templates&#10;&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java">
+      <created>1499978907033</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1499978907033</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -623,18 +600,18 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26435536" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17963752" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17963752" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28602383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28602383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -713,7 +690,7 @@
           <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/generators/GenerateApplicatioXML.java</url>
+          <url>file://$PROJECT_DIR$/src/generators/GenerateApplicationXML.java</url>
           <line>160</line>
           <properties />
           <option name="timeStamp" value="48" />
@@ -728,22 +705,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/dao/IIQInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="51" column="43" lean-forward="false" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/GenerateSPDynamicFieldValueRuleXML.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="35" column="39" lean-forward="false" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/iiq.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1542">
@@ -1056,22 +1017,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/library/displayName/displayName-op3">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="57" lean-forward="true" selection-start-line="27" selection-start-column="57" selection-end-line="27" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/mapping/forbidden-identity-attributes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="171" lean-forward="false" selection-start-line="0" selection-start-column="171" selection-end-line="0" selection-end-column="171" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/mapping/templates.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1088,10 +1033,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/generators/GenerateApplicationXML.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="37" column="58" lean-forward="false" selection-start-line="37" selection-start-column="58" selection-end-line="37" selection-end-column="58" />
+          <folding>
+            <element signature="e#6593#6594#0" expanded="true" />
+            <element signature="e#6613#6614#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="271" column="12" lean-forward="false" selection-start-line="271" selection-start-column="12" selection-end-line="271" selection-end-column="12" />
+        <state relative-caret-position="72">
+          <caret line="261" column="46" lean-forward="true" selection-start-line="261" selection-start-column="46" selection-end-line="261" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#performAutomapping#0;class#FormMain#0" expanded="false" />
@@ -1115,13 +1071,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/generators/GenerateApplicatioXML.java">
+    <entry file="file://$PROJECT_DIR$/resources/library/displayName/displayName-op3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+        <state relative-caret-position="459">
+          <caret line="27" column="57" lean-forward="true" selection-start-line="27" selection-start-column="57" selection-end-line="27" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/mapping/forbidden-identity-attributes.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="171" lean-forward="false" selection-start-line="0" selection-start-column="171" selection-end-line="0" selection-end-column="171" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generators/GenerateFieldValuesXML.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="24" column="63" lean-forward="true" selection-start-line="24" selection-start-column="63" selection-end-line="24" selection-end-column="63" />
           <folding>
-            <element signature="e#6590#6591#0" expanded="true" />
-            <element signature="e#6610#6611#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <marker date="1499979476520" expanded="false" signature="4630:4635" ph=" { " />
+            <marker date="1499979476520" expanded="false" signature="4670:4673" ph=" }" />
+            <marker date="1499979476520" expanded="false" signature="4715:4720" ph=" { " />
+            <marker date="1499979476520" expanded="false" signature="4743:4746" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/TestGenerateXML.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="671">
+          <caret line="56" column="52" lean-forward="false" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

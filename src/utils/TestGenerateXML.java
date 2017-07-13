@@ -5,7 +5,7 @@ import java.util.List;
 
 import dao.FieldValue;
 import exceptions.NoTargetAttTypeRecognizedException;
-import generators.GenerateApplicatioXML;
+import generators.GenerateApplicationXML;
 import generators.GenerateFieldValuesXML;
 import generators.GenerateSPDynamicFieldValueRuleXML;
 import generators.GenerateTemplateXML;
@@ -53,7 +53,7 @@ public class TestGenerateXML {
 				+ "				<Description>organization this object belongs to</Description>			</AttributeDefinition>			<AttributeDefinition name='ou' type='string'>				<Description>organizational unit this object belongs to</Description>			</AttributeDefinition>			<AttributeDefinition name='owner' type='string'>				<Description>owner (of the object)</Description>			</AttributeDefinition>			<AttributeDefinition name='description' type='string'>				<Description>descriptive information</Description>			</AttributeDefinition>			<AttributeDefinition name='gidNumber' type='string'>				<Description>unix-related group id number</Description>			</AttributeDefinition>			<AttributeDefinition multi='true' name='objectClass'"
 				+ "				type='string'>				<Description>object classes of the entity</Description>			</AttributeDefinition>			<Attributes>				<Map>					<entry key='groupMemberAttribute' value='uniqueMember' />				</Map>			</Attributes>		</Schema>	</Schemas>	<ApplicationScorecard /></Application>";
 		
-		GenerateApplicatioXML appXML = new GenerateApplicatioXML(applicationXMLasString,"Active Directory", fieldValues);
+		GenerateApplicationXML appXML = new GenerateApplicationXML(applicationXMLasString,"Active Directory", fieldValues);
 		appXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 	}
 	

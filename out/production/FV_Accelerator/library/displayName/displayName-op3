@@ -10,23 +10,23 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_displayName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
+	public static Object getFV_%%TARGET_APP_NAME%%_displayName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+		String methodName = "getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule ";
+	    logStart(context, identity, op, methodName);
+	       
+	    String val = fixNulls(identity.getStringAttribute("__TARGET_ATT_NAME__"));
 
-		Object val = null;
 		//Option 3
 		val = "";
 	    String lastName = (String) identity.getLastname();
 	    lastName = lastName != null ? lastName:"";
-	    loggerAD.trace("DisplayName-Rule :  Last Name - " + lastName );
+	    logger.trace("DisplayName-Rule :  Last Name - " + lastName );
 	    
 	    String preferredName = (String) identity.getAttribute("preferredName");
 	    String firstName = (null!=preferredName&&!preferredName.equals(""))?preferredName:identity.getFirstname();
-	    loggerAD.trace("DisplayName-Rule : First/Preferred Name -"  + firstName );
+	    logger.trace("DisplayName-Rule : First/Preferred Name -"  + firstName );
 	    val = lastName + ", "+firstName;
-		loggerAD.trace("DisplayName-Rule : Display Name - "  + val );
-		return (null!=val?((String) val).trim():defaultValue);
+
+		logEnd(context, identity, op, methodName, val);
+	    return val;
 	}
