@@ -1,3 +1,6 @@
-firstname[1]+'.'+lastname
-firstname+'.'+lastname
-'Created by IdentityIQ'
+REG:firstname[1]+'.'+lastname
+REG:firstname+'.'+lastname
+REG:'Created by IdentityIQ'
+PRE:displayName/displayName-op1
+PRE:displayName/displayName-op2
+PRE:displayName/displayName-op3
