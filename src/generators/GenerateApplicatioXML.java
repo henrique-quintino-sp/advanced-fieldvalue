@@ -44,6 +44,17 @@ public class GenerateApplicatioXML {
 	public GenerateApplicatioXML(){
 	}
 	
+	/**
+	 * Generates the Application.xml and returns the location where the file was stored.
+	 * Internally calls writeXML(String fileLocation) 
+	 * Use default constructor with this method.
+	 * 
+	 * @param applicationXML - Application.toXML() - Application XML from IdentityIQ instance as String
+	 * @param appName - Application name
+	 * @param fileLocation - URL of the folder where you want the XML to be generated
+	 * @param fieldValues - List of FieldValue objects with attributes mapped
+	 * @return
+	 */
 	public String writeXML(String applicationXML, String appName, String fileLocation, List<FieldValue> fieldValues){
 		Document currentAppXML = readApplicationXMLasString(applicationXML);
 		setDocXML(currentAppXML);
@@ -52,6 +63,16 @@ public class GenerateApplicatioXML {
 		return writeXML(fileLocation);
 	}
 	
+	/**
+	 * Generates the Application.xml and returns the location where the file was stored.
+	 * Use GenerateApplicatioXML(String applicationXML, String appName, List<FieldValue> fieldValues) constructor with this method.
+	 * 
+	 * @param applicationXML - Application.toXML() - Application XML from IdentityIQ instance as String
+	 * @param appName - Application name
+	 * @param fileLocation - URL of the folder where you want the XML to be generated
+	 * @param fieldValues - List of FieldValue objects with attributes mapped
+	 * @return
+	 */
 	public String writeXML(String fileLocation){
 		String xmlName = fileLocation+"\\"+getAppName()+".xml";
 		try {
@@ -80,9 +101,7 @@ public class GenerateApplicatioXML {
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			DOMImplementation domImpl = doc.getImplementation();
-			DocumentType doctype = domImpl.createDocumentType("doctype",
-			    "sailpoint.dtd",
-			    "sailpoint.dtd");
+			DocumentType doctype = domImpl.createDocumentType("doctype", "sailpoint.dtd", "sailpoint.dtd");
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
 			
@@ -102,10 +121,13 @@ public class GenerateApplicatioXML {
 	}
 	
 	/**
+	 * Generates a Node Element in the format:
 	 * <Form name="account" objectType="account" type="Create">
-			<Field displayName="con_prov_policy_ldap_user_DN" helpKey="help_con_prov_policy_ldap_user_DN" name="dn"	required="true" type="string" />
-		</Form>
-	 * @param doc
+	 * 	<Field displayName="FieldValue.getDisplayName()" helpKey="FieldValue.getDisplayName()" name="FieldValue.getAppAttribute()"	required="false" type="string" />
+	 * </Form>
+	 * 
+	 * @param doc - New XML Document created (Copy of the XML on Identityiq instance without previous ProvisioningForms defined)
+	 * @param fieldValues - List of FieldValue objects with attributes' information
 	 * @return
 	 */
 	private Element generateFormNode(Document doc, List<FieldValue> fieldValues){
