@@ -1,5 +1,6 @@
 package forms;
 
+import com.rsa80.authmgr.admin.exportimport.FileIOException;
 import dao.FieldValue;
 import dao.IIQInstance;
 import generators.GenerateApplicatioXML;
@@ -16,6 +17,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class FormMain {
     private JCheckBox checkUnique;
     private JButton button2;
     private JButton mapButton;
+    private JButton templatesButton;
 
     private SailPointContext spContext;
     private Application currentApplication;
@@ -110,6 +113,43 @@ public class FormMain {
             }
         });
         mapButton.addActionListener(e -> performAutomapping());
+        templatesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(templatesButton.getText().equals("templates")) {
+                    loadTemplates();
+                    templatesButton.setText("attributes");
+                }
+                else {
+                    loadIdentityAttributes();
+                    templatesButton.setText("templates");
+                }
+            }
+        });
+    }
+
+    private void loadTemplates() {
+        arrIdentityAttribute = new ArrayList<>();
+        URL url = ClassLoader.getSystemClassLoader().getResource(MAPPING_PATH + "/templates.txt");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(url.getFile()));
+            String line = reader.readLine();
+            DefaultListModel listModel = new DefaultListModel();
+
+            while(line != null && !line.isEmpty())
+            {
+                listModel.addElement(line);
+                arrIdentityAttribute.add(line);
+
+                line=reader.readLine();
+            }
+            listIdentity.setModel(listModel);
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void performAutomapping() {
