@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/FV_Accelerator.iml" filepath="$PROJECT_DIR$/FV_Accelerator.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/AFVLib/AFVLib.iml" filepath="$PROJECT_DIR$/AFVLib/AFVLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AFV_Example/AFV_Example.iml" filepath="$PROJECT_DIR$/AFV_Example/AFV_Example.iml" />
+>>>>>>> 7979f42e52620ae1303fcd4a62d1e733296e56c3
+    </modules>
+  </component>
+</project>

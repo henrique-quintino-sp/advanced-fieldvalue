@@ -1,2 +1,2 @@
 
- private static Log logger= LogFactory.getLog("rule.SP.FieldValue.%%TARGET_APP_NAME%% .RulesLibrary");
+ 		private static Log logger= LogFactory.getLog("rule.SP.FieldValue.%%TARGET_APP_NAME%%.RulesLibrary");

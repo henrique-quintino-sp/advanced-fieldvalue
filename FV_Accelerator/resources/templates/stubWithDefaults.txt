@@ -4,7 +4,7 @@
 		}
 		
 		public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
-				String methodName = "getFV_%%TARGET_APP_NAME%%_ %%ATT_NAME%%_Rule ";
+				String methodName = "getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule ";
                 logStart(context, identity, op, methodName);
                
 				if (identity == null) {
@@ -13,7 +13,7 @@
 					return val;
 				}
 
-                String val = fixNulls(identity.getStringAttribute("%%ATT_NAME%%"));
+                String val = fixNulls(identity.getStringAttribute("%%TARGET_ATT_NAME%%"));
 				val = (!val.isEmpty()?val:(String)defaultValue);
                 logEnd(context, identity, op, methodName, val);
                 

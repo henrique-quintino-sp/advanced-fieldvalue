@@ -1,0 +1,35 @@
+	/**
+	 * Will calculate initials without default value
+	 * @param context
+	 * @param identity
+	 * @param op
+	 * @return
+	 */
+	public static Object getFV_Active_Directory_initials_Rule(SailPointContext context, Identity identity, String op){
+		return getFV_Active_Directory_initials_Rule(context, identity, op, null);
+	}
+
+	/**
+	 * RFC2256: initials of some or all of names, but not the surname(s).
+	 * Option 2 - Converts middleName to an initial --> Mary = M. 
+	 * @param context
+	 * @param identity
+	 * @param op
+	 * @return
+	 */
+	public static Object getFV_Active_Directory_initials_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+		Object val = null; 
+		if (identity == null) {
+			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+			return null!=defaultValue?((String) defaultValue).trim():"";
+		}
+
+		//Option 2 - Converts middleName to an initial --> Mary = M. 
+		loggerAD.trace("Option 2");
+		String middleName = (String) identity.getAttribute("middleName");
+		if((middleName != null) && (middleName.length() > 1)) {
+			val = middleName.substring(0, 1)+".";
+			loggerAD.trace("Inside getFV_Active_Directory_initials_Rule Initials from middleName = " + val);
+		}
+		return (null!=val?((String) val).trim():defaultValue);
+	}
