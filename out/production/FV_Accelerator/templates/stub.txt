@@ -1,15 +1,5 @@
 
 		public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String ope){
-				String methodName = "getFV_%%TARGET_APP_NAME%%_ %%ATT_NAME%%_Rule ";
-                LogStart(context, identity, op, methodName);
-               
-				if (identity == null) {
-					loggerAD.warn("Invalid Identity, returning EMPTY string ");
-					return "";
-				}
-
-                String val = fixNulls(identity.getStringAttribute(variable));
-
-                LogEnd(context, identity, op, methodName, val);
-                return val;
+			String variable = "%%ATT_NAME%%";
+	        return getIdentityAttribute(context,identity,op,variable);
 		}

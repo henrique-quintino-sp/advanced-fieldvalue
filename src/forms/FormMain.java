@@ -3,7 +3,7 @@ package forms;
 import com.rsa80.authmgr.admin.exportimport.FileIOException;
 import dao.FieldValue;
 import dao.IIQInstance;
-import generators.GenerateApplicatioXML;
+import generators.GenerateApplicationXML;
 import generators.GenerateFieldValuesXML;
 import generators.GenerateSPDynamicFieldValueRuleXML;
 import generators.GenerateTemplateXML;
@@ -265,7 +265,7 @@ public class FormMain {
         try {
             List<FieldValue> listFieldValue = buildFieldValue();
 
-            GenerateApplicatioXML genApp = new GenerateApplicatioXML(currentApplication.toXml(),currentApplication.getName(),listFieldValue);
+            GenerateApplicationXML genApp = new GenerateApplicationXML(currentApplication.toXml(),currentApplication.getName(),listFieldValue);
             String appFile = genApp.writeXML(ClassLoader.getSystemResource(DESTINATION_FOLDER).getPath());
 
             GenerateFieldValuesXML genFV = new GenerateFieldValuesXML(currentApplication.getName(),listFieldValue,"");

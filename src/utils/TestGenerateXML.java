@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.FieldValue;
-import generators.GenerateApplicatioXML;
+import exceptions.NoTargetAttTypeRecognizedException;
+import generators.GenerateApplicationXML;
 import generators.GenerateFieldValuesXML;
 import generators.GenerateSPDynamicFieldValueRuleXML;
 import generators.GenerateTemplateXML;
 
 public class TestGenerateXML {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NoTargetAttTypeRecognizedException {
 		List<FieldValue> fieldValues = new ArrayList<FieldValue>();
-		fieldValues.add(new FieldValue("cn", "REG:firstname+'.'+lastname", "displayNameCN", true));
-		fieldValues.add(new FieldValue("dn", "dnAttribute", "displayNameDN", false));
-		fieldValues.add(new FieldValue("givenName", "givenNameAttribute", "displayNameGivenName", false));
+		fieldValues.add(new FieldValue("cn", "STB:cnTrg", "displayNameCN", true));
+		fieldValues.add(new FieldValue("dn", "STB:dnAttribute", "displayNameDN", false));
+		fieldValues.add(new FieldValue("givenName", "STB:givenNameAttribute", "displayNameGivenName", false));
 		
 		GenerateFieldValuesXML xml = new GenerateFieldValuesXML("Active Directory", fieldValues,  "ou=people,dc=sailpoint, dc=sp");
 		xml.writeXML("C:\\Users\\ishim.manon\\Desktop");
@@ -52,7 +53,7 @@ public class TestGenerateXML {
 				+ "				<Description>organization this object belongs to</Description>			</AttributeDefinition>			<AttributeDefinition name='ou' type='string'>				<Description>organizational unit this object belongs to</Description>			</AttributeDefinition>			<AttributeDefinition name='owner' type='string'>				<Description>owner (of the object)</Description>			</AttributeDefinition>			<AttributeDefinition name='description' type='string'>				<Description>descriptive information</Description>			</AttributeDefinition>			<AttributeDefinition name='gidNumber' type='string'>				<Description>unix-related group id number</Description>			</AttributeDefinition>			<AttributeDefinition multi='true' name='objectClass'"
 				+ "				type='string'>				<Description>object classes of the entity</Description>			</AttributeDefinition>			<Attributes>				<Map>					<entry key='groupMemberAttribute' value='uniqueMember' />				</Map>			</Attributes>		</Schema>	</Schemas>	<ApplicationScorecard /></Application>";
 		
-		GenerateApplicatioXML appXML = new GenerateApplicatioXML(applicationXMLasString,"Active Directory", fieldValues);
+		GenerateApplicationXML appXML = new GenerateApplicationXML(applicationXMLasString,"Active Directory", fieldValues);
 		appXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 	}
 	
