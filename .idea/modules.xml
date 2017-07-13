@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AFVLib/AFVLib.iml" filepath="$PROJECT_DIR$/AFVLib/AFVLib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/AFV_Example/AFV_Example.iml" filepath="$PROJECT_DIR$/AFV_Example/AFV_Example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FV_Accelerator.iml" filepath="$PROJECT_DIR$/FV_Accelerator.iml" />
     </modules>
   </component>
 </project>

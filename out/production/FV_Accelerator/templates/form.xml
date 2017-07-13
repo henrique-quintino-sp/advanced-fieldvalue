@@ -1,0 +1,5 @@
+        <Field displayName="%%ATT_DISPLAYNAME%%" name="%%ATT_NAME%%" type="string">
+            <RuleRef>
+                <Reference class="sailpoint.object.Rule" name="SP Dynamic Field Value Rule %%TARGET_APP_NAME%%"/>
+            </RuleRef>
+        </Field>

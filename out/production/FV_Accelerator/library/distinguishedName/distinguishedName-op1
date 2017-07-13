@@ -1,0 +1,26 @@
+	/**
+	 * Option 1 - Returns a String of format: CN=firstname lastname (Name)
+	 * @param context
+	 * @param identity
+	 * @param op
+	 * @param defaultValue
+	 * @return
+	 */
+	public static Object getFV_Active_Directory_distinguishedName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+		Object val = null; 
+
+		if (identity == null) {
+			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
+			return null!=defaultValue?((String) defaultValue).trim():"";
+		}
+
+		//Option 1
+		String lastname = identity.getLastname();
+		lastname = lastname.replace('.',' ');
+		lastname = lastname.replace('-',' ');
+		lastname = lastname.replace('\'',' ');
+		lastname = lastname.replace(',',' ');
+
+		val = "CN=" + identity.getFirstname() + " " + lastname + " (" + identity.getName() + ") ";
+		return (null!=val?((String) val).trim():defaultValue);
+	}
