@@ -2,13 +2,13 @@ package forms;
 
 import dao.FieldValue;
 import dao.IIQInstance;
+import generators.GenerateApplicatioXML;
+import generators.GenerateFieldValuesXML;
+import generators.GenerateSPDynamicFieldValueRuleXML;
+import generators.GenerateTemplateXML;
 import sailpoint.api.SailPointContext;
 import sailpoint.object.*;
 import sailpoint.tools.GeneralException;
-import utils.GenerateApplicatioXML;
-import utils.GenerateFieldValuesXML;
-import utils.GenerateSPDynamicFieldValueRuleXML;
-import utils.GenerateTemplateXML;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -225,7 +225,7 @@ public class FormMain {
         try {
             List<FieldValue> listFieldValue = buildFieldValue();
 
-            GenerateApplicatioXML genApp = new GenerateApplicatioXML(currentApplication.toXml(),currentApplication.getName());
+            GenerateApplicatioXML genApp = new GenerateApplicatioXML(currentApplication.toXml(),currentApplication.getName(),listFieldValue);
             String appFile = genApp.writeXML(ClassLoader.getSystemResource(DESTINATION_FOLDER).getPath());
 
             GenerateFieldValuesXML genFV = new GenerateFieldValuesXML(currentApplication.getName(),listFieldValue,"");
