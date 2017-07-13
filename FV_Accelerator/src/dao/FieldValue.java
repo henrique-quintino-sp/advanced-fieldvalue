@@ -2,10 +2,12 @@ package dao;
 
 public class FieldValue {
 
-	private String appAttribute;
+	private String appAttribute;		//appAttribute will be used as name for field in ProvisioningForms also
 	private String targetAttribute;
 	private String displayName;
 	private boolean checkUniqueness;
+	private boolean required;
+	private String type;
 	
 	public FieldValue(){
 		
@@ -16,6 +18,8 @@ public class FieldValue {
 		setTargetAttribute(targetAttribute);
 		setDisplayName(appAttribute);
 		setCheckUniqueness(checkUniqueness);
+		setRequired(false);
+		setType("String");
 	}
 	
 	public FieldValue(String appAttribute, String targetAttribute, String displayName, boolean checkUniqueness){
@@ -23,6 +27,17 @@ public class FieldValue {
 		setTargetAttribute(targetAttribute);
 		setDisplayName(displayName);
 		setCheckUniqueness(checkUniqueness);
+		setRequired(false);
+		setType("String");
+	}
+
+	public FieldValue(String appAttribute, String targetAttribute, String displayName, boolean checkUniqueness, boolean required, String type){
+		setAppAttribute(appAttribute);
+		setTargetAttribute(targetAttribute);
+		setDisplayName(displayName);
+		setCheckUniqueness(checkUniqueness);
+		setRequired(required);
+		setType(type);
 	}
 	
 	public String getAppAttribute() {
@@ -51,6 +66,22 @@ public class FieldValue {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
-	
+
+	public boolean isRequired() {
+		return required;
+	}
+
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	
 }
