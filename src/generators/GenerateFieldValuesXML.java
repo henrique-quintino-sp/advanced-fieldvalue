@@ -50,7 +50,7 @@ public class GenerateFieldValuesXML {
 			content.append(getFile("utils.txt"));
 			content.append(getFile("footer.txt"));
 
-			xmlName = xmlName+"\\SPCONF_FieldValue_RulesLibrary_"+getAppName()+".xml";
+			xmlName = xmlName+"/SPCONF_FieldValue_RulesLibrary_"+getAppName()+".xml";
 			
 			fw = new FileWriter(xmlName);
 			bw = new BufferedWriter(fw);

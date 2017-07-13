@@ -23,7 +23,7 @@ public class GenerateSPDynamicFieldValueRuleXML {
 
 		try {
 			StringBuilder content = getFile("SPDynamicFieldValueRule.xml");
-			xmlName = xmlName+"\\SP_Dynamic_FieldValue_Rule_"+getAppName()+".xml";
+			xmlName = xmlName+"/SP_Dynamic_FieldValue_Rule_"+getAppName()+".xml";
 			
 			fw = new FileWriter(xmlName);
 			bw = new BufferedWriter(fw);
