@@ -26,7 +26,7 @@ public class TestGenerateXML {
 		GenerateTemplateXML formXML = new GenerateTemplateXML("Active Directory", fieldValues);
 		formXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 		
-		GenerateApplicatioXML appXML = new GenerateApplicatioXML("applicationXML.toXML()","Active Directory");
+		GenerateApplicatioXML appXML = new GenerateApplicatioXML("applicationXML.toXML()","Active Directory", fieldValues);
 		appXML.writeXML("C:\\Users\\ishim.manon\\Desktop");
 	}
 	

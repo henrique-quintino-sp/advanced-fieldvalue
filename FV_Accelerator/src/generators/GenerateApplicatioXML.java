@@ -3,6 +3,7 @@ package generators;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -22,27 +23,31 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import dao.FieldValue;
 import utils.UtilMethods;
 
 public class GenerateApplicatioXML {
 
 	private String appName ;						//TARGET_APP_NAME
 	private Document docXML;					//Applicatio XML String converted to DOM
+	private List<FieldValue> fieldValues;
 	
-	public GenerateApplicatioXML(String applicationXML, String appName){
+	public GenerateApplicatioXML(String applicationXML, String appName, List<FieldValue> fieldValues){
 		applicationXML = getTestFile("Application-Ldap.xml");		//Only for testing purposes
 		Document currentAppXML = readApplicationXMLasString(applicationXML);
 		setDocXML(currentAppXML);
 		setAppName(appName);
+		setFieldValues(fieldValues);
 	}
 	
 	public GenerateApplicatioXML(){
 	}
 	
-	public String writeXML(String applicationXML, String appName, String fileLocation){
+	public String writeXML(String applicationXML, String appName, String fileLocation, List<FieldValue> fieldValues){
 		Document currentAppXML = readApplicationXMLasString(applicationXML);
 		setDocXML(currentAppXML);
 		setAppName(appName);
+		setFieldValues(fieldValues);
 		return writeXML(fileLocation);
 	}
 	
@@ -61,7 +66,7 @@ public class GenerateApplicatioXML {
 				root.removeChild(provNode);
 			}
 			//Create a new Form to add it to the new ProvisioningForms node
-			Element newProvForm = generateFormNode(doc);
+			Element newProvForm = generateFormNode(doc, getFieldValues());
 			root.appendChild(newProvForm);
 			
 			// write the content into xml file
@@ -82,9 +87,29 @@ public class GenerateApplicatioXML {
 		return xmlName;
 	}
 	
-	private Element generateFormNode(Document doc){
+	/**
+	 * <Form name="account" objectType="account" type="Create">
+			<Field displayName="con_prov_policy_ldap_user_DN" helpKey="help_con_prov_policy_ldap_user_DN" name="dn"	required="true" type="string" />
+		</Form>
+	 * @param doc
+	 * @return
+	 */
+	private Element generateFormNode(Document doc, List<FieldValue> fieldValues){
 		Element form = doc.createElement("ProvisioningForms");
-		form.appendChild(doc.createTextNode("TEST"));
+		form.setAttribute("name", "account");
+		form.setAttribute("objectType", "account");
+		form.setAttribute("type", "Create");
+		
+		for(FieldValue field: fieldValues){
+			Element fieldEl = doc.createElement("Field");
+			fieldEl.setAttribute("displayName", field.getDisplayName());
+			fieldEl.setAttribute("helpKey", field.getDisplayName());
+			fieldEl.setAttribute("name", field.getAppAttribute());
+			fieldEl.setAttribute("required", String.valueOf(field.isRequired()));
+			fieldEl.setAttribute("type", field.getType());
+			form.appendChild(fieldEl);
+		}
+		
 		return form;
 	}
 	
@@ -140,5 +165,13 @@ public class GenerateApplicatioXML {
 
 	public void setDocXML(Document docXML) {
 		this.docXML = docXML;
+	}
+
+	public List<FieldValue> getFieldValues() {
+		return fieldValues;
+	}
+
+	public void setFieldValues(List<FieldValue> fieldValues) {
+		this.fieldValues = fieldValues;
 	}
 }
