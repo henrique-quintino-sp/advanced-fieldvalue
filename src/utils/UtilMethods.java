@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-import sailpoint.object.Identity;
-
 public class UtilMethods {
 
 	public static String escape(String appName2) {

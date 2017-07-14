@@ -1,13 +1,13 @@
 			
-		private static Object getIdentityAttribute(SailPointContext context, Identity identity, String op, String variable) {
-			return getIdentityAttribute(context,identity,op,variable, null);
+		private static Object getIdentityAttribute(SailPointContext context, Identity identity, String op, String attName, String targetAttName) {
+			return getIdentityAttribute(context,identity,op,attName, targetAttName, null);
 		}
 
-		private static Object getIdentityAttribute(SailPointContext context, Identity identity, String op, String variable, String defaultValue) {
-			String methodName = "getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule ";
+		private static Object getIdentityAttribute(SailPointContext context, Identity identity, String op, String attName, String targetAttName, String defaultValue) {
+			String methodName = "getFV_%%TARGET_APP_NAME%%_"+attName+"_Rule ";
 	        logStart(context, identity, op, methodName);
 	       
-	        String val = fixNulls(identity.getStringAttribute("%%TARGET_ATT_NAME%%"));
+	        String val = fixNulls(identity.getStringAttribute(targetAttName));
 			val = (!val.isEmpty()?val:(String)defaultValue);
 	        logEnd(context, identity, op, methodName, val);
 	        

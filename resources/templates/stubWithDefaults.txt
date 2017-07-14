@@ -1,11 +1,13 @@
 
 		public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op){
-			String variable = "%%ATT_NAME%%";
-	        return getIdentityAttribute(context,identity,op,variable);
+			String attName = "%%ATT_NAME%%";
+			String targetAttName = "%%TARGET_ATT_NAME%%";
+	        return getIdentityAttribute(context,identity,op, attName, targetAttName);
 		}
 		
 		public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
-			String variable = "%%ATT_NAME%%";
-	        return getIdentityAttribute(context,identity,op,variable, (String) defaultValue);
+			String attName = "%%ATT_NAME%%";
+			String targetAttName = "%%TARGET_ATT_NAME%%";
+	        return getIdentityAttribute(context,identity,op,attName, targetAttName, (String) defaultValue);
 		}
 		
