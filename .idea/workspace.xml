@@ -2,37 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23c97beb-c81a-4804-99d0-112dd60b0a60" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/cn/cn-op1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/cn/cn-op2" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/cn/cn-op3" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/dao/FieldValue.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/dao/FieldValue.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/forms/FormMain.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/description/description-op1" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/description/description-op1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/description/description-op2" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/description/description-op2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/description/description-op3" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/description/description-op3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/displayName/displayName-op1" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/displayName/displayName-op1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/displayName/displayName-op2" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/displayName/displayName-op2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/displayName/displayName-op3" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/displayName/displayName-op3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/distinguishedName/distinguishedName-op1" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/distinguishedName/distinguishedName-op1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/distinguishedName/distinguishedName-op2" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/distinguishedName/distinguishedName-op2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/employeeType/employeeType-op1" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/employeeType/employeeType-op1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/employeeType/employeeType-op2" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/employeeType/employeeType-op2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/givenName/givenName" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/givenName/givenName" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/initials/initials-op1" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/initials/initials-op1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/initials/initials-op2" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/initials/initials-op2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/l/l-op1" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/l/l-op1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/library/l/l-op2" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/library/l/l-op2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/form.xml" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/form.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/stubWithDefaults.txt" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/stubWithDefaults.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/utils.txt" afterPath="$PROJECT_DIR$/out/production/FV_Accelerator/templates/utils.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/mapping/map-ldap.txt" afterPath="$PROJECT_DIR$/resources/mapping/map-ldap.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/FormLoader.java" afterPath="$PROJECT_DIR$/src/forms/FormLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/FormMain.form" afterPath="$PROJECT_DIR$/src/forms/FormMain.form" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/FormMain.java" afterPath="$PROJECT_DIR$/src/forms/FormMain.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,8 +18,8 @@
       <file leaf-file-name="FormMain.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="249" column="63" lean-forward="false" selection-start-line="249" selection-start-column="63" selection-end-line="249" selection-end-column="63" />
+            <state relative-caret-position="191">
+              <caret line="239" column="88" lean-forward="true" selection-start-line="239" selection-start-column="88" selection-end-line="239" selection-end-column="88" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -230,13 +200,17 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="project.propGUI" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/yuicompressor-2.4.2.jar!/" />
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="fv_accelerator" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -611,7 +585,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499986268357</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Beta 1&#10;&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java">
+      <created>1500065739778</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1500065739778</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView">
@@ -715,7 +696,8 @@
     <MESSAGE value="ALPHA 1.1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&#10;&#10;Merge branches 'FVAccelerator' and 'master' of https://github.com/henrique-quintino-sp/advanced-fieldvalue&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
     <MESSAGE value="start templates&#10;&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
     <MESSAGE value="Small fixes&#10;&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="Small fixes&#10;&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
+    <MESSAGE value="Beta 1&#10;&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Beta 1&#10;&#10;&#10;# Conflicts:&#10;#&#9;FV_Accelerator/resources/forms/frmMain.form&#10;#&#9;FV_Accelerator/resources/templates/loggers.txt&#10;#&#9;FV_Accelerator/resources/templates/stubWithDefaults.txt&#10;#&#9;FV_Accelerator/resources/templates/utils.txt&#10;#&#9;FV_Accelerator/src/forms/FormMain.java&#10;#&#9;FV_Accelerator/src/utils/GenerateFieldValuesXML.java" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -992,8 +974,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/forms/FormMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="249" column="63" lean-forward="false" selection-start-line="249" selection-start-column="63" selection-end-line="249" selection-end-column="63" />
+        <state relative-caret-position="191">
+          <caret line="239" column="88" lean-forward="true" selection-start-line="239" selection-start-column="88" selection-end-line="239" selection-end-column="88" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1017,7 +999,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited>Detection</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
