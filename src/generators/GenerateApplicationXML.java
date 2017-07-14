@@ -154,7 +154,6 @@ public class GenerateApplicationXML {
 		
 		Element fieldEl = doc.createElement("entry");
 		fieldEl.setAttribute("key", "pageTitle");
-		fieldEl.setAttribute("type", templateNAme);
 		map.appendChild(fieldEl);
 		
 		Element formRef = doc.createElement("FormRef");
