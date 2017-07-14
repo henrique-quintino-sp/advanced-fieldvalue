@@ -10,27 +10,22 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_description_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%y_description_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		String val = null;
 		
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
-		
 		//Option 3 - Composed value
-		loggerAD.trace("Option 3 ");
+		logger.trace("Option 3 ");
 		String str = "%%AD_DESCRIPTION_COMPOSED_VALUES%%";
-		loggerAD.trace("Option 3 - Returns a String composed by attributes: "+str);
+		logger.trace("Option 3 - Returns a String composed by attributes: "+str);
 		List<String> attributes =  Arrays.asList(str.split("\\s*,\\s*"));
-		loggerAD.trace("Delimiter will be:   %%AD_DESCRIPTION_DELIM_VALUE%%");
+		logger.trace("Delimiter will be:   %%AD_DESCRIPTION_DELIM_VALUE%%");
 		for(String att: attributes){
-			loggerAD.trace("Add attribute: "+att);
-			loggerAD.trace("Value of "+att+ " = "+identity.getAttribute(att));
+			logger.trace("Add attribute: "+att);
+			logger.trace("Value of "+att+ " = "+identity.getAttribute(att));
 			val = val+identity.getAttribute(att)+"%%AD_DESCRIPTION_DELIM_VALUE%%"; 
 		}
 		val = val.substring(0, val.length()-2);//Remove last delimiter
-		loggerAD.trace("Final composed description is: "+val);
+		logger.trace("Final composed description is: "+val);
 		
 		return (null!=val?((String) val).trim():defaultValue);
 	}

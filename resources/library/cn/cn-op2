@@ -11,20 +11,15 @@
 	 * @param defaultValue
 	 * @return sailpoint.object.Identity.getName()
 	 */
-	public static Object getFV_Active_Directory_cn_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_cn_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null;
-
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
 
 		//Option 2 - if preferredName is available in IIQ, it should be used instead of the first name
 		String preferredName = (String) identity.getAttribute("preferredName");
 		String firstName = (null!=preferredName&&!preferredName.equals(""))?escapeADValues(preferredName):escapeADValues(identity.getFirstname());
-		loggerAD.trace("First name: "+firstName);
+		logger.trace("First name: "+firstName);
 		String lastName = escapeADValues(identity.getLastname());
-		loggerAD.trace("Last name: "+lastName);
+		logger.trace("Last name: "+lastName);
 		val = lastName + "\\, " + firstName ;
 		
 		//If need to check for uniqueness, use Option 2 and set AD_CN_UNIQUENESS_VALUE to true
@@ -33,11 +28,11 @@
 			try {
 				appObj = context.getObject(Application.class, "%%AD_TARGET_NAME%%");
 			} catch (GeneralException e) {
-				loggerAD.error("Unable to get Object from application: %%AD_TARGET_NAME%%");
+				logger.error("Unable to get Object from application: %%AD_TARGET_NAME%%");
 				e.printStackTrace();
 			}
 	
-			loggerAD.trace("Checking for uniqueness in Application: "+"%%AD_TARGET_NAME%%");
+			logger.trace("Checking for uniqueness in Application: "+"%%AD_TARGET_NAME%%");
 			if (!isUniqueADName(appObj, "cn", (String) val)) {
 				//if not unique, we will add a "2" to the cn value
 				int ctr = 2;
@@ -47,9 +42,9 @@
 				while (!isUniqueADName(appObj, "cn", (String) val)) {
 					ctr++;
 					val = firstName + "." + lastName + ctr;
-					loggerAD.trace("Value " + val + " was tested");
+					logger.trace("Value " + val + " was tested");
 				}
-				loggerAD.trace("Unique value is: " + val );
+				logger.trace("Unique value is: " + val );
 			}
 		}
 

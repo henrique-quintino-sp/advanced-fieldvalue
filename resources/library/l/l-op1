@@ -5,8 +5,8 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_l_Rule(SailPointContext context, Identity identity, String op){
-		return getFV_Active_Directory_l_Rule(context, identity, op, null);
+	public static Object getFV_%%TARGET_APP_NAME%%_l_Rule(SailPointContext context, Identity identity, String op){
+		return getFV_%%TARGET_APP_NAME%%_l_Rule(context, identity, op, null);
 	}
 
 	/**
@@ -19,12 +19,8 @@
 	 * @param defaultValue
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_l_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_l_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null; 
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
 
 		val = identity.getAttribute("city");
 

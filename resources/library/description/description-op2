@@ -9,15 +9,10 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_description_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_description_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		String val = null;
 		
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
-		
-		loggerAD.trace("Option 2 ");
+		logger.trace("Option 2 ");
 		val = (String) identity.getAttribute("description");
 		
 		return (null!=val?((String) val).trim():defaultValue);

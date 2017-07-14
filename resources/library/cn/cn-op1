@@ -10,13 +10,9 @@
 	 * @param defaultValue
 	 * @return sailpoint.object.Identity.getName()
 	 */
-	public static Object getFV_Active_Directory_cn_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%y_cn_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null;
 
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
 
 		//Option 1
 		val = identity.getName(); 

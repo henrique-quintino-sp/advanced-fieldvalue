@@ -11,15 +11,10 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_displayName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
-
+	public static Object getFV_%%TARGET_APP_NAME%%_displayName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null;
 		//Option 2 
 		val = ((String) getFV_Active_Directory_cn_Rule(context, identity, op, defaultValue)).replaceAll("\\\\","");
-		loggerAD.trace("DisplayName-Rule : Display Name - "  + val );
+		logger.trace("DisplayName-Rule : Display Name - "  + val );
 		return (null!=val?((String) val).trim():defaultValue);
 	}

@@ -5,7 +5,7 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_givenName_Rule(SailPointContext context, Identity identity, String op){
+	public static Object getFV_%%TARGET_APP_NAME%%_givenName_Rule(SailPointContext context, Identity identity, String op){
 		return getFV_Active_Directory_givenName_Rule(context, identity, op, null);
 	}
 	
@@ -19,12 +19,8 @@
 	 * @param op
 	 * @return sailpoint.object.Identity.getFirstname()
 	 */
-	public static Object getFV_Active_Directory_givenName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_givenName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null; 
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
 
 		val = identity.getFirstname();
 
