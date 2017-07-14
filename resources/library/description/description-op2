@@ -9,7 +9,7 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_%%TARGET_APP_NAME%%_description_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		String val = null;
 		
 		logger.trace("Option 2 ");

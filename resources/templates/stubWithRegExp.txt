@@ -1,6 +1,6 @@
 
 		public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op) throws GeneralException {
-	        logStart(context, identity, op, "getFV_Ldap_cn_Rule");
+	        logStart(context, identity, op, "getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule");
 	        String result = "";
 	
 	        String expression = "%%ATT_FORMAT%%";
@@ -8,7 +8,7 @@
 	        String formatResult = processFormattedString(expression, identity);
 	        result = formatResult;
 	
-	        logEnd(context, identity, op, "getFV_Ldap_cn_Rule", result);
+	        logEnd(context, identity, op, "getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule", result);
 	
 	        return result;
 	    }

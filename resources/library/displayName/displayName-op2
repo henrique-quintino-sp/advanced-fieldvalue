@@ -11,7 +11,7 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_%%TARGET_APP_NAME%%_displayName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%e_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null;
 		//Option 2 
 		val = ((String) getFV_Active_Directory_cn_Rule(context, identity, op, defaultValue)).replaceAll("\\\\","");

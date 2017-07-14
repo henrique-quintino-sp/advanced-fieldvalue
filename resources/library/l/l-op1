@@ -19,10 +19,10 @@
 	 * @param defaultValue
 	 * @return
 	 */
-	public static Object getFV_%%TARGET_APP_NAME%%_l_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null; 
 
-		val = identity.getAttribute("city");
+		val = identity.getAttribute("%%ATT_NAME%%");
 
 		return (null!=val?((String) val).trim():defaultValue);
 	}

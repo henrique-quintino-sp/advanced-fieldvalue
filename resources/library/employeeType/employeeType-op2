@@ -10,7 +10,7 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_%%TARGET_APP_NAME%%y_employeeType_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%y_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null; 
 
 		//Option 2
