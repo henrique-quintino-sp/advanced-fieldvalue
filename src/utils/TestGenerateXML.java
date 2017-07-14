@@ -17,7 +17,7 @@ public class TestGenerateXML {
 		fieldValues.add(new FieldValue("dn", "dnAttribute", "displayNameDN", false));
 		fieldValues.add(new FieldValue("displayName", "PRE:displayName/displayName-op3", "displayNameDisplay", false));
 		
-		GenerateFieldValuesXML xml = new GenerateFieldValuesXML("Active Directory", fieldValues,  "ou=people,dc=sailpoint, dc=sp");
+		GenerateFieldValuesXML xml = new GenerateFieldValuesXML("Active Directory", fieldValues);
 		xml.writeXML("C:\\Users\\ishim.manon\\Desktop");
 		
 		GenerateSPDynamicFieldValueRuleXML spXML = new GenerateSPDynamicFieldValueRuleXML("Active Directory");

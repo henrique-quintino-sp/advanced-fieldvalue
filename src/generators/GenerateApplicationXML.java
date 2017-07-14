@@ -138,7 +138,7 @@ public class GenerateApplicationXML {
 	 */
 	private Element generateFormtEMPLATENode(Document doc) {
 		Element provForms = doc.createElement("ProvisioningForms");
-		String templateNAme = "Template " +getAppName()+" Create";
+		String templateNAme = "Form-" +getAppName()+" Create";
 
 		Element form = doc.createElement("Form");
 		form.setAttribute("name", templateNAme);

@@ -32,7 +32,7 @@ public class GenerateTemplateXML {
 			}
 			content.append(getFile("formFooter.xml"));
 
-			xmlName = xmlName+"/Template_"+getAppName()+"_Create.xml";
+			xmlName = xmlName+"/Form-"+getAppName()+" Create.xml";
 			
 			fw = new FileWriter(xmlName);
 			bw = new BufferedWriter(fw);

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Form PUBLIC "sailpoint.dtd" "../../sailpoint.dtd">
-<Form hidden="false" name="Template %%TARGET_APP_NAME%% Create" type="Application">
+<Form hidden="false" name="Form-%%TARGET_APP_NAME%% Create" type="Application">
     <Section columns="2" label="rept_lcm_account_request_parameters" name="customProperties">

@@ -22,17 +22,8 @@ public class GenerateFieldValuesXML {
 	private final String TYPE_REG = "REG";			//For formats like: firstname[1]+'.'+lastname 
 	private final String TYPE_PRE = "PRE";			//For pre configured attributes in formats like: displayName-op3 
 
-	public GenerateFieldValuesXML(String appName, String commaSeparatedAttributes, String uniquenesAtt){
-		setAppName(appName);
-		setAttributesMap(commaSeparatedAttributes);
-	}
 	
-	public GenerateFieldValuesXML(String appName, Map<String,String> attributesMap, String uniquenesAtt){
-		setAppName(appName);
-		setAttributesMap(attributesMap);
-	}
-	
-	public GenerateFieldValuesXML(String appName, List<FieldValue> fieldValueList, String uniquenesAtt){
+	public GenerateFieldValuesXML(String appName, List<FieldValue> fieldValueList){
 		setAppName(appName);
 		setFieldValueList(fieldValueList);
 	}
@@ -194,21 +185,6 @@ public class GenerateFieldValuesXML {
 
 	private void setAppName(String appName) {
 		this.appName = appName;
-	}
-
-	private void setAttributesMap(String attributesList){
-		List<String> attributes =  Arrays.asList(attributesList.split("\\s*,\\s*"));
-		attributesMap = new HashMap<String,String>();
-		for(String att : attributes){
-			attributesMap.put(att, att);
-		}
-	}
-	public Map<String, String> getAttributesMap() {
-		return attributesMap;
-	}
-
-	public void setAttributesMap(Map<String, String> attributesMap) {
-		this.attributesMap = attributesMap;
 	}
 
 	public List<FieldValue> getFieldValueList() {
