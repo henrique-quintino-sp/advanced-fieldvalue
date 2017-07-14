@@ -107,7 +107,7 @@ public class GenerateFieldValuesXML {
 		if(field.getTargetAttribute().startsWith(TYPE_REG)){
 			result = getRegExpMethod(field);
 		} else if(field.getTargetAttribute().startsWith(TYPE_PRE)){
-			
+			result = getPreConfMethod(field);
 		} else{
 			result = getStubMethod(field);
 		} 
@@ -115,6 +115,30 @@ public class GenerateFieldValuesXML {
 		return result.toString();
 	}
 	
+	private String getPreConfMethod(FieldValue field) {
+		String fileName = field.getTargetAttributeValue();
+		StringBuilder result = new StringBuilder("");
+
+		//Get file from resources folder
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("library/"+fileName).getFile());
+
+		try (Scanner scanner = new Scanner(file)) {
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				line= line.replaceAll("%%TARGET_APP_NAME%%", getAppName());
+				line = line.replaceAll("%%ATT_NAME%%", field.getAppAttribute());
+				line = line.replaceAll("%%TARGET_ATT_NAME%%", field.getTargetAttributePRE());
+				result.append(line).append("\n");
+			}
+			scanner.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result.toString();
+	}
+
 	private String getRegExpMethod(FieldValue field){
 		String fileName = "stubWithRegExp.txt";
 		StringBuilder result = new StringBuilder("");
@@ -128,7 +152,7 @@ public class GenerateFieldValuesXML {
 				String line = scanner.nextLine();
 				line= line.replaceAll("%%TARGET_APP_NAME%%", getAppName());
 				line = line.replaceAll("%%ATT_NAME%%", field.getAppAttribute());
-				line = line.replaceAll("%%LDAP_CN_FORMAT%%", field.getTargetAttribute());
+				line = line.replaceAll("%%ATT_FORMAT%%", field.getTargetAttributeValue());
 				result.append(line).append("\n");
 			}
 			scanner.close();

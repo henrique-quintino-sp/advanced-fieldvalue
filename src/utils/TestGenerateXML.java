@@ -15,7 +15,7 @@ public class TestGenerateXML {
 		List<FieldValue> fieldValues = new ArrayList<FieldValue>();
 		fieldValues.add(new FieldValue("cn", "REG:firstname+'.'+lastname", "displayNameCN", true));
 		fieldValues.add(new FieldValue("dn", "dnAttribute", "displayNameDN", false));
-		fieldValues.add(new FieldValue("givenName", "givenNameAttribute", "displayNameGivenName", false));
+		fieldValues.add(new FieldValue("displayName", "PRE:displayName/displayName-op3", "displayNameDisplay", false));
 		
 		GenerateFieldValuesXML xml = new GenerateFieldValuesXML("Active Directory", fieldValues,  "ou=people,dc=sailpoint, dc=sp");
 		xml.writeXML("C:\\Users\\ishim.manon\\Desktop");

@@ -10,8 +10,6 @@ public class FieldValue {
 	private String type;
 	
 	private final String TYPE_REG = "REG";			//For formats like: firstname[1]+'.'+lastname 
-	private final String TYPE_EXP = "EXP";			//For formats like: 'Created by IdentityIQ'
-	private final String TYPE_STB = "STB";			//For stub 
 	private final String TYPE_PRE = "PRE";			//For pre configured attributes in formats like: displayName-op3
 	
 	public FieldValue(){
@@ -51,19 +49,21 @@ public class FieldValue {
 		this.appAttribute = appAttribute;
 	}
 	public String getTargetAttribute() {
-		return targetAttribute.substring(0, 3);
+		return targetAttribute;
+	}
+	//Removes First 4 characters if using REG
+	public String getTargetAttributeValue() {
+		return targetAttribute.substring(4);
+	}
+	//Removes First 4 characters if using PRE
+	public String getTargetAttributePRE() {
+		return targetAttribute.substring(4, targetAttribute.indexOf('/'));
 	}
 	public void setTargetAttribute(String targetAttribute) {
 		this.targetAttribute = targetAttribute;
 	}
 	public void setTargetAttributeREG(String targetAttribute) {
 		this.targetAttribute = TYPE_REG+":"+targetAttribute;
-	}
-	public void setTargetAttributeEXP(String targetAttribute) {
-		this.targetAttribute = TYPE_EXP+":"+targetAttribute;
-	}
-	public void setTargetAttributeSTB(String targetAttribute) {
-		this.targetAttribute = TYPE_STB+":"+targetAttribute;
 	}
 	public void setTargetAttributePRE(String targetAttribute) {
 		this.targetAttribute = TYPE_PRE+":"+targetAttribute;

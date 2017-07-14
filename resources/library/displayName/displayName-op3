@@ -14,7 +14,7 @@
 		String methodName = "getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule ";
 	    logStart(context, identity, op, methodName);
 	       
-	    String val = fixNulls(identity.getStringAttribute("__TARGET_ATT_NAME__"));
+	    String val = fixNulls(identity.getStringAttribute("%%TARGET_ATT_NAME%%"));
 
 		//Option 3
 		val = "";
