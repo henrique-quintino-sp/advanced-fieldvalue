@@ -74,7 +74,7 @@ public class GenerateApplicationXML {
 	 * @return
 	 */
 	public String writeXML(String fileLocation){
-		String xmlName = fileLocation+"/"+getAppName()+".xml";
+		String xmlName = fileLocation+"/Application-"+getAppName()+".xml";
 		try {
 			Document doc = getDocXML();
 

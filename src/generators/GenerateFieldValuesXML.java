@@ -102,16 +102,40 @@ public class GenerateFieldValuesXML {
 	}
 	
 	private String getMethodsByType(FieldValue field) {
-		StringBuilder result = new StringBuilder("");
+		String result = new String(""); 
 		//Check type of target attribute
 		if(field.getTargetAttribute().startsWith(TYPE_REG)){
-			
+			result = getRegExpMethod(field);
 		} else if(field.getTargetAttribute().startsWith(TYPE_PRE)){
 			
 		} else{
-			getStubMethod(field);
+			result = getStubMethod(field);
 		} 
 		
+		return result.toString();
+	}
+	
+	private String getRegExpMethod(FieldValue field){
+		String fileName = "stubWithRegExp.txt";
+		StringBuilder result = new StringBuilder("");
+
+		//Get file from resources folder
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("templates/"+fileName).getFile());
+
+		try (Scanner scanner = new Scanner(file)) {
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				line= line.replaceAll("%%TARGET_APP_NAME%%", getAppName());
+				line = line.replaceAll("%%ATT_NAME%%", field.getAppAttribute());
+				line = line.replaceAll("%%LDAP_CN_FORMAT%%", field.getTargetAttribute());
+				result.append(line).append("\n");
+			}
+			scanner.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return result.toString();
 	}
 	

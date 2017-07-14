@@ -3,14 +3,18 @@ package dao;
 public class FieldValue {
 
 	private String appAttribute;		//appAttribute will be used as name for field in ProvisioningForms also
-	private String targetAttribute;
+	private String targetAttribute;	//Must include the type: REG, EXP, STB or PRE
 	private String displayName;
 	private boolean checkUniqueness;
 	private boolean required;
 	private String type;
 	
+	private final String TYPE_REG = "REG";			//For formats like: firstname[1]+'.'+lastname 
+	private final String TYPE_EXP = "EXP";			//For formats like: 'Created by IdentityIQ'
+	private final String TYPE_STB = "STB";			//For stub 
+	private final String TYPE_PRE = "PRE";			//For pre configured attributes in formats like: displayName-op3
+	
 	public FieldValue(){
-		
 	}
 	
 	public FieldValue(String appAttribute, String targetAttribute,  boolean checkUniqueness){
@@ -37,7 +41,7 @@ public class FieldValue {
 		setDisplayName(displayName);
 		setCheckUniqueness(checkUniqueness);
 		setRequired(required);
-		setType(type);
+		setType((type!=null&&!type.isEmpty()?type:"String"));
 	}
 	
 	public String getAppAttribute() {
@@ -47,10 +51,22 @@ public class FieldValue {
 		this.appAttribute = appAttribute;
 	}
 	public String getTargetAttribute() {
-		return targetAttribute;
+		return targetAttribute.substring(0, 3);
 	}
 	public void setTargetAttribute(String targetAttribute) {
 		this.targetAttribute = targetAttribute;
+	}
+	public void setTargetAttributeREG(String targetAttribute) {
+		this.targetAttribute = TYPE_REG+":"+targetAttribute;
+	}
+	public void setTargetAttributeEXP(String targetAttribute) {
+		this.targetAttribute = TYPE_EXP+":"+targetAttribute;
+	}
+	public void setTargetAttributeSTB(String targetAttribute) {
+		this.targetAttribute = TYPE_STB+":"+targetAttribute;
+	}
+	public void setTargetAttributePRE(String targetAttribute) {
+		this.targetAttribute = TYPE_PRE+":"+targetAttribute;
 	}
 	public boolean isCheckUniqueness() {
 		return checkUniqueness;
