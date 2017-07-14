@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/out/test/FV_Accelerator"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<levels>
+		<level name="lib" value="project"/>
+		<level name="jgoodies:forms:1.0.5" value="project"/>
+		<level name="org.ini4j:ini4j:0.5.4" value="project"/>
+	</levels>
+</component>
