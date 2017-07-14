@@ -90,7 +90,8 @@ public class GenerateApplicationXML {
 				}
 			}
 			//Create a new Form to add it to the new ProvisioningForms node
-			Element newProvForm = generateFormNode(doc, getFieldValues());
+			//Element newProvForm = generateFormNode(doc, getFieldValues());
+			Element newProvForm = generateFormtEMPLATENode(doc);
 			root.appendChild(newProvForm);
 			
 			// write the content into xml file
@@ -120,6 +121,49 @@ public class GenerateApplicationXML {
 		return xmlName;
 	}
 	
+	/**
+	 * Generates a Node Element in the format:
+	 *     <Form name="UNI-Create-Ldap" objectType="account" type="Create">
+	 *     	<Attributes>
+	 *     		<Map>
+	 *     			<entry key="pageTitle" value="UNI-Create-Ldap"/>
+	 *     		</Map>
+	 *     	</Attributes>	
+	 *     	<FormRef name="UNI-Create-Ldap"/>
+	 *     </Form>
+	 *     
+	 * @param doc
+	 * @param fieldValues2
+	 * @return
+	 */
+	private Element generateFormtEMPLATENode(Document doc) {
+		Element provForms = doc.createElement("ProvisioningForms");
+		String templateNAme = "Template " +getAppName()+" Create";
+
+		Element form = doc.createElement("Form");
+		form.setAttribute("name", templateNAme);
+		form.setAttribute("objectType", "account");
+		form.setAttribute("type", "Create");
+		provForms.appendChild(form);
+		
+		Element attributes = doc.createElement("Attributes");
+		form.appendChild(attributes);
+		
+		Element map = doc.createElement("Map");
+		attributes.appendChild(map);
+		
+		Element fieldEl = doc.createElement("entry");
+		fieldEl.setAttribute("key", "pageTitle");
+		fieldEl.setAttribute("type", templateNAme);
+		map.appendChild(fieldEl);
+		
+		Element formRef = doc.createElement("FormRef");
+		formRef.setAttribute("name", templateNAme);
+		form.appendChild(formRef);
+		
+		return provForms;
+	}
+
 	/**
 	 * Generates a Node Element in the format:
 	 * <Form name="account" objectType="account" type="Create">
