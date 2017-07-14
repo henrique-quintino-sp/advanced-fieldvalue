@@ -1,19 +1,46 @@
 			
-		private static Object getIdentityAttribute(SailPointContext context, Identity identity, String op, String variable) {
-			return getIdentityAttribute(context,identity,op,variable, null);
+		private static Object getIdentityAttribute(SailPointContext context, Identity identity, String op, String attName, String targetAttName) {
+			return getIdentityAttribute(context,identity,op,attName, targetAttName, null);
 		}
 
-		private static Object getIdentityAttribute(SailPointContext context, Identity identity, String op, String variable, String defaultValue) {
-			String methodName = "getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule ";
+		private static Object getIdentityAttribute(SailPointContext context, Identity identity, String op, String attName, String targetAttName, String defaultValue) {
+			String methodName = "getFV_%%TARGET_APP_NAME%%_"+attName+"_Rule ";
 	        logStart(context, identity, op, methodName);
 	       
-	        String val = fixNulls(identity.getStringAttribute("__TARGET_ATT_NAME__"));
+	        String val = fixNulls(identity.getStringAttribute(targetAttName));
 			val = (!val.isEmpty()?val:(String)defaultValue);
 	        logEnd(context, identity, op, methodName, val);
 	        
 	        return val;
 		}
 
+	    public static String processFormattedString(String formatted, Identity identity) {
+	         //Format Example:firstname[1]+'.'+lastname
+	         //Format base: identity attribute[number of chars] + 'literal values'
+	         String result = "";
+	         String[] splitString = formatted.split("\\+");
+	         String identityAttributePart;
+	         for (String rawPart : splitString) {
+	             if (rawPart.startsWith("'")) {
+	                 result += rawPart.substring(1,rawPart.length()-1);
+	             }
+	             else {
+	                 int count = rawPart.indexOf('[');
+	                 if (count > -1) {
+	                     int closeCount = rawPart.indexOf(']');
+	                     String partString = rawPart.substring(count+1,closeCount);
+	                     int subStringPart = Integer.parseInt(partString);
+	                     String attributeName = rawPart.substring(0,count);
+	                     String identityAttribute = identity.getStringAttribute(attributeName);
+	                     identityAttributePart = identityAttribute.substring(0,subStringPart);
+	                 }
+	                 else
+	                     identityAttributePart = identity.getStringAttribute(rawPart);
+	                 result += identityAttributePart;
+	             }
+	         }
+	         return result;
+	     }
 
         public static void logStart(SailPointContext context, Identity identity, String op, String method) {
             logger.trace("Start " + method);

@@ -8,16 +8,11 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_description_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		String val = null;
 		
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
-		
 		//Option 1 - Uncomment as needed
-		loggerAD.trace("Option 1 ");
+		logger.trace("Option 1 ");
 		DateFormat df=DateFormat.getDateInstance(DateFormat.MEDIUM);
 		val = "Created by IdentityIQ on " + df.format(new Date());
 		//val = "Updated by IdentityIQ on " + df.format(new Date());

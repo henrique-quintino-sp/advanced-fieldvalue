@@ -1,4 +1,4 @@
-cn=firstname[1]+'.'+lastname
+cn=REG:firstname[1]+'.'+lastname
 dn=displayName
 sn=lastname
 givenName=firstname

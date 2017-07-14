@@ -10,15 +10,10 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_Active_Directory_employeeType_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		Object val = null; 
 
-		if (identity == null) {
-			loggerAD.warn("Invalid Identity, returning defaulValue: "+defaultValue);
-			return null!=defaultValue?((String) defaultValue).trim():"";
-		}
-
 		//Option 1 - with recommended attribute name
-		val = identity.getAttribute("employeeType");
+		val = identity.getAttribute("%%ATT_NAME%%");
 		return (null!=val?((String) val).trim():defaultValue);
 	}

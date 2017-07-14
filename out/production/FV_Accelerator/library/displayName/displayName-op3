@@ -10,11 +10,11 @@
 	 * @param op
 	 * @return
 	 */
-	public static Object getFV_%%TARGET_APP_NAME%%_displayName_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
+	public static Object getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule(SailPointContext context, Identity identity, String op, Object defaultValue){
 		String methodName = "getFV_%%TARGET_APP_NAME%%_%%ATT_NAME%%_Rule ";
 	    logStart(context, identity, op, methodName);
 	       
-	    String val = fixNulls(identity.getStringAttribute("__TARGET_ATT_NAME__"));
+	    String val = fixNulls(identity.getStringAttribute("%%TARGET_ATT_NAME%%"));
 
 		//Option 3
 		val = "";
